@@ -21,7 +21,7 @@
 \Large{Programação em Lógica}\linebreak
 }
 
-\author{\textbf{Grupo xx:}\\ Hugo Ari Rodrigues Drumond - 201102900 \\ João Alexandre Gonçalinho Loureiro - 200806067 \\\linebreak\linebreak \\
+\author{\textbf{Grupo 13:}\\ Hugo Ari Rodrigues Drumond - 201102900 \\ João Alexandre Gonçalinho Loureiro - 200806067 \\\linebreak\linebreak \\
  \\ Faculdade de Engenharia da Universidade do Porto \\ Rua Roberto Frias, s\/n, 4200-465 Porto, Portugal \linebreak\linebreak\linebreak
 \linebreak\linebreak\vspace{1cm}}
 %\date{Junho de 2007}
@@ -34,7 +34,10 @@
 \newpage
 
 \section*{Resumo}
-Descrever muito sumariamente (1-2 parágrafos) o trabalho que está a ser reportado.
+O jogo de tabuleiro que iremos desenvolver chama-se Epaminondas. As peças presentes no tabuleiro são todas
+iguais e movem-se como o Rei no xadrez, exceto quando se agrupam numa linha, coluna ou diagonal. Trata-se
+do 1º. trabalho de grupo, da disciplina de Programação em Lógica, realizado pelo Grupo 13.
+%Descrever muito sumariamente (1-2 parágrafos) o trabalho que está a ser reportado
 
 %************************************************************************************************
 %************************************************************************************************
@@ -43,9 +46,13 @@ Descrever muito sumariamente (1-2 parágrafos) o trabalho que está a ser report
 %************************************************************************************************
 
 \section{Introdução}
-Descrever os objectivos e motivação do trabalho.
+O fim deste trabalho é criar um jogo de tabuleiro com base na matéria exposta nas aulas teóricas e téorico-práticas.
+Este trabalho é interessante porque obriga-nos a pensar de um ponto de vista puramente lógico, isto é, cria-se uma base de dados
+lógica através de cláusulas, sem controlo de fluxo (explícito), e depois procuramos por possíveis soluções. Este paradigma de programação
+chama-se programação declarativa.
 
-Todas as figuras devem ser referidas no texto. %\ref{fig:codigoFigura}
+%Descrever os objectivos e motivação do trabalho.
+%Todas as figuras devem ser referidas no texto. %\ref{fig:codigoFigura}
 
 
 %Exemplo de código para inserção de figuras
@@ -61,37 +68,44 @@ Todas as figuras devem ser referidas no texto. %\ref{fig:codigoFigura}
 %\end{figure}
 
 
-\textbf{Info útil}:
+%\textbf{Info útil}:
 
-Devem ser incluídas referências bibliográficas correctas e completas (consultar os docentes em caso de dúvida). Páginas da wikipedia não são consideradas referências válidas \cite{CodigoSite, CodigoLivro}.
+%Devem ser incluídas referências bibliográficas correctas e completas (consultar os docentes em caso de dúvida). Páginas da wikipedia não são consideradas referências válidas \cite{CodigoSite, CodigoLivro}.
 
-\textit{Para escrever em itálico}
+%\textit{Para escrever em itálico}
 
-\textbf{Para escrever em negrito}
+%\textbf{Para escrever em negrito}
 
-Para escrever em letra normal
+%Para escrever em letra normal
 
-``Para escrever texto entre aspas''
+%``Para escrever texto entre aspas''
 
-Para fazer parágrafo, deixar uma linha em branco.
+%Para fazer parágrafo, deixar uma linha em branco.
 
-Como fazer bullet points:
+%Como fazer bullet points:
 
-\begin{itemize}
-\item Item1
-\item Item2
-\end{itemize}
+%\begin{itemize}
+%\item Item1
+%\item Item2
+%\end{itemize}
 
-Como enumerar itens:
+%Como enumerar itens:
 
-\begin{enumerate}
-\item Item 1
-\end{enumerate}
+%\begin{enumerate}
+%\item Item 1
+%\end{enumerate}
 
-\begin{quote}``Isto é uma citação''\end{quote}
+%\begin{quote}``Isto é uma citação''\end{quote}
 
-\section{O Jogo XXX}
-Descrever sucintamente o jogo, a sua história e, principalmente, as suas regras. Devem ser criadas/utilizadas imagens apropriadas para explicar o funcionamento do jogo.
+\section{O Jogo Epaminondas}
+Este jogo, inicialmente chamado \textit{Crossings} e jogado num tabuleiro 8x8, foi descrito pela primeira vez no Livro \textit{A Gamut of Games} em 1969.
+Depois da publicação deste livro, Bob Abbott, reconfigurou o tabuleiro de 8x8 para 14x12, de modo a tornar o jogo nas diagonais mais importante, e renomeou
+o nome para Epaminondas como homenagem ao general TheBan que inventou a phalanx, uma formação de guerra usada em 371 a.c para derrotar o exército espartano.\cite{creator,rules}
+\\\linebreak
+Neste jogo, são posicionadas 28 peças iguais em cada lado maior do tabuleiro, com cores diferentes. São as brancas a iniciar o jogo, e depois joga-se alternadamente. O objetivo do jogo e ter mais peças que o adversário na linha mais recuada da formação adversária inicial, ou seja, a linha final. Os movimentos de cada peça são iguais ao do Rei do xadrez, pode andar uma casa em qualquer direção. Podem ser criados inúmeros grupos de peças, phalanxes, estas só se podem deslocar um número igual ou menor ao número de peças do grupo, na direcção da linha formada pelo grupo(para frente ou para trás). Uma peça pode fazer parte de várias phalanxes. Uma phalanx pode ser dividida, mas só pode andar um número de casas igual ou menor ao numero de elementos da phalanx que se irá mover. Não é permitido passar um jogada, em cada jogada é obrigatório mover uma phalanx ou uma peça. Todas as peças têm de estar contidas no tabuleiro. Não podem haver peças sobrepostas ou na mesma posição, exceto quando a cabeça de uma phalanx captura outra peça ou phalanx. Para capturar é necessário atacar com um grupo com mais elementos que o adversário na linha de ataque. A peça/phalanx capturada é removida do tabuleiro para sempre. \cite{rules}
+
+
+%Descrever sucintamente o jogo, a sua história e, principalmente, as suas regras. Devem ser criadas/utilizadas imagens apropriadas para explicar o funcionamento do jogo.
 
 \section{Representação do Estado do Jogo}
 Descrever a forma de representação do estado do tabuleiro (tipicamente uma lista de listas), com exemplificação em Prolog de posições iniciais do jogo, posições intermédias e finais, acompanhadas de imagens ilustrativas.

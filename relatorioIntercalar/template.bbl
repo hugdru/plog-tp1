@@ -1,14 +1,16 @@
 \begin{thebibliography}{1}
 
-\bibitem{CodigoSite}
-Autor(es).
-\newblock Nome da referencia.
-\newblock http://www.fe.up.pt, Ano da pagina.
-\newblock Online em Setembro 2011.
+\bibitem{creator}
+Bob Abbott.
+\newblock Epaminondas.
+\newblock http://www.logicmazes.com/games/epam.html, Revised: December 11,
+  2010.
+\newblock The website of the game creator.
 
-\bibitem{CodigoLivro}
-Donald~E. Knuth.
-\newblock {\em The {{\TeX}book}}.
-\newblock Addison-Wesley, 1984.
+\bibitem{rules}
+Kerry Handscomb.
+\newblock Abstract games issue 3 autumn 2000.
+\newblock http://www.logicmazes.com/games/epam/index.html, 3 Autumn 2000.
+\newblock Epaminondasm... a game of classical elegance.
 
 \end{thebibliography}
