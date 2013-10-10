@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.10)  10 OCT 2013 14:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.10)  10 OCT 2013 15:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -419,13 +419,13 @@ Here is how much of TeX's memory you used:
  5572 multiletter control sequences out of 15000+600000
  8539 words of font info for 30 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 37i,7n,23p,1292b,245s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,7n,23p,1265b,245s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
 /share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti10.pfb>
-Output written on template.pdf (5 pages, 141288 bytes).
+Output written on template.pdf (5 pages, 141233 bytes).
 PDF statistics:
  50 PDF objects out of 1000 (max. 8388607)
  29 compressed objects within 1 object stream
