@@ -1,6 +1,6 @@
 color(black).
 color(white).
-game(Epaminondas).
+game(epaminondas).
 gamecreator("Bob Abbott").
 turn(white).
 size(X,Y):- X>=1, X=<14, Y>=1, Y=<12.
@@ -11,18 +11,30 @@ estado( [ [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0
           [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
           [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ] ).
 
-play( C, X, Y) :-
-  turn(C),
-  size(X,Y),
-  atualizarEstado(C,X,Y).
+%Através de um predicado recursivo imprimir o estado atual do jogo
+printstate():-
 
-atualizarEstado(C,X,Y) :-
-  canimovethere(C,X,Y),
-  mudarestado(X,Y),
-  turnchange(C).
+% Não é preciso testar a cor aqui porque
+% para além de ser chato para o jogador é redondante.
+% Quando fizer pop de um elemento na posição XS,YS posso
+% verificar se a cor é válida. 1 ou 2.
+play( XS, YS, XD, YD) :-
+  size(X,Y),
+  atualizarEstado(XS,YS,XD,YD).
+
+atualizarEstado( XS, YS, XD, YD) :-
+  canimovethere(XS,YS,XD,YD),
+  mudarestado(XS,YS,XD,YD),
+  turnchange(C),
+  %printstate().
 
 turnchange(C) :-
   ( C = white -> retract(turn(white)) ; asserta(turn(black))),
   ( C = black -> retract(turn(black)) ; asserta(turn(white))).
 
-
+%canimovethere(XS,YS,XD,YD) :-
+  %dado XS,YS e XD,YD verificar se existe lá peça e a cor; e verificar se é possível efetuar a jogada.
+  %não muda o estado atual só verifica.
+  %vai ser necessário usar o | para extrair e o _ para ignorar, e um predicado recursivo.
+%mudarestado(XS,YS,XD,YD) :-
+  %mudar o conteúdo da lista de listas, necessário predicado recursivo.
