@@ -104,13 +104,36 @@ o nome para Epaminondas como homenagem ao general TheBan que inventou a phalanx,
 \\\linebreak
 Neste jogo, são posicionadas 28 peças iguais em cada lado maior do tabuleiro, com cores diferentes. São as brancas a iniciar o jogo, e depois joga-se alternadamente. O objetivo do jogo e ter mais peças que o adversário na linha mais recuada da formação adversária inicial, ou seja, a linha final. Os movimentos de cada peça são iguais ao do Rei do xadrez, pode andar uma casa em qualquer direção. Podem ser criados inúmeros grupos de peças, phalanxes, estas só se podem deslocar um número igual ou menor ao número de peças do grupo, na direcção da linha formada pelo grupo. Uma peça pode fazer parte de várias phalanxes. Uma phalanx pode ser dividida, mas só pode andar um número de casas igual ou menor ao numero de elementos da phalanx que se irá mover. Não é permitido passar um jogada, em cada jogada é obrigatório mover uma phalanx ou uma peça. Todas as peças têm de estar contidas no tabuleiro. Não podem haver peças sobrepostas ou na mesma posição, exceto quando a cabeça de uma phalanx captura outra peça ou phalanx. Para capturar é necessário atacar com um grupo com mais elementos que o adversário na linha de ataque. A peça/phalanx capturada é removida do tabuleiro para sempre. \cite{rules}
 
-
 %Descrever sucintamente o jogo, a sua história e, principalmente, as suas regras. Devem ser criadas/utilizadas imagens apropriadas para explicar o funcionamento do jogo.
 
 \section{Representação do Estado do Jogo}
-Descrever a forma de representação do estado do tabuleiro (tipicamente uma lista de listas), com exemplificação em Prolog de posições iniciais do jogo, posições intermédias e finais, acompanhadas de imagens ilustrativas.
+%Descrever a forma de representação do estado do tabuleiro (tipicamente uma lista de listas), com exemplificação em Prolog de posições iniciais do jogo, posições intermédias e finais, acompanhadas de imagens ilustrativas.
+Iremos criar um estado inicial, uma lista de listas da forma:
+\\\linebreak estado( [ [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ] ).
+\\\linebreak
+Através da regra de interface play(XS,YS,XD,YD) iremos chamar as size e atualizarestado, que testam os limites do jogo e atualizam o estado, caso tal respeite as regras do jogo. A regra atualizarestado tenta unificar canimovethere, mudarestado e turnchange. Se a regra canimovethere não corresponder isso implica o falhanço do "if" em prolog e portanto nada acontece. Se canimovethere retornar true então podemos proceder à alteração do estado através da regra mudarestado. Restando mudar a vez do jogador, através de por exemplo:
+\\\linebreak
+turnchange(C) :-
+  ( C = white -\textgreater retract(turn(white)) ; asserta(turn(black))),
+  ( C = black -\textgreater retract(turn(black)) ; asserta(turn(white))).
+\\\linebreak
+O estado vai sendo atualizado consoante as jogadas de cada jogador, o 0 significa que não há nenhuma peça nessa posição. O 1 representa uma peça branca e o 2 uma preta.
+\\\linebreak Um estado com posições intermédias, estado( [ [1,1,1,1,0,0,0,0,2,2,2,2], [0,0,0,0,0,0,0,0,0,0,0,0], [1,0,1,0,0,0,0,0,2,2,0,0],
+          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ] ).
+\\\linebreak
+Um estado com posições finais, qualquer configuração em que na linha mais próxima do adversário exista mais peças do atacante.
+\\\linebreak
+
 
 \section{Visualização do Tabuleiro}
+
 Descrever a forma de visualização do tabuleiro em modo de texto e os predicados Prolog construídos para o efeito. O código (predicado) desenvolvido deve receber como parâmetro a representação do tabuleiro (estado do jogo) e permitir visualizá-lo no ecrã, em modo de texto. Deve ser incluída pelo menos uma imagem correspondente ao output produzido pelo predicado de visualização
 
 \section{Movimentos}
