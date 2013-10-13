@@ -11,8 +11,16 @@ estado( [ [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0
           [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
           [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ] ).
 
-%Através de uma cláusula recursiva imprimir o estado atual do jogo
-printstate():-
+%Através de duas cláusulas recursivas imprimir o estado atual do jogo
+sepforprint( estado([]) ).
+sepforprint( estado([H|T]) ):-
+  printline(H),
+  sepforprint( estado([T]) ).
+
+printline([]).
+printline([H|T]):-
+  write(H),
+  printline([T]).
 
 % Não é preciso testar a cor aqui porque
 % para além de ser chato para o jogador é redondante.
@@ -23,10 +31,10 @@ play( XS, YS, XD, YD) :-
   atualizarEstado(XS,YS,XD,YD).
 
 atualizarEstado( XS, YS, XD, YD) :-
+  sepforprint( estado([ESTADO]) ),
   canimovethere(XS,YS,XD,YD),
   mudarestado(XS,YS,XD,YD),
-  turnchange(C),
-  %printstate().
+  turnchange(C).
 
 turnchange(C) :-
   ( C = white -> retract(turn(white)) ; asserta(turn(black))),
@@ -37,4 +45,4 @@ turnchange(C) :-
   %não muda o estado atual só verifica.
   %vai ser necessário usar o | para extrair e o _ para ignorar, e uma cláusula recursiva.
 %mudarestado(XS,YS,XD,YD) :-
-  %mudar o conteúdo da lista de listas, necessário cláusula recursiva.
+  %%mudar o conteúdo da lista de listas, necessário cláusula recursiva.
