@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.10)  10 OCT 2013 15:10
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.10)  13 OCT 2013 21:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -393,12 +393,116 @@ Underfull \hbox (badness 10000) in paragraph at lines 101--106
 
  []
 
-[2]
-Overfull \hbox (2.75801pt too wide) in paragraph at lines 119--119
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 121.
+
+(/usr/share/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 121.
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--133
+
+ []
+
+
+Overfull \hbox (57.89009pt too wide) in paragraph at lines 111--133
+\OT1/cmr/m/n/10 [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,
+0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+ []
+
+
+Overfull \hbox (57.89009pt too wide) in paragraph at lines 111--133
+\OT1/cmr/m/n/10 [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,
+0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--133
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--133
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--133
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--133
+
+ []
+
+
+Overfull \hbox (55.47314pt too wide) in paragraph at lines 111--133
+\OT1/cmr/m/n/10 Um es-tado com posi^^Xc~oes in-term^^Sedias, es-tado( [ [1,1,1,
+1,0,0,0,0,2,2,2,2], [0,0,0,0,0,0,0,0,0,0,0,0],
+ []
+
+
+Overfull \hbox (57.89009pt too wide) in paragraph at lines 111--133
+\OT1/cmr/m/n/10 [1,0,1,0,0,0,0,0,2,2,0,0], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,
+0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+ []
+
+
+Overfull \hbox (57.89009pt too wide) in paragraph at lines 111--133
+\OT1/cmr/m/n/10 [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,
+0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
+ []
+
+
+Overfull \hbox (55.1123pt too wide) in paragraph at lines 111--133
+\OT1/cmr/m/n/10 [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,
+0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--133
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--133
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--133
+
+ []
+
+[2] <imprimir.png, id=24, 446.41782pt x 127.22531pt>
+File: imprimir.png Graphic file (type png)
+ <use imprimir.png>
+Package pdftex.def Info: imprimir.png used on input line 138.
+(pdftex.def)             Requested size: 343.74277pt x 97.96378pt.
+
+<tabuleiro.png, id=25, 78.2925pt x 195.73125pt>
+File: tabuleiro.png Graphic file (type png)
+ <use tabuleiro.png>
+Package pdftex.def Info: tabuleiro.png used on input line 141.
+(pdftex.def)             Requested size: 60.2854pt x 150.71352pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--142
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--142
+
+ []
+
+[3 <./imprimir.png>]
+Overfull \hbox (2.75801pt too wide) in paragraph at lines 150--150
 []\OT1/cmr/bx/n/14.4 Conclus~oes e Pers-pec-ti-vas de De-sen-vol-vi-mento 
  []
 
-[3] (./template.bbl
+[4 <./tabuleiro.png>] (./template.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 11--15
 []\OT1/cmr/m/n/10 Kerry Hands-comb.  Abs-tract ga-mes is-sue 3 au-tumn 2000.
  []
@@ -409,26 +513,27 @@ Underfull \hbox (badness 3803) in paragraph at lines 11--15
 .
  []
 
-) [4
+) [5
 
-] [5] (./template.aux) ) 
+] [6] (./template.aux) ) 
 Here is how much of TeX's memory you used:
- 2143 strings out of 493311
- 28412 string characters out of 6143649
- 95588 words of memory out of 5000000
- 5572 multiletter control sequences out of 15000+600000
+ 2177 strings out of 493311
+ 28936 string characters out of 6143649
+ 96588 words of memory out of 5000000
+ 5600 multiletter control sequences out of 15000+600000
  8539 words of font info for 30 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  37i,7n,23p,1265b,245s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmti10.pfb>
-Output written on template.pdf (5 pages, 141233 bytes).
+mbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmti10.pfb>
+Output written on template.pdf (6 pages, 161132 bytes).
 PDF statistics:
- 50 PDF objects out of 1000 (max. 8388607)
- 29 compressed objects within 1 object stream
+ 59 PDF objects out of 1000 (max. 8388607)
+ 34 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

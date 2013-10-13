@@ -12,15 +12,16 @@ estado( [ [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0
           [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ] ).
 
 %Através de duas cláusulas recursivas imprimir o estado atual do jogo
-sepforprint( estado([]) ).
-sepforprint( estado([H|T]) ):-
+sepforprint( [] ).
+sepforprint( [H|T] ):-
   printline(H),
-  sepforprint( estado([T]) ).
+  nl,
+  sepforprint(T).
 
 printline([]).
 printline([H|T]):-
   write(H),
-  printline([T]).
+  printline(T).
 
 % Não é preciso testar a cor aqui porque
 % para além de ser chato para o jogador é redondante.
