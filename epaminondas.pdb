@@ -11,7 +11,7 @@ estado( [ [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0
           [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
           [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ] ).
 
-%Através de um predicado recursivo imprimir o estado atual do jogo
+%Através de uma cláusula recursiva imprimir o estado atual do jogo
 printstate():-
 
 % Não é preciso testar a cor aqui porque
@@ -35,6 +35,6 @@ turnchange(C) :-
 %canimovethere(XS,YS,XD,YD) :-
   %dado XS,YS e XD,YD verificar se existe lá peça e a cor; e verificar se é possível efetuar a jogada.
   %não muda o estado atual só verifica.
-  %vai ser necessário usar o | para extrair e o _ para ignorar, e um predicado recursivo.
+  %vai ser necessário usar o | para extrair e o _ para ignorar, e uma cláusula recursiva.
 %mudarestado(XS,YS,XD,YD) :-
-  %mudar o conteúdo da lista de listas, necessário predicado recursivo.
+  %mudar o conteúdo da lista de listas, necessário cláusula recursiva.
