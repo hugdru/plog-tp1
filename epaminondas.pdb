@@ -19,27 +19,30 @@ sepforprint( [H|T] ):-
   sepforprint(T).
 
 printline([]).
-printline([H|T]):-
+printline( [H|T] ):-
   write(H),
   printline(T).
+
+show_tabuleiro :-
+  estado(E), sepforprint(E).
 
 % Não é preciso testar a cor aqui porque
 % para além de ser chato para o jogador é redondante.
 % Quando fizer pop de um elemento na posição XS,YS posso
 % verificar se a cor é válida. 1 ou 2.
 play( XS, YS, XD, YD) :-
-  size(X,Y),
+  size(XS,YS),
   atualizarEstado(XS,YS,XD,YD).
 
 atualizarEstado( XS, YS, XD, YD) :-
-  sepforprint( estado([ESTADO]) ),
+  show_tabuleiro,
   canimovethere(XS,YS,XD,YD),
   mudarestado(XS,YS,XD,YD),
   turnchange(C).
 
-turnchange(C) :-
-  ( C = white -> retract(turn(white)) ; asserta(turn(black))),
-  ( C = black -> retract(turn(black)) ; asserta(turn(white))).
+turnchange(turn(C)) :-
+  ( C = white -> retract(turn(white)) ; retract(turn(black))),
+  ( C = black -> assert(turn(white)) ; assert(turn(black))).
 
 %canimovethere(XS,YS,XD,YD) :-
   %dado XS,YS e XD,YD verificar se existe lá peça e a cor; e verificar se é possível efetuar a jogada.
