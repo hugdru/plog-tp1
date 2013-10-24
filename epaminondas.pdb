@@ -5,48 +5,69 @@ gamecreator("Bob Abbott").
 turn(white).
 size(X,Y):- X>=1, X=<14, Y>=1, Y=<12.
 
-estado( [ [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ] ).
+estado( [ [1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0],[2,2,2,2,2,2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2,2,2,2,2,2] ] ).
 
 %Através de duas cláusulas recursivas imprimir o estado atual do jogo
 sepforprint( [] ).
 sepforprint( [H|T] ):-
+  write('     '),
   printline(H),
   nl,
-  sepforprint(T).
+  nl,
+  write('        '),
+  lineseparator(14),
+  nl,
+  nl,
+  !, sepforprint(T).
+% O ! é para quando o sepforprint nao unificar com o sepforprint( [H|T] ), e unificar com a
+% condição base não ir a procura de mais soluções ( lineseparator e printline ), ou seja fazer um redo
+% ou mais corretamente backtracking. Assim corta a possibilidade de fazer redo.
 
 printline([]).
 printline( [H|T] ):-
+  write('   |   '),
   write(H),
   printline(T).
 
-show_tabuleiro :-
-  estado(E), sepforprint(E).
+lineseparator(1).
+lineseparator(N):-
+  write(' -------'),
+  N1 is N-1,
+  lineseparator(N1).
+
+show :-
+  estado(E),
+  nl,
+  nl,
+  sepforprint(E).
 
 % Não é preciso testar a cor aqui porque
 % para além de ser chato para o jogador é redondante.
 % Quando fizer pop de um elemento na posição XS,YS posso
 % verificar se a cor é válida. 1 ou 2.
-play( XS, YS, XD, YD) :-
-  size(XS,YS),
-  atualizarEstado(XS,YS,XD,YD).
+%play( XS, YS, XD, YD) :-
+% size(XS,YS),
+% atualizarEstado(XS,YS,XD,YD),
+% show_tabuleiro.
+%
+%atualizarEstado( XS, YS, XD, YD) :-
+% estado(E),
+%  canimovethere(E,XS,YS,XD,YD),
+%  mudarestado(E,XS,YS,XD,YD),
+%  turnchange(C).
 
-atualizarEstado( XS, YS, XD, YD) :-
-  show_tabuleiro,
-  canimovethere(XS,YS,XD,YD),
-  mudarestado(XS,YS,XD,YD),
-  turnchange(C).
+%mudar o conteúdo da lista de listas, necessário cláusula recursiva.
+%mudarestado( [H|T], XS, YS, XD, YD) :-
 
-turnchange(turn(C)) :-
-  ( C = white -> retract(turn(white)) ; retract(turn(black))),
-  ( C = black -> assert(turn(white)) ; assert(turn(black))).
+
+%turnchange(turn(C)) :-
+%  ( C = white -> retract(turn(white)) ; retract(turn(black))),
+%  ( C = black -> assert(turn(white)) ; assert(turn(black))).
 
 %canimovethere(XS,YS,XD,YD) :-
   %dado XS,YS e XD,YD verificar se existe lá peça e a cor; e verificar se é possível efetuar a jogada.
   %não muda o estado atual só verifica.
   %vai ser necessário usar o | para extrair e o _ para ignorar, e uma cláusula recursiva.
-%mudarestado(XS,YS,XD,YD) :-
-  %%mudar o conteúdo da lista de listas, necessário cláusula recursiva.
