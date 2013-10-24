@@ -16,10 +16,8 @@ sepforprint( [H|T] ):-
   write('     '),
   printline(H),
   nl,
-  nl,
   write('        '),
   lineseparator(14),
-  nl,
   nl,
   !, sepforprint(T).
 % O ! é para quando o sepforprint nao unificar com o sepforprint( [H|T] ), e unificar com a
@@ -29,7 +27,7 @@ sepforprint( [H|T] ):-
 printline([]).
 printline( [H|T] ):-
   write('   |   '),
-  write(H),
+  printchar(H),
   printline(T).
 
 lineseparator(1).
@@ -38,7 +36,14 @@ lineseparator(N):-
   N1 is N-1,
   lineseparator(N1).
 
-show :-
+printchar(0) :-
+  write(' ').
+printchar(1) :-
+  write('W').
+printchar(2) :-
+  write('B').
+
+show:-
   estado(E),
   nl,
   nl,
