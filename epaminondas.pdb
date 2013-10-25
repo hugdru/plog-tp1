@@ -54,7 +54,7 @@ show :-
   write('        '),
   lineseparator(14),
   nl,
-  sepforprint(E).
+  !,sepforprint(E).
 %Recebe o tabuleiro e chama o separador
 show(E):-
   nl,
@@ -62,7 +62,7 @@ show(E):-
   write('        '),
   lineseparator(14),
   nl,
-  sepforprint(E).
+  !,sepforprint(E).
 
 % Its better to read the values (if there is a way) than create a rule with arguments. noob friendly
 start :-
