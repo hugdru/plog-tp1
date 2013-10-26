@@ -3,6 +3,8 @@ color(white).
 game(epaminondas).
 gamecreator("Bob Abbott").
 turn(white).
+horizontalLines(12).
+verticalLines(14).
 
 % 1 é branco, 2 é preto
 estadoInicial( [ [2,2,2,2,2,2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2,2,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -11,19 +13,50 @@ estadoInicial( [ [2,2,2,2,2,2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2,2,2,2,2,2],[0,
                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1] ] ).
 
 %Através de duast current window cláusulas recursivas imprimir o estado atual do jogo
-sepforprint( [] ).
-sepforprint( [H|T] ):-
+sepforprint([],_,_,0).
+sepforprint( [H|T], _totalVerticalLines, _totalHorizontalLines, _currentHorizontal):-
   write('     '),
+  numbers(vert,_currentHorizontal),
+  _currentHorizontal1 is _currentHorizontal - 1,
   printline(H),
   write('   |'),
   nl,
-  write('        '),
-  lineseparator(14),
+  write('     '),
+  write('   '),
+  write('  '),
+  lineseparator(_totalVerticalLines),
   nl,
-  !, sepforprint(T).
+  !, sepforprint(T,_totalVerticalLines,_totalHorizontalLines,_currentHorizontal1).
 % O ! é para quando o sepforprint nao unificar com o sepforprint( [H|T] ), e unificar com a
 % condição base não ir a procura de mais soluções ( lineseparator e printline ), ou seja fazer um redo
 % ou mais corretamente backtracking. Assim corta a possibilidade de fazer redo.
+
+numbers( horiz, _current):-
+  _current < 15, _current >9,
+  _current1 is _current + 1,
+  write('   '),
+  write(_current),
+  write('   '),
+  numbers(horiz, _current1).
+
+numbers( horiz, _current):-
+  _current < 10,
+  _current1 is _current + 1,
+  write('   '),
+  write(' '),
+  write(_current),
+  write('   '),
+  numbers(horiz, _current1).
+numbers(horiz,_).
+
+numbers( vert, _current):-
+  _current >= 10,
+  write(_current).
+
+numbers( vert, _current):-
+  _current < 10,
+  write(' '),
+  write(_current).
 
 printline([]).
 printline( [H|T] ):-
@@ -33,6 +66,7 @@ printline( [H|T] ):-
 
 lineseparator(0).
 lineseparator( N ):-
+  N > 0,
   write(' -------'),
   N1 is N-1,
   lineseparator(N1).
@@ -51,18 +85,36 @@ show :-
   estadoInicial(E),
   nl,
   nl,
-  write('        '),
-  lineseparator(14),
+  write('     '),
+  write('   '),
+  write('  '),
+  horizontalLines(_totalHorizontalLines),
+  verticalLines(_totalVerticalLines),
+  lineseparator(_totalVerticalLines),
   nl,
-  !,sepforprint(E).
+  sepforprint(E,_totalVerticalLines,_totalHorizontalLines,_totalHorizontalLines),
+  nl,
+  write('     '),
+  write('   '),
+  write('  '),
+  numbers(horiz,1),!,1=1. % não meti ,!,fail. Porque iria dar no e isso podia confundir o utilizador.
 %Recebe o tabuleiro e chama o separador
 show(E):-
   nl,
   nl,
-  write('        '),
-  lineseparator(14),
+  write('     '),
+  write('   '),
+  write('  '),
+  horizontalLines(_totalHorizontalLines),
+  verticalLines(_totalVerticalLines),
+  lineseparator(_totalVerticalLines),
   nl,
-  !,sepforprint(E).
+  sepforprint(E,_totalVerticalLines,_totalHorizontalLines,_totalHorizontalLines),
+  nl,
+  write('     '),
+  write('   '),
+  write('  '),
+  numbers(horiz,1),!,1=1. % não meti ,!,fail. Porque iria dar no e isso podia confundir o utilizador.
 
 % Its better to read the values (if there is a way) than create a rule with arguments. noob friendly
 start :-
