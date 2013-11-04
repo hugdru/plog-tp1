@@ -123,10 +123,6 @@ start :-
   read(XS), read(YS), read(XD), read(YD), %le desta forma XS.YS.XD.YD.
   play(E, XS, YS, XD, YD).
 
-% Não é preciso testar a cor aqui porque
-% para além de ser chato para o jogador é redondante.
-% Quando fizer pop de um elemento na posição XS,YS posso
-% verificar se a cor é válida. 1 ou 2.
 play( E, XS, YS, XD, YD) :-
   size(XS,YS),
   size(XD,YD),
@@ -134,18 +130,56 @@ play( E, XS, YS, XD, YD) :-
   show(N),
   read(XS), read(YS), read(XD), read(YD), % le desta forma XS.YS.XD.YD.
   play( N, XS, YS, XD, YD).
+%If sizes are not allowed retry.
+play(E,_,_,_,_):-badMoveFriend(E).
 
 atualizarEstado( E, XS, YS, XD, YD, N) :-
+  XS1 is XS - 1,
+  YS1 is 12 - YS, % Porque na verdade o que aparece no tabuleiro tem o índice trocado.
+  checkcolour(E, XS, YS, 0, 0),
   canimovethere(E,XS,YS,XD,YD),
   mudarestado(E,XS,YS,XD,YD,N),
   turnchange(C).
+atualizarEstado(E,_,_,_,_,_):-badMoveFriend(E).
 
-%dado XS,YS e XD,YD verificar se existe lá peça e a cor; e verificar se é possível efetuar a jogada.
-%não muda o estado atual só verifica.
-%vai ser necessário usar o | para extrair e o _ para ignorar, e uma cláusula recursiva.
-%canimovethere( [H|T], XS, YS, XD, YD) :-
+checkcolour( _, TN, HN, HN, TN)
+checkcolour( [H|T], XS, YS, HN, TN) :-
+  
+
+
+
+
+
+%Rules for phalanx
+canimovethere( E, XS, YS, XD, YD) :-
+  regras("phalanx", E, XS, YS, XD, YD).
+%Rules for piece
+canimovethere( E, XS, YS, XD, YD) :-
+  regras("piece", E, XS, YS, XD, YD).
+%If rules are not respected
+canimovethere( E, _, _, _, _):-badMoveFriend(E).
+
+regras( "phalanx", [H|T], XS, YS, XD, YD) :-
+  %check if it is a phalanx
+  %rules
+  write('').
+
+regras( "piece", [H|T], XS, YS, XD, YD) :-
+  %check if it is a piece
+  %rules
+  write('').
+
+%If a fact/rule fails we want player to have another go.
+badMoveFriend(E):-
+  nl,
+  write('That move is not allowed.'),
+  nl,
+  show(E),
+  read(XS), read(YS), read(XD), read(YD), % le desta forma XS.YS.XD.YD.
+  play( E, XS, YS, XD, YD).
 
 %mudar o conteúdo da lista de listas, necessário cláusula recursiva.
+%checks if it is a phalanx or a piece. And acts upon that information.
 %mudarestado( [H|T], XS, YS, XD, YD, N) :-
 
 turnchange(turn(C)) :-
