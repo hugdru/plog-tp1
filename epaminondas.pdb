@@ -146,8 +146,8 @@ checkcolour(E, XS, YS, TN, HN) :-
   checkcolour("beheading",E,YS,0,HEAD),
   checkcolour("body",HEAD,XS,0,TAIL),
   turn(C),
-  !, % if E = C fails then dont backtrack checkcolor go to atualizarEstado an then fail with badMoveFriend
-  TAIL == C. % just checks if they are the same, == is different from =. Because = unifies == doesnt.
+  !, % if TAIL == C fails then dont backtrack (checkcolor) go to atualizarEstado an then fail with badMoveFriend
+  TAIL == C. % just checks if they are the same, == is different from =. Because = unifies and == doesnt.
 
 checkcolour("beheading",H,YS,YS,HEAD) :- HEAD is H. % No need to set HEAD each time in the rule below
 checkcolour( "beheading", [H|T], YS, HN, HEAD) :-
