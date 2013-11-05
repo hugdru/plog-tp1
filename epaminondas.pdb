@@ -6,6 +6,9 @@ turn(1). %1 is white, 2 is black
 horizontalLines(12).
 verticalLines(14).
 
+notturn(1,X):- X is 2.
+notturn(2,X):- X is 1.
+
 % 1 é branco, 2 é preto
 estadoInicial( [ [2,2,2,2,2,2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2,2,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -140,28 +143,53 @@ canimovethere( E, _, _, _, _):-badMoveFriend(E).
 %Não é preciso fazer a distinção de regras entre phalanx e piece
 %visto que uma piece é uma phalanx de tamanho 1
 regras( [H|T], XS, YS, XD, YD) :-
-  checkcolour(E, XS, YS, 0, 0),
-  regra('', E, XS, YS, XD, YD),
-  regra('', E, XS, YS, XD, YD).
-
-checkcolour(E, XS, YS, TN, HN) :-
-  checkcolour('beheading',E,YS,0,HEAD),
-  checkcolour('body',HEAD,XS,0,TAIL),
   turn(C),
-  !, % if TAIL == C fails then dont backtrack (checkcolor) go to atualizarEstado an then fail with badMoveFriend
-  TAIL == C. % just checks if they are the same, == is different from =. Because = unifies and == doesnt.
+  checkcolour(E,XS,YS,0,0,C),
+  regra('sobreposicao',E,XD,YD),
+  regra('capturar',E,XS,YS,XD,YD).
 
-checkcolour('beheading',H,YS,YS,HEAD) :- HEAD is H. % No need to set HEAD each time in the rule below
-checkcolour( 'beheading', [H|T], YS, HN, HEAD) :-
+regra( 'sobreposicao', E, XD, YD) :-
+  turn(X),
+  notturn(X,NOTX),
+  checkcolour(E,XD,YD,0,0,NOTX);
+  checkcolour(E,XD,YD,0,0,0).
+
+regra( 'capturar', E, XS, YS, XD, YD) :-
+  Horiz is YS - YD,
+  Vert is XS - XD,
+  lineOfAction(Horiz,Vert,XS,YS,XD,YD).
+
+lineOfAction( 0, Vert, E, XS, YS, XD, _) :-
+  groupSizeMine(Vert,E,XS,YS,N,_phalanxHead).
+
+groupSizeMine( Vert, E, XS, YS, N, _phalanxHead) :-
+  getHead(E,YS,0,HEAD),
+  turn(C),
+  getSizeTilColour(HEAD,Vert,XS,N,C).
+
+getSizeTilColour( [H|T], Vert, XS, N, C) :-
+  Vert > 0, HEAD == C,
+  XS1 is XS - 1,
+  N1 is N + 1,
+  getSizeTilColour(T,Vert,XS1,N1,C).
+
+checkcolour(E, XS, YS, TN, HN, C) :-
+  getHead(E,YS,0,HEAD),
+  getElement(HEAD,XS,0,ELEMENT),
+  !, % if TAIL == C fails then dont backtrack (checkcolor) go to atualizarEstado an then fail with badMoveFriend
+  ELEMENT == C. % just checks if they are the same, == is different from =. Because = unifies and == doesnt.
+
+getHead(H,YS,YS,HEAD) :- HEAD is H. % No need to set HEAD each time in the rule below
+getHead( [H|T], YS, HN, HEAD) :-
   HN < YS,
   HN1 is HN + 1,
-  checkcolour('beheading',T,YS,HN1,_).
+  getHead(T,YS,HN1,_).
 
-checkcolour('body',T,XS,XS,TAIL):- TAIL is T.
-checkcolour( 'body', [H|T], XS, TN, TAIL):-
+getElement(T,XS,XS,TAIL):- TAIL is T.
+getElement( [H|T], XS, TN, TAIL):-
   TN < XS,
   TN1 is TN + 1,
-  checkcolour('body',T,XS,TN1,_).
+  getElement(T,XS,TN1,_).
 
 %If a fact/rule fails we want player to have another go.
 badMoveFriend(E):-
