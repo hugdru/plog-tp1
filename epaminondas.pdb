@@ -82,21 +82,7 @@ size(X,Y):- X>=1, X=<14, Y>=1, Y=<12.
 %Mostrar o tabuleiro inicial - only used for initial visual debugging
 show :-
   estadoInicial(E),
-  nl,
-  nl,
-  write('     '),
-  write('   '),
-  write('  '),
-  horizontalLines(_totalHorizontalLines),
-  verticalLines(_totalVerticalLines),
-  lineseparator(_totalVerticalLines),
-  nl,
-  sepforprint(E,_totalVerticalLines,_totalHorizontalLines,_totalHorizontalLines),
-  nl,
-  write('     '),
-  write('   '),
-  write('  '),
-  numbers(horiz,1),!,1=1. % não meti ,!,fail. Porque iria dar no e isso podia confundir o utilizador.
+  show(E).
 
 %Recebe o tabuleiro e chama o separador
 show(E):-
