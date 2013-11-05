@@ -145,23 +145,23 @@ regras( [H|T], XS, YS, XD, YD) :-
   regra('', E, XS, YS, XD, YD).
 
 checkcolour(E, XS, YS, TN, HN) :-
-  checkcolour("beheading",E,YS,0,HEAD),
-  checkcolour("body",HEAD,XS,0,TAIL),
+  checkcolour('beheading',E,YS,0,HEAD),
+  checkcolour('body',HEAD,XS,0,TAIL),
   turn(C),
   !, % if TAIL == C fails then dont backtrack (checkcolor) go to atualizarEstado an then fail with badMoveFriend
   TAIL == C. % just checks if they are the same, == is different from =. Because = unifies and == doesnt.
 
-checkcolour("beheading",H,YS,YS,HEAD) :- HEAD is H. % No need to set HEAD each time in the rule below
-checkcolour( "beheading", [H|T], YS, HN, HEAD) :-
+checkcolour('beheading',H,YS,YS,HEAD) :- HEAD is H. % No need to set HEAD each time in the rule below
+checkcolour( 'beheading', [H|T], YS, HN, HEAD) :-
   HN < YS,
   HN1 is HN + 1,
-  checkcolour("beheading",T,YS,HN1,_).
+  checkcolour('beheading',T,YS,HN1,_).
 
-checkcolour("body",T,XS,XS,TAIL):- TAIL is T.
-checkcolour( "body", [H|T], XS, TN, TAIL):-
+checkcolour('body',T,XS,XS,TAIL):- TAIL is T.
+checkcolour( 'body', [H|T], XS, TN, TAIL):-
   TN < XS,
   TN1 is TN + 1,
-  checkcolour("body",T,XS,TN1,_).
+  checkcolour('body',T,XS,TN1,_).
 
 %If a fact/rule fails we want player to have another go.
 badMoveFriend(E):-
