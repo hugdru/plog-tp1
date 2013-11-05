@@ -155,23 +155,37 @@ regra( 'sobreposicao', E, XD, YD) :-
   checkcolour(E,XD,YD,0,0,0).
 
 regra( 'capturar', E, XS, YS, XD, YD) :-
-  Horiz is YS - YD,
-  Vert is XS - XD,
-  lineOfAction(Horiz,Vert,XS,YS,XD,YD).
+  Vert is YS - YD,
+  Horizon is XS - XD,
+  lineOfAction(Vert,Horizon,XS,YS,XD,YD).
 
-lineOfAction( 0, Vert, E, XS, YS, XD, _) :-
-  groupSizeMine(Vert,E,XS,YS,N,_phalanxHead).
+lineOfAction( 0, Horizon, E, XS, YS, XD, _) :-
+  groupSizeMine(Horizon,E,XS,YS,N,_phalanxHead).
 
-groupSizeMine( Vert, E, XS, YS, N, _phalanxHead) :-
+regra(S):-estadoInicial(E),getHead(E,0,0,H),getSizeTilColour(H,2,4,0,2,S).
+
+gethead(S):-estadoInicial(E),getHead(E,0,0,S).
+
+groupSizeMine(Horizon, E, XS, YS, _phalanxSize) :-
   getHead(E,YS,0,HEAD),
   turn(C),
-  getSizeTilColour(HEAD,Vert,XS,N,C).
+  getSizeTilColour(HEAD,Horizon,XS,0,C,_phalanxSize).
 
-getSizeTilColour( [H|T], Vert, XS, N, C) :-
-  Vert > 0, HEAD == C,
+%Não utilizamos a funcao charat pq em cada iteracao ele
+%iria procurar a linha horizontal.
+getSizeTilColour( [H|T], Horizon, XS, N, C, _phalanxSize) :-
+  Horizon > 0, H == C,
   XS1 is XS - 1,
   N1 is N + 1,
-  getSizeTilColour(T,Vert,XS1,N1,C).
+  getSizeTilColour(T,Vert,XS1,N1,C,_).
+getSizeTilColour(_,_,_,N,_,_phalanxSize):- _phalanxSize is N.
+
+getSizeTilColour( [H|T], Horizon, XS, N, C, _phalanxSize) :-
+  Horizon < 0, H == C,
+  XS1 is XS + 1,
+  N1 is N + 1,
+  getSizeTilColour(T,Vert,XS1,N1,C,_).
+getSizeTilColour(_,_,_,N,_,_phalanxSize):- _phalanxSize is N.
 
 checkcolour(E, XS, YS, TN, HN, C) :-
   getHead(E,YS,0,HEAD),
@@ -223,14 +237,6 @@ charat(C,X,Y,[H|T]):- Y>0, Y1 is Y-1, charat(C,X,Y1,T).
 charat(C,X,0,[H|T]):- charat(C,X,H).
 charat(C,X,[H|T]):- X>0, X1 is X-1, charat(C,X,T).
 charat(C,0,[C|T]).
-
-%phalanxsize count the size of the phalanx
-
-phalanxsize(XS,YS,XD,YD):- XS == XD,
-
-phalanxsize(XS,YS,XD,YD):- YS == YD
-
-phalanxsize(XS,YS,XD,YD):- XS == XD
 
 %changestate changes the state of the board after a player makes his move
 changestate:- estadoInicial(E),changestate(E,0,1,0,5,E1),show(E1).
