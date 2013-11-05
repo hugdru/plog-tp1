@@ -189,8 +189,24 @@ changechar(C,X,[H|T],[H|T1]):- X>0, X1 is X-1, changechar(C,X1,T,T1).
 
 changechar(C,0,[H|T],[C|T]).
 
+%charat char at a given position on board
+%charat(C):- estadoInicial(E), charat(C,0,0,E).
+charat(C,X,Y,[H|T]):- Y>0, Y1 is Y-1, charat(C,X,Y1,T).
+charat(C,X,0,[H|T]):- charat(C,X,H).
+charat(C,X,[H|T]):- X>0, X1 is X-1, charat(C,X,T).
+charat(C,0,[C|T]).
+
+%phalanxsize count the size of the phalanx
+
+phalanxsize(XS,YS,XD,YD):- XS == XD,
+
+phalanxsize(XS,YS,XD,YD):- YS == YD
+
+phalanxsize(XS,YS,XD,YD):- XS == XD
+
 %changestate changes the state of the board after a player makes his move
 changestate:- estadoInicial(E),changestate(E,0,1,0,5,E1),show(E1).
+
 changestate(E,XS,YS,XD,YD,E1):- turn(T),changechar(0,XS,YS,E,E2),changechar(T,XD,YD,E2,E1).
 
 turnchange(turn(C)) :-
