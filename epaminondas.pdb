@@ -162,9 +162,7 @@ regra( 'capturar', E, XS, YS, XD, YD) :-
 lineOfAction( 0, Horizon, E, XS, YS, XD, _) :-
   groupSizeMine(Horizon,E,XS,YS,N,_phalanxHead).
 
-regra(S):-estadoInicial(E),getHead(E,0,0,H),getSizeTilColour(H,2,4,0,2,S).
-
-gethead(S):-estadoInicial(E),getHead(E,0,0,S).
+%regra(S):-estadoInicial(E),getHead(E,0,H),getSizeTilColour(H,2,4,0,2,S).
 
 groupSizeMine(Horizon, E, XS, YS, _phalanxSize) :-
   getHead(E,YS,0,HEAD),
@@ -177,33 +175,21 @@ getSizeTilColour( [H|T], Horizon, XS, N, C, _phalanxSize) :-
   Horizon > 0, H == C,
   XS1 is XS - 1,
   N1 is N + 1,
-  getSizeTilColour(T,Vert,XS1,N1,C,_).
+  getSizeTilColour(T,Horizon,XS1,N1,C,_).
 getSizeTilColour(_,_,_,N,_,_phalanxSize):- _phalanxSize is N.
 
 getSizeTilColour( [H|T], Horizon, XS, N, C, _phalanxSize) :-
   Horizon < 0, H == C,
   XS1 is XS + 1,
   N1 is N + 1,
-  getSizeTilColour(T,Vert,XS1,N1,C,_).
+  getSizeTilColour(T,Horizon,XS1,N1,C,_).
 getSizeTilColour(_,_,_,N,_,_phalanxSize):- _phalanxSize is N.
 
-checkcolour(E, XS, YS, TN, HN, C) :-
-  getHead(E,YS,0,HEAD),
-  getElement(HEAD,XS,0,ELEMENT),
-  !, % if TAIL == C fails then dont backtrack (checkcolor) go to atualizarEstado an then fail with badMoveFriend
+%checkcolour:-estadoInicial(E),checkcolour(E,0,11,1).
+checkcolour(E, XS, YS, C) :-
+  charat(ELEMENT,XS,YS,E).
+  !, % if TAIL == C fails then dont backtrack (checkcolour) go to atualizarEstado an then fail with badMoveFriend
   ELEMENT == C. % just checks if they are the same, == is different from =. Because = unifies and == doesnt.
-
-getHead(H,YS,YS,HEAD) :- HEAD is H. % No need to set HEAD each time in the rule below
-getHead( [H|T], YS, HN, HEAD) :-
-  HN < YS,
-  HN1 is HN + 1,
-  getHead(T,YS,HN1,_).
-
-getElement(T,XS,XS,TAIL):- TAIL is T.
-getElement( [H|T], XS, TN, TAIL):-
-  TN < XS,
-  TN1 is TN + 1,
-  getElement(T,XS,TN1,_).
 
 %If a fact/rule fails we want player to have another go.
 badMoveFriend(E):-
@@ -224,11 +210,8 @@ badMoveFriend(E):-
 %changechar:- estadoInicial(E), changechar(1,0,0,E,N), show(N). Example
 
 changechar(C,X,Y,[H|T],[H|R]):- Y>0, Y1 is Y-1, changechar(C,X,Y1,T,R).
-
 changechar(C,X,0,[H|T],[H1|T]):- changechar(C,X,H,H1).
-
 changechar(C,X,[H|T],[H|T1]):- X>0, X1 is X-1, changechar(C,X1,T,T1).
-
 changechar(C,0,[H|T],[C|T]).
 
 %charat char at a given position on board
@@ -238,9 +221,13 @@ charat(C,X,0,[H|T]):- charat(C,X,H).
 charat(C,X,[H|T]):- X>0, X1 is X-1, charat(C,X,T).
 charat(C,0,[C|T]).
 
-%changestate changes the state of the board after a player makes his move
-changestate:- estadoInicial(E),changestate(E,0,1,0,5,E1),show(E1).
+%getHead returns the list in a given index
+%getHead(H):- estadoInicial(E), getHead(0,E,H).
+getHead(Y,[H|T],Head):- Y>0, Y1 is Y-1, getHead(Y1,T,Head).
+getHead(0,[H|T],H).
 
+%changestate changes the state of the board after a player makes his move
+%changestate:- estadoInicial(E),changestate(E,0,1,0,5,E1),show(E1).
 changestate(E,XS,YS,XD,YD,E1):- turn(T),changechar(0,XS,YS,E,E2),changechar(T,XD,YD,E2,E1).
 
 turnchange(turn(C)) :-
