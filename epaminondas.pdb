@@ -124,6 +124,7 @@ start :-
   play(E, XS, YS, XD, YD).
 
 play( E, XS, YS, XD, YD) :-
+  xDIFy(XS,YS,XD,YD),
   size(XS,YS),
   size(XD,YD),
   atualizarEstado(E,XS,YS,XD,YD,N),
@@ -133,14 +134,32 @@ play( E, XS, YS, XD, YD) :-
 %If sizes are not allowed retry.
 play(E,_,_,_,_):-badMoveFriend(E).
 
+xDIFy(XS,YS,XD,YD) :-
+  XS =\= XD; YS =\= YD.
+
 atualizarEstado( E, XS, YS, XD, YD, N) :-
   XS1 is XS - 1,
   YS1 is 12 - YS, % Porque na verdade o que aparece no tabuleiro tem o índice trocado.
-  checkcolour(E, XS, YS, 0, 0),
   canimovethere(E,XS,YS,XD,YD),
   mudarestado(E,XS,YS,XD,YD,N),
   turnchange(C).
 atualizarEstado(E,_,_,_,_,_):-badMoveFriend(E).
+
+%Rules for phalanx
+canimovethere( E, XS, YS, XD, YD) :-
+  regras( E, XS, YS, XD, YD).
+%If rules are not respected
+canimovethere( E, _, _, _, _):-badMoveFriend(E).
+
+%Não é preciso fazer a distinção de regras entre phalanx e piece
+%visto que uma piece é uma phalanx de tamanho 1
+regras( [H|T], XS, YS, XD, YD) :-
+  checkcolour(E, XS, YS, 0, 0),
+  regra('', E, XS, YS, XD, YD),
+  regra('', E, XS, YS, XD, YD),
+  %check if it is a phalanx
+  %rules
+  write('').
 
 checkcolour(E, XS, YS, TN, HN) :-
   checkcolour("beheading",E,YS,0,HEAD),
@@ -160,25 +179,6 @@ checkcolour( "body", [H|T], XS, TN, TAIL):-
   TN < XS,
   TN1 is TN + 1,
   checkcolour("body",T,XS,TN1,_).
-
-%Rules for phalanx
-canimovethere( E, XS, YS, XD, YD) :-
-  regras("phalanx", E, XS, YS, XD, YD).
-%Rules for piece
-canimovethere( E, XS, YS, XD, YD) :-
-  regras("piece", E, XS, YS, XD, YD).
-%If rules are not respected
-canimovethere( E, _, _, _, _):-badMoveFriend(E).
-
-regras( "phalanx", [H|T], XS, YS, XD, YD) :-
-  %check if it is a phalanx
-  %rules
-  write('').
-
-regras( "piece", [H|T], XS, YS, XD, YD) :-
-  %check if it is a piece
-  %rules
-  write('').
 
 %If a fact/rule fails we want player to have another go.
 badMoveFriend(E):-
