@@ -156,10 +156,7 @@ canimovethere( E, _, _, _, _):-badMoveFriend(E).
 regras( [H|T], XS, YS, XD, YD) :-
   checkcolour(E, XS, YS, 0, 0),
   regra('', E, XS, YS, XD, YD),
-  regra('', E, XS, YS, XD, YD),
-  %check if it is a phalanx
-  %rules
-  write('').
+  regra('', E, XS, YS, XD, YD).
 
 checkcolour(E, XS, YS, TN, HN) :-
   checkcolour("beheading",E,YS,0,HEAD),
