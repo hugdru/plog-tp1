@@ -168,7 +168,7 @@ checkcolour(E, XS, YS, TN, HN) :-
 checkcolour("beheading",H,YS,YS,HEAD) :- HEAD is H. % No need to set HEAD each time in the rule below
 checkcolour( "beheading", [H|T], YS, HN, HEAD) :-
   HN < YS,
-  HN1 is TN + 1,
+  HN1 is HN + 1,
   checkcolour("beheading",T,YS,HN1,_).
 
 checkcolour("body",T,XS,XS,TAIL):- TAIL is T.
