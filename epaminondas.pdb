@@ -176,6 +176,31 @@ badMoveFriend(E):-
 %checks if it is a phalanx or a piece. And acts upon that information.
 %mudarestado( [H|T], XS, YS, XD, YD, N) :-
 
+changechar:- estadoInicial(E), changechar(E,2,2,2,N), show(N).
+
+changechar([H|T],C,X,Y,[H|R]):- Y>0, Y1 is Y-1, changechar(T,C,X,Y1,R).
+
+changechar([H|T],C,X,0,[H1|R]):- changechar(H,C,X,H1).
+
+changechar([H|T],C,X,[H|T1]):- X>0, X1 is X-1, changechar(T,C,X1,T1).
+
+changechar([H|T],C,0,[C|T]).
+
+%removeElementM(Line,Column,[List | Rest],[List |NewList]) :-
+%     Line > 0,
+%         Line1 is Line - 1,
+%             removeElementM(Line1, Column, Rest, NewList).
+%
+%removeElementM(0, Column,[List | Rest],[List1 |Rest]) :-
+%               removeElementL(Column, List, List1).
+%
+%removeElementL(Column, [H | T], [H | T1]) :-
+%                     Column > 0,
+%                     Column1 is Column - 1,
+%                     removeElementL(Column1, T, T1).
+%
+%removeElementL(0, [_H | T], T).
+
 turnchange(turn(C)) :-
   ( C = white -> retract(turn(1)) ; retract(turn(2))),
   ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
