@@ -142,42 +142,39 @@ canimovethere( E, _, _, _, _):-badMoveFriend(E).
 
 %Não é preciso fazer a distinção de regras entre phalanx e piece
 %visto que uma piece é uma phalanx de tamanho 1
-regras( [H|T], XS, YS, XD, YD) :-
+regras([H|T], XS, YS, XD, YD) :-
   turn(C),
   checkcolour(E,XS,YS,0,0,C),
   regra('sobreposicao',E,XD,YD),
   regra('capturar',E,XS,YS,XD,YD).
 
-regra( 'sobreposicao', E, XD, YD) :-
+regra('sobreposicao', E, XD, YD) :-
   turn(X),
   notturn(X,NOTX),
   checkcolour(E,XD,YD,0,0,NOTX);
   checkcolour(E,XD,YD,0,0,0).
 
-regra( 'capturar', E, XS, YS, XD, YD) :-
+regra('capturar', E, XS, YS, XD, YD) :-
   Vert is YS - YD,
   Horizon is XS - XD,
   lineOfAction(Vert,Horizon,XS,YS,XD,YD).
 
-lineOfAction( 0, Horizon, E, XS, YS, XD, _) :-
+lineOfAction(0, Horizon, E, XS, YS, XD, _) :-
   groupSizeMine(Horizon,E,XS,YS,N,_phalanxHead).
 
-%regra(S):-estadoInicial(E),getHead(E,0,H),getSizeTilColour(H,2,4,0,2,S).
-
 groupSizeMine(Horizon, E, XS, YS, _phalanxSize) :-
-  getHead(E,YS,0,HEAD),
+  getHead(YS,E,HEAD),
   turn(C),
   getSizeTilColour(HEAD,Horizon,XS,0,C,_phalanxSize).
 
 %Não utilizamos a funcao charat pq em cada iteracao ele
 %iria procurar a linha horizontal.
-getSizeTilColour( [H|T], Horizon, XS, N, C, _phalanxSize) :-
+getSizeTilColour([H|T], Horizon, XS, N, C, _phalanxSize) :-
   Horizon > 0, H == C,
   XS1 is XS - 1,
   N1 is N + 1,
   getSizeTilColour(T,Horizon,XS1,N1,C,_).
 getSizeTilColour(_,_,_,N,_,_phalanxSize):- _phalanxSize is N.
-
 getSizeTilColour( [H|T], Horizon, XS, N, C, _phalanxSize) :-
   Horizon < 0, H == C,
   XS1 is XS + 1,
@@ -187,7 +184,7 @@ getSizeTilColour(_,_,_,N,_,_phalanxSize):- _phalanxSize is N.
 
 %checkcolour:-estadoInicial(E),checkcolour(E,0,11,1).
 checkcolour(E, XS, YS, C) :-
-  charat(ELEMENT,XS,YS,E).
+  charat(ELEMENT,XS,YS,E),
   !, % if TAIL == C fails then dont backtrack (checkcolour) go to atualizarEstado an then fail with badMoveFriend
   ELEMENT == C. % just checks if they are the same, == is different from =. Because = unifies and == doesnt.
 
