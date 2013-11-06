@@ -160,7 +160,7 @@ regra('capturar', E, XS, YS, XD, YD) :-
   lineOfAction(VertDifference,HorizontalDifference,XS,YS,XD,YD).
 
 %debugging for _phalanxSizes
-groupSizeMine('horizontalLine',_phalanxSize) :- estadoInicial(E), groupSizeMine('horizontalLine',2,E,0,2,_phalanxSize).
+groupSizeMine('horizontalLine',_phalanxSize) :- estadoInicial(E), groupSizeMine('horizontalLine',2,E,10,11,_phalanxSize).
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
   groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,_phalanxSize).
