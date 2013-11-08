@@ -159,58 +159,58 @@ regra('capturar', E, XS, YS, XD, YD) :-
   lineOfAction(VertDifference,HorizontalDifference,XS,YS,XD,YD).
 
 %debugging for _phalanxSizes
-groupSizeMine('horizontalLine',_phalanxSize) :- estadoInicial(E), groupSizeMine('horizontalLine',2,E,10,11,_phalanxSize).
+groupSizeMine('horizontalLine',PhalanxSize) :- estadoInicial(E), groupSizeMine('horizontalLine',2,E,5,11,PhalanxSize).
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
-  groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,_phalanxSize).
+  groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,PhalanxSize).
 
-groupSizeMine('horizontalLine',HorizontalDifference, E, XS, YS, _phalanxSize) :-
+groupSizeMine('horizontalLine',HorizontalDifference, E, XS, YS, PhalanxSize) :-
   getHead(YS,E,LIST), % Recebe aqui a cabeça LIST
   turn(C), %Recebe a cor
-  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS,0,C,_phalanxSize).
+  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS,0,C,PhalanxSize).
 
-getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, _phalanxSize) :-
+getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, PhalanxSize) :-
   HorizontalDifference > 0, XS >= 0,
   charat(COLOUR,XS,LIST),
   COLOUR == C,
   XS1 is XS - 1,
   N1 is N + 1,
-  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,_).
+  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,PhalanxSize).
 
-getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, _phalanxSize) :-
+getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, PhalanxSize) :-
   HorizontalDifference < 0, XS =< 13,
   charat(COLOUR,XS,LIST),
   COLOUR == C,
   XS1 is XS + 1,
   N1 is N + 1,
-  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,_).
+  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,PhalanxSize).
 
-getSizeTilColour('horizontalLine',_,_,_,N,_,_phalanxSize):- _phalanxSize is N.
+getSizeTilColour('horizontalLine',_,_,_,N,_,PhalanxSize):- PhalanxSize is N.
 
 lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD) :-
-  groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,_phalanxSize).
+  groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
 
-groupSizeMine( 'verticalLine', VerticalDifference, E, XS, YS, _phalanxSize) :-
+groupSizeMine( 'verticalLine', VerticalDifference, E, XS, YS, PhalanxSize) :-
   turn(C),
-  getSizeTilColour('verticalLine',E,VerticalDifference,XS,YS,0,C,_phalanxSize).
+  getSizeTilColour('verticalLine',E,VerticalDifference,XS,YS,0,C,PhalanxSize).
 
-getSizeTilColour( 'verticalLine', E, VertDifference, XS, YS, N, C, _phalanxSize) :-
+getSizeTilColour( 'verticalLine', E, VertDifference, XS, YS, N, C, PhalanxSize) :-
   VertDifference > 0, YS >=0,
   charat(COLOUR,XS,YS,E),
   COLOUR == C,
   YS1 is YS - 1,
   N1 is N + 1,
-  getSizeTilColour('verticalLines',E,VerticalDifference,XS,YS1,N1,C,_phalanxSize).
+  getSizeTilColour('verticalLines',E,VerticalDifference,XS,YS1,N1,C,PhalanxSize).
 
-getSizeTilColour( 'verticalLine', E, VerticalDifference, XS, YS, N, C, _phalanxSize) :-
+getSizeTilColour( 'verticalLine', E, VerticalDifference, XS, YS, N, C, PhalanxSize) :-
   VertDifference < 0, YS =< 11,
   charat(COLOUR,XS,YS,E),
   COLOUR == C,
   YS1 is YS + 1,
   N1 is N + 1,
-  getSizeTilColour('verticalLines',E,VerticalDifference,XS,YS1,N1,C,_phalanxSize).
+  getSizeTilColour('verticalLines',E,VerticalDifference,XS,YS1,N1,C,PhalanxSize).
 
-getSizeTilColour('verticalLines',_,_,_,_,N,_,_phalanxSize) :- _phalanxSize is N.
+getSizeTilColour('verticalLines',_,_,_,_,N,_,PhalanxSize) :- PhalanxSize is N.
 
 %checkcolour:-estadoInicial(E),checkcolour(E,0,11,1).
 checkcolour(E, XS, YS, C) :-
