@@ -144,15 +144,14 @@ canimovethere( E, _, _, _, _):-badMoveFriend(E).
 %visto que uma piece é uma phalanx de tamanho 1
 regras([H|T], XS, YS, XD, YD) :-
   turn(C),
-  checkcolour(E,XS,YS,0,0,C),
-  regra('sobreposicao',E,XD,YD),
+  checkcolour(E,XS,YS,C),
+  regra('sobreposicao',E,XS,YS,XD,YD),
   regra('capturar',E,XS,YS,XD,YD).
 
-regra('sobreposicao', E, XD, YD) :-
-  turn(X),
-  notturn(X,NOTX),
-  checkcolour(E,XD,YD,0,0,NOTX);
-  checkcolour(E,XD,YD,0,0,0).
+regra('sobreposicao', E, XS, YS, XD, YD) :-
+  charat(C1,XS,YS,E),
+  charat(C2,XD,YD,E),
+  C1 =\= C2.
 
 regra('capturar', E, XS, YS, XD, YD) :-
   VerticalDifference is YS - YD,
@@ -166,8 +165,8 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
   groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,_phalanxSize).
 
 groupSizeMine('horizontalLine',HorizontalDifference, E, XS, YS, _phalanxSize) :-
-  getHead(YS,E,LIST),
-  turn(C),
+  getHead(YS,E,LIST), % Recebe aqui a cabeça LIST
+  turn(C), %Recebe a cor
   getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS,0,C,_phalanxSize).
 
 getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, _phalanxSize) :-
