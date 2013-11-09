@@ -158,7 +158,7 @@ regra('sobreposicao', E, XS, YS, XD, YD) :-
 %   HorizontalDifference is XD - XS,
 %   lineOfAction(VertDifference,HorizontalDifference,E,XS,YS,XD,YD).
 
-getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('horizontalLine',2,E,11,11,PhalanxSize).
+% getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',-2,E,11,11,PhalanxSize).
 
 getSizeTilColour('horizontalLine',HorizontalDifference,E,X,Y,PhalanxSize):-
   HorizontalDifference > 0, X =< 13,
@@ -168,10 +168,43 @@ getSizeTilColour('horizontalLine',HorizontalDifference,E,X,Y,PhalanxSize):-
   X1 is X+1,
   getSizeTilColour('horizontalLine',HorizontalDifference,E,X1,Y,PhalanxSize1),
   PhalanxSize is PhalanxSize1+1.
-getSizeTilColour('horizontalLine',_,_,14,_,0).
 
-% %debugging for _phalanxSizes
-% groupSizeMine(PhalanxSize) :- estadoInicial(E), groupSizeMine('horizontalLine',2,E,5,11,PhalanxSize).
+getSizeTilColour('horizontalLine',HorizontalDifference,E,X,Y,PhalanxSize):-
+  HorizontalDifference < 0 , X >= 0,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  X1 is X-1,
+  getSizeTilColour('horizontalLine',HorizontalDifference,E,X1,Y,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
+
+getSizeTilColour('verticalLine',VerticalDifference,E,X,Y,PhalanxSize):-
+  VerticalDifference > 0, X =< 11,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  Y1 is Y+1,
+  getSizeTilColour('verticalLine',VerticalDifference,E,X,Y1,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
+
+getSizeTilColour('verticalLine',VerticalDifference,E,X,Y,PhalanxSize):-
+  VerticalDifference < 0, X >= 0,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  Y1 is Y-1,
+  getSizeTilColour('verticalLine',VerticalDifference,E,X,Y1,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
+
+getSizeTilColour('horizontalLine',_,_,14,_,0).
+getSizeTilColour('horizontalLine',_,_,-1,_,0).
+getSizeTilColour('verticalLine',_,_,_,12,0).
+getSizeTilColour('verticalLine',_,_,_,-1,0).
+
+getSizeTilColour(_,_,E,X,Y,0):-
+  turn(C),
+  charat(C1,X,Y,E),
+  C =\= C1.
 
 % lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
 %   groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,PhalanxSize).
@@ -181,22 +214,6 @@ getSizeTilColour('horizontalLine',_,_,14,_,0).
 %   turn(C), %Recebe a cor
 %   getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS,0,C,PhalanxSize).
 
-% getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, PhalanxSize) :-
-%   HorizontalDifference > 0, XS >= 0,
-%   charat(COLOUR,XS,LIST),
-%   COLOUR == C,
-%   XS1 is XS - 1,
-%   N1 is N + 1,
-%   getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,PhalanxSize).
-
-% getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, PhalanxSize) :-
-%   HorizontalDifference < 0, XS =< 13,
-%   charat(COLOUR,XS,LIST),
-%   COLOUR == C,
-%   XS1 is XS + 1,
-%   N1 is N + 1,
-%   getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,PhalanxSize).
-
 % getSizeTilColour('horizontalLine',_,_,_,N,_,PhalanxSize):- PhalanxSize is N.
 
 % lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD) :-
@@ -205,24 +222,6 @@ getSizeTilColour('horizontalLine',_,_,14,_,0).
 % groupSizeMine( 'verticalLine', VerticalDifference, E, XS, YS, PhalanxSize) :-
 %   turn(C),
 %   getSizeTilColour('verticalLine',E,VerticalDifference,XS,YS,0,C,PhalanxSize).
-
-% getSizeTilColour( 'verticalLine', E, VertDifference, XS, YS, N, C, PhalanxSize) :-
-%   VertDifference > 0, YS >=0,
-%   charat(COLOUR,XS,YS,E),
-%   COLOUR == C,
-%   YS1 is YS - 1,
-%   N1 is N + 1,
-%   getSizeTilColour('verticalLines',E,VerticalDifference,XS,YS1,N1,C,PhalanxSize).
-
-% getSizeTilColour( 'verticalLine', E, VerticalDifference, XS, YS, N, C, PhalanxSize) :-
-%   VertDifference < 0, YS =< 11,
-%   charat(COLOUR,XS,YS,E),
-%   COLOUR == C,
-%   YS1 is YS + 1,
-%   N1 is N + 1,
-%   getSizeTilColour('verticalLines',E,VerticalDifference,XS,YS1,N1,C,PhalanxSize).
-
-% getSizeTilColour('verticalLines',_,_,_,_,N,_,PhalanxSize) :- PhalanxSize is N.
 
 %checkcolour:-estadoInicial(E),checkcolour(E,0,11,1).
 checkcolour(E, XS, YS, C) :-
