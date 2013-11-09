@@ -335,6 +335,13 @@ find('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
   YH1 is YH + 1,
   find('verticalLine',VerticalDifference,C,XH,YH1,YD,E,YN).
 
+find('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
+  VerticalDifference < 0, YH > YD,
+  charat(COLOUR,XH,YH,E),
+  C =\= COLOUR,
+  YH1 is YH - 1,
+  find('verticalLine',VerticalDifference,C,XH,YH1,YD,E,YN).
+
 find('verticalLine',_,C,XH,YD,YD,E,YN) :- charat(COLOUR,XH,YD,E), C =\= COLOUR, YN is - 1.
 find('verticalLine',_,_,_,YH,_,_,YN) :- YN is YH.
 find('horizontalLine',_,C,XD,YH,XD,E,XN) :- charat(COLOUR,XD,YH,E), C =\= COLOUR, XN is - 1.
