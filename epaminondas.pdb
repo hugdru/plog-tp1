@@ -182,7 +182,6 @@ getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, Phalan
   charat(COLOUR,XS,LIST),
   COLOUR == C,
   XS1 is XS + 1,
-  N1 is N + 1,
   getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,PhalanxSize).
 
 getSizeTilColour('horizontalLine',_,_,_,N,_,PhalanxSize):- PhalanxSize is N.
