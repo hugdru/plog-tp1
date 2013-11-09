@@ -158,50 +158,90 @@ regra('sobreposicao', E, XS, YS, XD, YD) :-
 %   HorizontalDifference is XD - XS,
 %   lineOfAction(VertDifference,HorizontalDifference,E,XS,YS,XD,YD).
 
-% getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',-2,E,11,11,PhalanxSize).
+% getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,11,11,PhalanxSize).
 
-getSizeTilColour('horizontalLine',HorizontalDifference,E,X,Y,PhalanxSize):-
+getSizeTilColour('horizontalLine',HorizontalDifference,_,E,X,Y,PhalanxSize):-
   HorizontalDifference > 0, X =< 13,
   turn(C),
   charat(C1,X,Y,E),
   C1 == C,
   X1 is X+1,
-  getSizeTilColour('horizontalLine',HorizontalDifference,E,X1,Y,PhalanxSize1),
+  getSizeTilColour('horizontalLine',HorizontalDifference,_,E,X1,Y,PhalanxSize1),
   PhalanxSize is PhalanxSize1+1.
 
-getSizeTilColour('horizontalLine',HorizontalDifference,E,X,Y,PhalanxSize):-
+getSizeTilColour('horizontalLine',HorizontalDifference,_,E,X,Y,PhalanxSize):-
   HorizontalDifference < 0 , X >= 0,
   turn(C),
   charat(C1,X,Y,E),
   C1 == C,
   X1 is X-1,
-  getSizeTilColour('horizontalLine',HorizontalDifference,E,X1,Y,PhalanxSize1),
+  getSizeTilColour('horizontalLine',HorizontalDifference,_,E,X1,Y,PhalanxSize1),
   PhalanxSize is PhalanxSize1+1.
 
-getSizeTilColour('verticalLine',VerticalDifference,E,X,Y,PhalanxSize):-
-  VerticalDifference > 0, X =< 11,
+getSizeTilColour('verticalLine',_,VerticalDifference,E,X,Y,PhalanxSize):-
+  VerticalDifference > 0, Y =< 11,
   turn(C),
   charat(C1,X,Y,E),
   C1 == C,
   Y1 is Y+1,
-  getSizeTilColour('verticalLine',VerticalDifference,E,X,Y1,PhalanxSize1),
+  getSizeTilColour('verticalLine',_,VerticalDifference,E,X,Y1,PhalanxSize1),
   PhalanxSize is PhalanxSize1+1.
 
-getSizeTilColour('verticalLine',VerticalDifference,E,X,Y,PhalanxSize):-
-  VerticalDifference < 0, X >= 0,
+getSizeTilColour('verticalLine',_,VerticalDifference,E,X,Y,PhalanxSize):-
+  VerticalDifference < 0, Y >= 0,
   turn(C),
   charat(C1,X,Y,E),
   C1 == C,
   Y1 is Y-1,
-  getSizeTilColour('verticalLine',VerticalDifference,E,X,Y1,PhalanxSize1),
+  getSizeTilColour('verticalLine',_,VerticalDifference,E,X,Y1,PhalanxSize1),
   PhalanxSize is PhalanxSize1+1.
 
-getSizeTilColour('horizontalLine',_,_,14,_,0).
-getSizeTilColour('horizontalLine',_,_,-1,_,0).
-getSizeTilColour('verticalLine',_,_,_,12,0).
-getSizeTilColour('verticalLine',_,_,_,-1,0).
+getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,X,Y,PhalanxSize):-
+  HorizontalDifference > 0, VerticalDifference > 0, X =< 13, Y =< 11,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  X1 is X+1,
+  Y1 is Y+1,
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,X1,Y1,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
 
-getSizeTilColour(_,_,E,X,Y,0):-
+getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,X,Y,PhalanxSize):-
+  HorizontalDifference > 0, VerticalDifference < 0, X =< 13, Y >= 0,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  X1 is X+1,
+  Y1 is Y-1,
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,X1,Y1,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
+
+getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,X,Y,PhalanxSize):-
+  HorizontalDifference < 0, VerticalDifference > 0, X >= 0, Y =< 11,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  X1 is X-1,
+  Y1 is Y+1,
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,X1,Y1,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
+
+getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,X,Y,PhalanxSize):-
+  HorizontalDifference < 0, VerticalDifference < 0, X >= 0, Y >= 0,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  X1 is X-1,
+  Y1 is Y-1,
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,X1,Y1,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
+
+getSizeTilColour(_,_,_,_,14,_,0).
+getSizeTilColour(_,_,_,_,-1,_,0).
+getSizeTilColour(_,_,_,_,_,12,0).
+getSizeTilColour(_,_,_,_,_,-1,0).
+
+getSizeTilColour(_,_,_,E,X,Y,0):-
   turn(C),
   charat(C1,X,Y,E),
   C =\= C1.
