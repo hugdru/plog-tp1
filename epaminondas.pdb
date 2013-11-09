@@ -310,8 +310,10 @@ charat(C,0,[C|_]).
 
 changechar:- estadoInicial(E), changechar(2,13,11,E,N), show(N). %Example
 
-%find(XN) :- estadoInicial(E), find('horizontalLine',2,2,11,11,13,E,XN).
-%find(XN) :- estadoInicial(E), changechar(2,13,11,E,N), find('horizontalLine',2,2,11,11,13,N,XN).
+%findh(XN) :- estadoInicial(E), find('horizontalLine',2,2,11,11,13,E,XN) !, 1=1.
+%findh(XN) :- estadoInicial(E), changechar(2,13,11,E,N), find('horizontalLine',-2,2,11,11,0,N,XN), !, 1=1.
+findv(YN) :- estadoInicial(E), find('verticalLine',11,1,13,0,11,E,YN), !, 1=1.
+
 find('horizontalLine',HorizontalDifference,C,XH,YH,XD,E,XN) :-
   HorizontalDifference > 0, XH < XD,
   charat(COLOUR,XH,YH,E),
@@ -326,11 +328,17 @@ find('horizontalLine',HorizontalDifference,C,XH,YH,XD,E,XN) :-
   XH1 is XH - 1,
   find('horizontalLine',HorizontalDifference,C,XH1,YH,XD,E,XN).
 
-find(_,_,C,XD,YH,XD,E,XN) :- charat(COLOUR,XD,YH,E), C =\= COLOUR, XN is - 1.
-find(_,_,_,XH1,_,_,_,XN) :- XN is XH1.
+find('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
+  VerticalDifference > 0, YH < YD,
+  charat(COLOUR,XH,YH,E),
+  C =\= COLOUR,
+  YH1 is YH + 1,
+  find('verticalLine',VerticalDifference,C,XH,YH1,YD,E,YN).
 
-
-
+find('verticalLine',_,C,XH,YD,YD,E,YN) :- charat(COLOUR,XH,YD,E), C =\= COLOUR, YN is - 1.
+find('verticalLine',_,_,_,YH,_,_,YN) :- YN is YH.
+find('horizontalLine',_,C,XD,YH,XD,E,XN) :- charat(COLOUR,XD,YH,E), C =\= COLOUR, XN is - 1.
+find('horizontalLine',_,_,XH,_,_,_,XN) :- XN is XH.
 
 % %getHead returns the list in a given index
 % %getHead(H):- estadoInicial(E), getHead(0,E,H).
