@@ -162,10 +162,8 @@ lineOfAction( VertDifference, HorizontalDifference, E, XS, YS, XD, YD) :-
   slope is abs(VertDifference/HorizontalDifference),
   slope == 1.
 
-
-
-lineOfAction( VerticalDifference, 0, E, XS, YS, XD, YD) :-
-  groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
+lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
+  groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,PhalanxSize).
 
 lineOfAction( VerticalDifference, 0, E, XS, YS, XD, YD) :-
   groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
