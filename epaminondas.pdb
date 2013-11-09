@@ -158,9 +158,9 @@ regra('moverPhalanx', E, XS, YS, XD, YD) :-
    HorizontalDifference is XD - XS,
    lineOfAction(VertDifference,HorizontalDifference,E,XS,YS,XD,YD).
 
-lineOfActionH :- changecharH(E), lineOfAction(0,2,E,0,5,10,_), !, 1=1.
+lineOfActionH :- changecharH(E), lineOfAction(0,2,E,0,5,10,_).
 %changecharH(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), show(F).
-changecharH(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), changechar(2,2,5,F,X),show(X).
+changecharH(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), changechar(2,2,5,F,X), changechar(2,3,5,X,H), show(H).
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
   turn(C),
@@ -169,6 +169,7 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
   headPhalanx('horizontalLine',HorizontalDifference,PhalanxSizeMine,XS,XH),
   XHplus1 is XH + 1,
   find('horizontalLine',HorizontalDifference,NOTC,XHplus1,YS,XD,E,XN),
+  nl, write(XN),
   !,evaluate('horizontalLine',XH,XN,XD,PhalanxSizeMine), %if evaluate fails dont backtrack
   getSizeTilColour('horizontalLine',HorizontalDifference,_,E,NOTC,XN,YS,PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
@@ -357,6 +358,10 @@ findv(YN) :- estadoInicial(E), find('verticalLine',11,1,13,0,11,E,YN), !, 1=1.
 find('horizontalLine',HorizontalDifference,C,XH,YH,XD,E,XN) :-
   HorizontalDifference > 0, XH < XD,
   charat(COLOUR,XH,YH,E),
+  nl,
+  write('XH '),write(XH),nl, write('YH '), write(YH),nl, write('COLOUR '), write(COLOUR), nl, write('C '),write(C),
+  nl,
+  !, % nao está a ir para trás KRL PQ? DEVIA IR!
   C =\= COLOUR,
   XH1 is XH + 1,
   find('horizontalLine',HorizontalDifference,C,XH1,YH,XD,E,XN).
