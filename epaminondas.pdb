@@ -162,14 +162,50 @@ lineOfAction( VertDifference, HorizontalDifference, E, XS, YS, XD, YD) :-
   slope is abs(VertDifference/HorizontalDifference),
   slope == 1,
   turn(C),
-  getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,XS,YS,PhalanxSizeMine),
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
   find.
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
-  groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,PhalanxSize).
+  turn(C),
+  getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,XS,YS,PhalanxSizeMine),
+  notturn(C,NOTC),
+  headPhalanx('horizontalLine',HorizontalDifference,PhalanxSize,XS,XH),
+  XHplus1 is XH + 1,
+  find('horizontalLine',HorizontalDifference,NOTC,XHplus1,YS,XD,E,XN),
+  !,evaluate('horizontalLine',XH,XN,XD,PhalanxSizeMine), %if evaluate fails dont backtrack
+  getSizeTilColour('horizontalLine',HorizontalDifference,_,E,NOTC,XN,YS,PhalanxSizeAdversary),
+  !,PhalanxSizeAdversary < PhalanxSizeMine.
 
-lineOfAction( VerticalDifference, 0, E, XS, YS, XD, YD) :-
-  groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
+lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD) :-
+  turn(C),
+  getSizeTilColour('verticalLine',_,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
+  notturn(C,NOTC),
+  headPhalanx('verticalLine',VerticalDifference,PhalanxSize,YS,YH),
+  YHplus1 is YH + 1,
+  find('verticalLine',VerticalDifference,NOTC,XS,YHplus1,YD,E,YN),
+  !,evaluate('verticalLine',YH,YN,YD,PhalanxSizeMine), %if evaluate fails dont backtrack
+  getSizeTilColour('verticalLine',_,VerticalDifference,E,NOTC,XS,YN,PhalanxSizeMine),
+  !,PhalanxSizeAdversary < PhalanxSizeMine.
+
+evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLine', YH, -1, YD, PhalanxSize) :- DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
+%falta para diagonalLine
+
+headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH) :-
+  HorizontalDifference > 0,
+  XH is XS + PhalanxSize - 1.
+headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH) :-
+  HorizontalDifference < 0,
+  XH is XS - PhalanxSize + 1.
+headPhalanx('verticalLine', VertDifference, PhalanxSize, YS, YH) :-
+  VertDifference > 0,
+  YH is YS + PhalanxSize - 1.
+headPhalanx('verticalLine', VertDifference, PhalanxSize, YS, YH) :-
+  VertDifference < 0,
+  YH is YS - PhalanxSize + 1.
+% falta para diagonal
 
 %getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,1,11,11,PhalanxSize).
 getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,X,Y,PhalanxSize):-
@@ -341,6 +377,8 @@ find('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
   C =\= COLOUR,
   YH1 is YH - 1,
   find('verticalLine',VerticalDifference,C,XH,YH1,YD,E,YN).
+
+%falta para diagonal
 
 find('verticalLine',_,C,XH,YD,YD,E,YN) :- charat(COLOUR,XH,YD,E), C =\= COLOUR, YN is - 1.
 find('verticalLine',_,_,_,YH,_,_,YN) :- YN is YH.
