@@ -160,7 +160,10 @@ regra('moverPhalanx', E, XS, YS, XD, YD) :-
 
 lineOfAction( VertDifference, HorizontalDifference, E, XS, YS, XD, YD) :-
   slope is abs(VertDifference/HorizontalDifference),
-  slope == 1.
+  slope == 1,
+  turn(C),
+  getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,XS,YS,PhalanxSizeMine),
+  find.
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
   groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,PhalanxSize).
@@ -304,6 +307,30 @@ charat(C,X,Y,[_|T]):- Y>0, Y1 is Y-1, charat(C,X,Y1,T).
 charat(C,X,0,[H|_]):- charat(C,X,H).
 charat(C,X,[_|T]):- X>0, X1 is X-1, charat(C,X1,T).
 charat(C,0,[C|_]).
+
+changechar:- estadoInicial(E), changechar(2,13,11,E,N), show(N). %Example
+
+%find(XN) :- estadoInicial(E), find('horizontalLine',2,2,11,11,13,E,XN).
+%find(XN) :- estadoInicial(E), changechar(2,13,11,E,N), find('horizontalLine',2,2,11,11,13,N,XN).
+find('horizontalLine',HorizontalDifference,C,XH,YH,XD,E,XN) :-
+  HorizontalDifference > 0, XH < XD,
+  charat(COLOUR,XH,YH,E),
+  C =\= COLOUR,
+  XH1 is XH + 1,
+  find('horizontalLine',HorizontalDifference,C,XH1,YH,XD,E,XN).
+
+find('horizontalLine',HorizontalDifference,C,XH,YH,XD,E,XN) :-
+  HorizontalDifference < 0, XH > XD,
+  charat(COLOUR,XH,YH,E),
+  C =\= COLOUR,
+  XH1 is XH - 1,
+  find('horizontalLine',HorizontalDifference,C,XH1,YH,XD,E,XN).
+
+find(_,_,C,XD,YH,XD,E,XN) :- charat(COLOUR,XD,YH,E), C =\= COLOUR, XN is - 1.
+find(_,_,_,XH1,_,_,_,XN) :- XN is XH1.
+
+
+
 
 % %getHead returns the list in a given index
 % %getHead(H):- estadoInicial(E), getHead(0,E,H).
