@@ -168,7 +168,7 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
 lineOfAction( VerticalDifference, 0, E, XS, YS, XD, YD) :-
   groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
 
-%getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,11,11,PhalanxSize).
+%getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,1,11,11,PhalanxSize).
 getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,X,Y,PhalanxSize):-
   HorizontalDifference > 0, X =< 13,
   charat(C1,X,Y,E),
