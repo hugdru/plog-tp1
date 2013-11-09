@@ -158,8 +158,9 @@ regra('moverPhalanx', E, XS, YS, XD, YD) :-
    HorizontalDifference is XD - XS,
    lineOfAction(VertDifference,HorizontalDifference,E,XS,YS,XD,YD).
 
-lineOfActionH :- changecharH(E), lineOfAction(0,2,E,0,5,10,_).
-changecharH(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F). %Example
+lineOfActionH :- changecharH(E), lineOfAction(0,2,E,0,5,10,_), !, 1=1.
+%changecharH(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), show(F).
+changecharH(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), changechar(2,2,5,F,X),show(X).
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
   turn(C),
