@@ -153,63 +153,84 @@ regra('sobreposicao', E, XS, YS, XD, YD) :-
   charat(C2,XD,YD,E),
   C1 =\= C2.
 
-regra('capturar', E, XS, YS, XD, YD) :-
-  VerticalDifference is YS - YD,
-  HorizontalDifference is XS - XD,
-  lineOfAction(VertDifference,HorizontalDifference,XS,YS,XD,YD).
+% regra('capturar', E, XS, YS, XD, YD) :-
+%   VerticalDifference is YD - YS,
+%   HorizontalDifference is XD - XS,
+%   lineOfAction(VertDifference,HorizontalDifference,E,XS,YS,XD,YD).
 
-%debugging for _phalanxSizes
-groupSizeMine('horizontalLine',PhalanxSize) :- estadoInicial(E), groupSizeMine('horizontalLine',2,E,5,11,PhalanxSize).
+% getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',-2,E,11,11,PhalanxSize).
 
-lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
-  groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,PhalanxSize).
+getSizeTilColour('horizontalLine',HorizontalDifference,E,X,Y,PhalanxSize):-
+  HorizontalDifference > 0, X =< 13,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  X1 is X+1,
+  getSizeTilColour('horizontalLine',HorizontalDifference,E,X1,Y,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
 
-groupSizeMine('horizontalLine',HorizontalDifference, E, XS, YS, PhalanxSize) :-
-  getHead(YS,E,LIST), % Recebe aqui a cabeça LIST
-  turn(C), %Recebe a cor
-  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS,0,C,PhalanxSize).
+getSizeTilColour('horizontalLine',HorizontalDifference,E,X,Y,PhalanxSize):-
+  HorizontalDifference < 0 , X >= 0,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  X1 is X-1,
+  getSizeTilColour('horizontalLine',HorizontalDifference,E,X1,Y,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
 
-getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, PhalanxSize) :-
-  HorizontalDifference > 0, XS >= 0,
-  charat(COLOUR,XS,LIST),
-  COLOUR == C,
-  XS1 is XS - 1,
-  N1 is N + 1,
-  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,PhalanxSize).
+getSizeTilColour('verticalLine',VerticalDifference,E,X,Y,PhalanxSize):-
+  VerticalDifference > 0, X =< 11,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  Y1 is Y+1,
+  getSizeTilColour('verticalLine',VerticalDifference,E,X,Y1,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
 
+getSizeTilColour('verticalLine',VerticalDifference,E,X,Y,PhalanxSize):-
+  VerticalDifference < 0, X >= 0,
+  turn(C),
+  charat(C1,X,Y,E),
+  C1 == C,
+  Y1 is Y-1,
+  getSizeTilColour('verticalLine',VerticalDifference,E,X,Y1,PhalanxSize1),
+  PhalanxSize is PhalanxSize1+1.
+
+getSizeTilColour('horizontalLine',_,_,14,_,0).
+getSizeTilColour('horizontalLine',_,_,-1,_,0).
+getSizeTilColour('verticalLine',_,_,_,12,0).
+getSizeTilColour('verticalLine',_,_,_,-1,0).
+
+getSizeTilColour(_,_,E,X,Y,0):-
+  turn(C),
+  charat(C1,X,Y,E),
+  C =\= C1.
+
+<<<<<<< HEAD
 getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, PhalanxSize) :-
   HorizontalDifference < 0, XS =< 13,
   charat(COLOUR,XS,LIST),
   COLOUR == C,
   XS1 is XS + 1,
   getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,PhalanxSize).
+=======
+% lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
+%   groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,PhalanxSize).
+>>>>>>> 80eb1159aee07f95d1a111b9037fe3c4da64b512
 
-getSizeTilColour('horizontalLine',_,_,_,N,_,PhalanxSize):- PhalanxSize is N.
+% groupSizeMine('horizontalLine',HorizontalDifference, E, XS, YS, PhalanxSize) :-
+%   getHead(YS,E,LIST), % Recebe aqui a cabeça LIST
+%   turn(C), %Recebe a cor
+%   getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS,0,C,PhalanxSize).
 
-lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD) :-
-  groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
+% getSizeTilColour('horizontalLine',_,_,_,N,_,PhalanxSize):- PhalanxSize is N.
 
-groupSizeMine( 'verticalLine', VerticalDifference, E, XS, YS, PhalanxSize) :-
-  turn(C),
-  getSizeTilColour('verticalLine',E,VerticalDifference,XS,YS,0,C,PhalanxSize).
+% lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD) :-
+%   groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
 
-getSizeTilColour( 'verticalLine', E, VertDifference, XS, YS, N, C, PhalanxSize) :-
-  VertDifference > 0, YS >=0,
-  charat(COLOUR,XS,YS,E),
-  COLOUR == C,
-  YS1 is YS - 1,
-  N1 is N + 1,
-  getSizeTilColour('verticalLines',E,VerticalDifference,XS,YS1,N1,C,PhalanxSize).
-
-getSizeTilColour( 'verticalLine', E, VerticalDifference, XS, YS, N, C, PhalanxSize) :-
-  VertDifference < 0, YS =< 11,
-  charat(COLOUR,XS,YS,E),
-  COLOUR == C,
-  YS1 is YS + 1,
-  N1 is N + 1,
-  getSizeTilColour('verticalLines',E,VerticalDifference,XS,YS1,N1,C,PhalanxSize).
-
-getSizeTilColour('verticalLines',_,_,_,_,N,_,PhalanxSize) :- PhalanxSize is N.
+% groupSizeMine( 'verticalLine', VerticalDifference, E, XS, YS, PhalanxSize) :-
+%   turn(C),
+%   getSizeTilColour('verticalLine',E,VerticalDifference,XS,YS,0,C,PhalanxSize).
 
 %checkcolour:-estadoInicial(E),checkcolour(E,0,11,1).
 checkcolour(E, XS, YS, C) :-
@@ -233,29 +254,29 @@ badMoveFriend(E):-
 %changechar changes any cell of the board with the value passed in C(char)
 %http://stackoverflow.com/questions/13103415/remove-element-x-y-from-list-of-lists-in-prolog (Source)
 
-%changechar:- estadoInicial(E), changechar(1,0,0,E,N), show(N). Example
+changechar:- estadoInicial(E), changechar(1,10,1,E,N), show(N). %Example
 
 changechar(C,X,Y,[H|T],[H|R]):- Y>0, Y1 is Y-1, changechar(C,X,Y1,T,R).
 changechar(C,X,0,[H|T],[H1|T]):- changechar(C,X,H,H1).
 changechar(C,X,[H|T],[H|T1]):- X>0, X1 is X-1, changechar(C,X1,T,T1).
-changechar(C,0,[H|T],[C|T]).
+changechar(C,0,[_|T],[C|T]).
 
 %charat char at a given position on board
-%charat(C):- estadoInicial(E), charat(C,0,0,E).
-charat(C,X,Y,[H|T]):- Y>0, Y1 is Y-1, charat(C,X,Y1,T).
-charat(C,X,0,[H|T]):- charat(C,X,H).
-charat(C,X,[H|T]):- X>0, X1 is X-1, charat(C,X,T).
-charat(C,0,[C|T]).
+%charat(C):- estadoInicial(E), charat(C,11,11,E).
+charat(C,X,Y,[_|T]):- Y>0, Y1 is Y-1, charat(C,X,Y1,T).
+charat(C,X,0,[H|_]):- charat(C,X,H).
+charat(C,X,[_|T]):- X>0, X1 is X-1, charat(C,X1,T).
+charat(C,0,[C|_]).
 
-%getHead returns the list in a given index
-%getHead(H):- estadoInicial(E), getHead(0,E,H).
-getHead(Y,[H|T],Head):- Y>0, Y1 is Y-1, getHead(Y1,T,Head).
-getHead(0,[H|T],H).
+% %getHead returns the list in a given index
+% %getHead(H):- estadoInicial(E), getHead(0,E,H).
+% getHead(Y,[H|T],Head):- Y>0, Y1 is Y-1, getHead(Y1,T,Head).
+% getHead(0,[H|T],H).
 
-%changestate changes the state of the board after a player makes his move
-%changestate:- estadoInicial(E),changestate(E,0,1,0,5,E1),show(E1).
-changestate(E,XS,YS,XD,YD,E1):- turn(T),changechar(0,XS,YS,E,E2),changechar(T,XD,YD,E2,E1).
+% %changestate changes the state of the board after a player makes his move
+% %changestate:- estadoInicial(E),changestate(E,0,1,0,5,E1),show(E1).
+% changestate(E,XS,YS,XD,YD,E1):- turn(T),changechar(0,XS,YS,E,E2),changechar(T,XD,YD,E2,E1).
 
-turnchange(turn(C)) :-
-  ( C = white -> retract(turn(1)) ; retract(turn(2))),
-  ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
+% turnchange(turn(C)) :-
+%   ( C = white -> retract(turn(1)) ; retract(turn(2))),
+%   ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
