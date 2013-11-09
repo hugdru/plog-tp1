@@ -138,7 +138,7 @@ atualizarEstado(E,_,_,_,_,_):-badMoveFriend(E).
 canimovethere( E, XS, YS, XD, YD) :-
   regras( E, XS, YS, XD, YD).
 %If rules are not respected
-canimovethere( E, _, _, _, _):-badMoveFriend(E).
+canimovethere(E,_,_,_,_):-badMoveFriend(E).
 
 %Não é preciso fazer a distinção de regras entre phalanx e piece
 %visto que uma piece é uma phalanx de tamanho 1
@@ -153,13 +153,22 @@ regra('sobreposicao', E, XS, YS, XD, YD) :-
   charat(C2,XD,YD,E),
   C1 =\= C2.
 
-% regra('capturar', E, XS, YS, XD, YD) :-
-%   VerticalDifference is YD - YS,
-%   HorizontalDifference is XD - XS,
-%   lineOfAction(VertDifference,HorizontalDifference,E,XS,YS,XD,YD).
+regra('moverPhalanx', E, XS, YS, XD, YD) :-
+   VerticalDifference is YD - YS,
+   HorizontalDifference is XD - XS,
+   lineOfAction(VertDifference,HorizontalDifference,E,XS,YS,XD,YD).
 
-% getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,11,11,PhalanxSize).
+lineOfAction( VertDifference, HorizontalDifference, E, XS, YS, XD, YD) :-
+  slope is abs(VertDifference/HorizontalDifference),
+  slope == 1.
 
+lineOfAction( VerticalDifference, 0, E, XS, YS, XD, YD) :-
+  groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
+
+lineOfAction( VerticalDifference, 0, E, XS, YS, XD, YD) :-
+  groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
+
+%getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,11,11,PhalanxSize).
 getSizeTilColour('horizontalLine',HorizontalDifference,_,E,X,Y,PhalanxSize):-
   HorizontalDifference > 0, X =< 13,
   turn(C),
@@ -246,6 +255,12 @@ getSizeTilColour(_,_,_,E,X,Y,0):-
   charat(C1,X,Y,E),
   C =\= C1.
 
+%getSizeTilColour( 'horizontalLine', LIST, HorizontalDifference, XS, N, C, PhalanxSize) :-
+%  HorizontalDifference < 0, XS =< 13,
+%  charat(COLOUR,XS,LIST),
+%  COLOUR == C,
+%  XS1 is XS + 1,
+%  getSizeTilColour('horizontalLine',LIST,HorizontalDifference,XS1,N1,C,PhalanxSize).
 % lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
 %   groupSizeMine('horizontalLine',HorizontalDifference,E,XS,YS,PhalanxSize).
 
@@ -285,7 +300,7 @@ badMoveFriend(E):-
 %changechar changes any cell of the board with the value passed in C(char)
 %http://stackoverflow.com/questions/13103415/remove-element-x-y-from-list-of-lists-in-prolog (Source)
 
-changechar:- estadoInicial(E), changechar(1,10,1,E,N), show(N). %Example
+%changechar:- estadoInicial(E), changechar(1,10,1,E,N), show(N). %Example
 
 changechar(C,X,Y,[H|T],[H|R]):- Y>0, Y1 is Y-1, changechar(C,X,Y1,T,R).
 changechar(C,X,0,[H|T],[H1|T]):- changechar(C,X,H,H1).
