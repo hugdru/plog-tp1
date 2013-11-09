@@ -171,7 +171,7 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
 lineOfAction( VerticalDifference, 0, E, XS, YS, XD, YD) :-
   groupSizeMine('verticalLine',VerticalDifference,E,XS,YS,PhalanxSize).
 
-%getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,1,11,11,PhalanxSize).
+getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,1,11,11,PhalanxSize).
 getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,X,Y,PhalanxSize):-
   HorizontalDifference > 0, X =< 13,
   charat(C1,X,Y,E),
@@ -345,19 +345,16 @@ find('horizontalLine',_,_,XH,_,_,_,XN) :- XN is XH.
 % getHead(Y,[H|T],Head):- Y>0, Y1 is Y-1, getHead(Y1,T,Head).
 % getHead(0,[H|T],H).
 
-%changestate changes the state of the board after a player makes his move
-%changestate:- estadoInicial(E),changestate(E,0,1,0,5,E1),show(E1).
-changestate(E,XS,YS,XD,YD,E1):-
-  turn(T), N is getSizeTilColour(X),
-  changestate(E,XS,YS,XD,YD,N,E3),
-  changechar(0,XS,YS,E3,E2),
-  changechar(T,XD,YD,E2,E1).
-
-changestate(E,XS,YS,XD,YD,N,E1):-
-  N > 0,
-  changestate(E,XS,YS,XD,YD,N,E3),
-  changechar(0,XS,YS,E3,E2),
-  changechar(T,XD,YD,E2,E1).
+% movePhalanxUP :- estadoInicial(E), movePhalanxUP(E,11,11,10,2,E1),show(E1).
+movePhalanxUP(E,X,YS,YD,N,E1):-
+  N>0, turn(T),
+  YS1 is YS-1,
+  YD1 is YD-1,
+  N1 is N-1,
+  movePhalanxUP(E,X,YS1,YD1,N1,E3),
+  changechar(0,X,YS,E3,E2),
+  changechar(T,X,YD,E2,E1).
+movePhalanxUP(E,_,_,_,0,E).
 
 % turnchange(turn(C)) :-
 %   ( C = white -> retract(turn(1)) ; retract(turn(2))),
