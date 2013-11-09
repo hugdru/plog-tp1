@@ -160,7 +160,7 @@ regra('moverPhalanx', E, XS, YS, XD, YD) :-
 
 lineOfActionH :- changecharH(E), lineOfAction(0,2,E,0,5,10,_), !, 1==1.
 %changecharH(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), show(F).
-changecharH(Z):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), changechar(1,2,5,F,X), changechar(2,3,5,X,H),changechar(2,4,5,H,Z), show(Z).
+changecharH(Z):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), changechar(1,2,5,F,X), changechar(2,6,5,X,H),changechar(2,7,5,H,Z), show(Z).
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
   turn(C),
@@ -194,9 +194,11 @@ lineOfAction( VertDifference, HorizontalDifference, E, XS, YS, XD, YD) :-
   find.
 
 evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
-evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XH, -2, XD, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
+evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
 evaluate( 'verticalLine', YH, -1, YD, PhalanxSize) :- DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
-evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLine', YH, -2, YD, PhalanxSize) :- fail.
+evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
 %falta para diagonalLine
 
 headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH) :-
