@@ -212,7 +212,7 @@ headPhalanx('verticalLine', VertDifference, PhalanxSize, YS, YH) :-
   YH is YS - PhalanxSize + 1.
 % falta para diagonal
 
-%getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,1,11,11,PhalanxSize).
+getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,1,11,11,PhalanxSize).
 getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,X,Y,PhalanxSize):-
   HorizontalDifference > 0, X =< 13,
   charat(C1,X,Y,E),
@@ -399,9 +399,101 @@ find('horizontalLine',_,_,XH,_,_,_,XN) :- XN is XH.
 % getHead(Y,[H|T],Head):- Y>0, Y1 is Y-1, getHead(Y1,T,Head).
 % getHead(0,[H|T],H).
 
-% %changestate changes the state of the board after a player makes his move
-% %changestate:- estadoInicial(E),changestate(E,0,1,0,5,E1),show(E1).
-% changestate(E,XS,YS,XD,YD,E1):- turn(T),changechar(0,XS,YS,E,E2),changechar(T,XD,YD,E2,E1).
+% movePhalanxUP :- estadoInicial(E), movePhalanxUP(E,11,11,10,2,E1),show(E1).
+movePhalanxUP(E,X,YS,YD,N,E1):-
+  N>0, turn(T),
+  YS1 is YS-1,
+  YD1 is YD-1,
+  N1 is N-1,
+  movePhalanxUP(E,X,YS1,YD1,N1,E3),
+  changechar(0,X,YS,E3,E2),
+  changechar(T,X,YD,E2,E1).
+movePhalanxUP(E,_,_,_,0,E).
+
+% movePhalanxDOWN :- estadoInicial(E), movePhalanxDOWN(E,0,0,2,2,E1),show(E1).
+movePhalanxDOWN(E,X,YS,YD,N,E1):-
+  N>0, turn(T),
+  YS1 is YS+1,
+  YD1 is YD+1,
+  N1 is N-1,
+  movePhalanxDOWN(E,X,YS1,YD1,N1,E3),
+  changechar(0,X,YS,E3,E2),
+  changechar(T,X,YD,E2,E1).
+movePhalanxDOWN(E,_,_,_,0,E).
+
+% movePhalanxRIGHT :- estadoInicial(E), movePhalanxRIGHT(E,0,0,2,2,E1),show(E1).
+movePhalanxRIGHT(E,XS,XD,Y,N,E1):-
+  N>0, turn(T),
+  XS1 is XS+1,
+  XD1 is XD+1,
+  N1 is N-1,
+  movePhalanxRIGHT(E,XS1,XD1,Y,N1,E3),
+  changechar(0,XS,Y,E3,E2),
+  changechar(T,XD,Y,E2,E1).
+movePhalanxRIGHT(E,_,_,_,0,E).
+
+% movePhalanxLEFT :- estadoInicial(E), movePhalanxLEFT(E,0,0,2,2,E1),show(E1).
+movePhalanxLEFT(E,XS,XD,Y,N,E1):-
+  N>0, turn(T),
+  XS1 is XS-1,
+  XD1 is XD-1,
+  N1 is N-1,
+  movePhalanxLEFT(E,XS1,XD1,Y,N1,E3),
+  changechar(0,XS,Y,E3,E2),
+  changechar(T,XD,Y,E2,E1).
+movePhalanxLEFT(E,_,_,_,0,E).
+
+movePhalanxUPLEFT :- estadoInicial(E), movePhalanxUPLEFT(E,11,11,10,10,2,E1),show(E1).
+movePhalanxUPLEFT(E,XS,YS,XD,YD,N,E1):-
+  N>0, turn(T),
+  XS1 is XS-1,
+  YS1 is YS-1,
+  XD1 is XD-1,
+  YD1 is YD-1,
+  N1 is N-1,
+  movePhalanxUPLEFT(E,XS1,YS1,XD1,YD1,N1,E3),
+  changechar(0,XS,YS,E3,E2),
+  changechar(T,XD,YD,E2,E1).
+movePhalanxUPLEFT(E,_,_,_,_,0,E).
+
+movePhalanxUPRIGHT :- estadoInicial(E), movePhalanxUPRIGHT(E,11,11,12,10,2,E1),show(E1).
+movePhalanxUPRIGHT(E,XS,YS,XD,YD,N,E1):-
+  N>0, turn(T),
+  XS1 is XS+1,
+  YS1 is YS-1,
+  XD1 is XD+1,
+  YD1 is YD-1,
+  N1 is N-1,
+  movePhalanxUPRIGHT(E,XS1,YS1,XD1,YD1,N1,E3),
+  changechar(0,XS,YS,E3,E2),
+  changechar(T,XD,YD,E2,E1).
+movePhalanxUPRIGHT(E,_,_,_,_,0,E).
+
+movePhalanxDOWNLEFT :- estadoInicial(E), movePhalanxDOWNLEFT(E,3,0,2,1,2,E1),show(E1).
+movePhalanxDOWNLEFT(E,XS,YS,XD,YD,N,E1):-
+  N>0, turn(T),
+  XS1 is XS-1,
+  YS1 is YS+1,
+  XD1 is XD-1,
+  YD1 is YD+1,
+  N1 is N-1,
+  movePhalanxDOWNLEFT(E,XS1,YS1,XD1,YD1,N1,E3),
+  changechar(0,XS,YS,E3,E2),
+  changechar(T,XD,YD,E2,E1).
+movePhalanxDOWNLEFT(E,_,_,_,_,0,E).
+
+movePhalanxDOWNRIGHT :- estadoInicial(E), movePhalanxDOWNRIGHT(E,3,0,4,1,2,E1),show(E1).
+movePhalanxDOWNRIGHT(E,XS,YS,XD,YD,N,E1):-
+  N>0, turn(T),
+  XS1 is XS+1,
+  YS1 is YS+1,
+  XD1 is XD+1,
+  YD1 is YD+1,
+  N1 is N-1,
+  movePhalanxDOWNRIGHT(E,XS1,YS1,XD1,YD1,N1,E3),
+  changechar(0,XS,YS,E3,E2),
+  changechar(T,XD,YD,E2,E1).
+movePhalanxDOWNRIGHT(E,_,_,_,_,0,E).
 
 % turnchange(turn(C)) :-
 %   ( C = white -> retract(turn(1)) ; retract(turn(2))),
