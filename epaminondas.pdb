@@ -216,7 +216,7 @@ lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, Phala
   nl,
   Slope is abs(VerticalDifference/HorizontalDifference),
   nl,write(Slope),nl,
-  Slope == 1,
+  Slope == 1.0,
   turn(C),
   getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
   notturn(C,NOTC),
