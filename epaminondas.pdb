@@ -132,7 +132,7 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   XD1 is XD - 1,
   YD1 is 12 - YD1,
   canimovethere(E,XS1,YS1,XD1,YD1),
-  mudarestado(E,XS1,YS1,XD1,YD1,N),
+  changeState(E,XS1,YS1,XD1,YD1,N),
   turnchange(C).
 atualizarEstado(E,_,_,_,_,_):-badMoveFriend(E).
 
