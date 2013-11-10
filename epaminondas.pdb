@@ -205,17 +205,17 @@ lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, PhalanxSizeAdversary, XN,
   %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
-lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,2,2,PhalanxSizeAdversary,XN,YN), !, 1==1.
+lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,7,7,PhalanxSizeAdversary,XN,YN), !, 1==1.
 changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F), changechar(1,2,2,F,X),
                  changechar(1,3,3,X,H),changechar(0,5,5,H,Z),changechar(0,6,6,Z,P),
                  changechar(2,7,7,P,U),changechar(2,8,8,U,G),show(G).
 
 lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
-  nl,
-  write('dasdasdasdasdaasdas'),
-  nl,
   Slope is abs(VerticalDifference/HorizontalDifference),
+<<<<<<< HEAD
   nl,write(Slope),nl,
+=======
+>>>>>>> baacfdb641c34011eca76053e6162f1466201938
   Slope == 1.0,
   turn(C),
   getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
@@ -223,29 +223,27 @@ lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, Phala
   headPhalanx('diagonalLine', HorizontalDifference, VerticalDifference, PhalanxSizeMine, XS, YS, XH, YH, XHplus, YHplus),
   charat(CC,XHplus,YHplus,E),
   findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHplus, YHplus, XD, YD, E, XN, YN),
-  nl, write('PositionOfEnemyHead '), write(YN),
   !, evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XN, YN, XD, YD),
   getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,NOTC,XN,YN,PhalanxSizeAdversary),
-  nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -1, -1, XD, YD) :-
-  vert2dh is (YD - YH)**2,
-  hor2dh is (XD - XH)**2,
-  vert2hs is (YHplus - YS)**2,
-  hor2hs is (XHplus - XS)**2,
-  DISTANCEdh is sqrt(vert2dh + hor2dh),
-  DISTANCEhs is sqrt(vert2hs + hor2hs),
+  Vert2dh is (YD - YH)**2,
+  Hor2dh is (XD - XH)**2,
+  Vert2hs is (YHplus - YS)**2,
+  Hor2hs is (XHplus - XS)**2,
+  DISTANCEdh is sqrt(Vert2dh + Hor2dh),
+  DISTANCEhs is sqrt(Vert2hs + Hor2hs),
   DISTANCEdh =< DISTANCEhs.
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -2, -2, XD, YD) :- fail.
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
-  XN =\= -1, YN =\= -1, XN =\= -2, YN =\= -2,
-  vert2hs is (YHplus - YS)**2,
-  hor2hs is (XHplus - XS)**2,
-  DISTANCEhs is sqrt(vert2hs + hor2hs),
-  vert2nh is (YD - YH)**2,
-  hor2nh is (XD - XH)**2,
-  DISTANCEnh is sqrt(vert2nh + hor2nh),
+  XD =\= -1, YD =\= -1, XD =\= -2, YD =\= -2,
+  Vert2hs is (YHplus-YS)**2,
+  Hor2hs is (XHplus - XS)**2,
+  DISTANCEhs is sqrt(Vert2hs + Hor2hs),
+  Vert2nh is (YD - YH)**2,
+  Hor2nh is (XD - XH)**2,
+  DISTANCEnh is sqrt(Vert2nh + Hor2nh),
   DISTANCEnh =< DISTANCEhs.
 
 evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
@@ -478,7 +476,7 @@ findEnemyHead('verticalLine',_,_,_,YH,_,_,YN) :- YN is YH.
 
 findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHplus, YHplus, XD, YD, E, XN, YN) :-
   HorizontalDifference > 0, VerticalDifference > 0, XHplus < XD, YHplus < YD,
-  C == 0,
+  CC == 0,
   XH1 is XHplus + 1,
   YH1 is YHplus + 1,
   charat(C1,XH1,YH1,E),
