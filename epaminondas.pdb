@@ -462,7 +462,7 @@ movePhalanxLEFT(E,XS,XD,Y,N,E1):-
   changechar(T,XD,Y,E2,E1).
 movePhalanxLEFT(E,_,_,_,0,E).
 
-movePhalanxUPLEFT :- estadoInicial(E), movePhalanxUPLEFT(E,11,11,10,10,2,E1),show(E1).
+% movePhalanxUPLEFT :- estadoInicial(E), movePhalanxUPLEFT(E,11,11,10,10,2,E1),show(E1).
 movePhalanxUPLEFT(E,XS,YS,XD,YD,N,E1):-
   N>0, turn(T),
   XS1 is XS-1,
@@ -475,7 +475,7 @@ movePhalanxUPLEFT(E,XS,YS,XD,YD,N,E1):-
   changechar(T,XD,YD,E2,E1).
 movePhalanxUPLEFT(E,_,_,_,_,0,E).
 
-movePhalanxUPRIGHT :- estadoInicial(E), movePhalanxUPRIGHT(E,11,11,12,10,2,E1),show(E1).
+% movePhalanxUPRIGHT :- estadoInicial(E), movePhalanxUPRIGHT(E,11,11,12,10,2,E1),show(E1).
 movePhalanxUPRIGHT(E,XS,YS,XD,YD,N,E1):-
   N>0, turn(T),
   XS1 is XS+1,
@@ -488,7 +488,7 @@ movePhalanxUPRIGHT(E,XS,YS,XD,YD,N,E1):-
   changechar(T,XD,YD,E2,E1).
 movePhalanxUPRIGHT(E,_,_,_,_,0,E).
 
-movePhalanxDOWNLEFT :- estadoInicial(E), movePhalanxDOWNLEFT(E,3,0,2,1,2,E1),show(E1).
+% movePhalanxDOWNLEFT :- estadoInicial(E), movePhalanxDOWNLEFT(E,3,0,2,1,2,E1),show(E1).
 movePhalanxDOWNLEFT(E,XS,YS,XD,YD,N,E1):-
   N>0, turn(T),
   XS1 is XS-1,
@@ -501,7 +501,7 @@ movePhalanxDOWNLEFT(E,XS,YS,XD,YD,N,E1):-
   changechar(T,XD,YD,E2,E1).
 movePhalanxDOWNLEFT(E,_,_,_,_,0,E).
 
-movePhalanxDOWNRIGHT :- estadoInicial(E), movePhalanxDOWNRIGHT(E,3,0,4,1,2,E1),show(E1).
+% movePhalanxDOWNRIGHT :- estadoInicial(E), movePhalanxDOWNRIGHT(E,3,0,4,1,2,E1),show(E1).
 movePhalanxDOWNRIGHT(E,XS,YS,XD,YD,N,E1):-
   N>0, turn(T),
   XS1 is XS+1,
