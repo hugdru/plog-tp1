@@ -170,20 +170,27 @@ Resultando:
 \subsection{Validação das Jogadas}
 A regra principal do nosso programa é play(E,XS,YS,XD,YD), no ínicio desta são verificados casos básicos de regras: xDIFy(XS,YS,XD,YD) verifica se as coordenadas são exatamente iguais se forem falha, size(XS,YS) vê se XS e YS estão dentro do tabuleiro e o mesmo para XD e YD. O resto das regras são verificadas em canimovethere(E,XS,YS,XD,YD), cuja cabeça está em atualizarEstado(E,XS,YS,XD,YD,N) que por sua vez está em play(E,XS,YS,XD,YD).
 \\\linebreak
-Em canimovethere(E,XS,YS,XD,YD) é chamado as regras(E,XS,YS,XD,YD). Lá encontram-se as regras restantes: é verificado se a cor na posição XS,YS tem o mesmo valor que a cor de quem deve jogar;
+Em canimovethere(E,XS,YS,XD,YD) é chamado as regras(E,XS,YS,XD,YD). Lá encontram-se as regras restantes: é verificado se a cor na posição XS,YS tem o mesmo valor que a cor de quem deve jogar; temos um outra regra que verifica se XS,YS e XD,YD têm a mesma côr se tiverem falha; de seguida temos a regra mais complicada que verifica se se pode comer ou mover uma phalanx(engloba todos os tipos de linhas) e finalmente a regra de fim de jogo.
+\begin{center}
+\includegraphics[scale=0.70]{regras1.png}
+\includegraphics[scale=0.70]{regras.png}
+\end{center}
 
-\section{Movimentos}
-Cada peça pode ser movida sozinha ou em conjunto. No caso de ser só uma peça é possivel movê-la para qualquer direção, horizontal, vertical ou diagonal, em uma unidade desde que essa célula esteja vazia. No caso de se mover um conjunto de peças, estas não podem estar separadas por nenhuma célula vazia nem por peças do adversário, todas elas serão movidas até um máximo correspondente ao número de peças que se pretende mover e têm que respeitar a orientação na qual o grupo se encontra, por exemplo, se o grupo de peças se encontrar na horizontal as peças só podem ser movidas ou para a esquerda ou para a direita.
-\\\linebreak
-Como já foi referido iremos ter um predicado chamado canimovethere, que irá receber a peça que se pretende mover, ou no caso do conjunto de peças a peça mais recuada, e para onde queremos mover e que irá verificar se é possivel essa jogada.
-\\\linebreak
-Os predicados a utilizar são:
-\\\linebreak
-size(X,Y):- X\textgreater=1, X=\textless14, Y\textgreater=1, Y=\textless12.
-\\\linebreak
-play( XS, YS, XD, YD) :-  size(X,Y), atualizarEstado(XS,YS,XD,YD).
-\\\linebreak
-atualizarEstado( XS, YS, XD, YD) :- \textit{canimovethere(XS,YS,XD,YD)}, mudarestado(XS,YS,XD,YD),turnchange(C).
+\subsection{Lista de Jogadas Válidas}
+Não tivemos tempo para completar esta funcionalidade, mas estava previsto criar um predicado recursivo que percorre-se todos os XS,YS,XD,YD e caso as regras fossem válidas inseríamos numa lista uma lista com os movimentos válidos, por exemplo, \lbrack\lbrack1,2,3,4\rbrack,\lbrack1,4,3,7\rbrack\rbrack. Este ciclo era repetido até extinguir as possibilidades de XS,YS,XD,YD.
+
+\subsection{Execução de Jogadas}
+
+\subsection{Avaliação do Tabuleiro}
+
+\subsection{Final do Jogo}
+
+\subsection{Jogada do Computador}
+
+\subsection{Comunicação com Visualizador 3D}
+
+\section{Interface com o Utilizador}
+
 
 \section{Conclusões e Perspectivas de Desenvolvimento}
 O Epaminondas é um jogo cheio de estratégia e regras, tivemos de fazer várias regras de remoção,testes,etc dependendo da natureza da linha de movimentação das phalanx e portanto esta parte foi, na nossa opinião, a mais trabalhosa. Infelizmente, só conseguimos acabar a parte jogador vs jogador, isto foi devido a termos outros projetos em mão. A movimentação das peças que pode ser feita em oito direções e usando só uma peça ou um conjunto de peças, no caso dos phalanxs, sempre tendo em atenção os limites do tabuleiro e as outras peças, quer sejam do próprio jogador o que impossibilita a jogada ou do jogador adversário cujas peças têm de ser removidas do tabuleiro, no caso de ter menos peças no phalanx, ou então serão as peças do próprio a serem removidas, irá ser a parte mais desafiante a implementar.

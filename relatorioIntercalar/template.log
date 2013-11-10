@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.29)  10 NOV 2013 19:00
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.29)  10 NOV 2013 20:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -518,56 +518,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 162--169
  []
 
 [4 <./representacao.png> <./intermedio.png>]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 182.
-
-
-(/usr/share/texmf-dist/tex/latex/base/omlcmr.fd
-File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 182.
-
-Underfull \hbox (badness 10000) in paragraph at lines 176--187
+Underfull \hbox (badness 10000) in paragraph at lines 171--174
 
  []
 
+<regras1.png, id=42, 253.69781pt x 52.69687pt>
+File: regras1.png Graphic file (type png)
+ <use regras1.png>
+Package pdftex.def Info: regras1.png used on input line 175.
+(pdftex.def)             Requested size: 177.58725pt x 36.88754pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--187
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 176--187
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 176--187
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 176--187
-
- []
-
-[5 <./imprimir.png> <./imprimir1.png> <./tabuleiro.png>]
-Overfull \hbox (2.75801pt too wide) in paragraph at lines 188--188
+<regras.png, id=43, 275.52937pt x 59.47218pt>
+File: regras.png Graphic file (type png)
+ <use regras.png>
+Package pdftex.def Info: regras.png used on input line 176.
+(pdftex.def)             Requested size: 192.86923pt x 41.63023pt.
+ [5 <./imprimir.png> <./imprimir1.png> <./tabuleiro.png> <./regras1.png> <./reg
+ras.png>]
+Overfull \hbox (2.75801pt too wide) in paragraph at lines 195--195
 []\OT1/cmr/bx/n/14.4 Conclus~oes e Pers-pec-ti-vas de De-sen-vol-vi-mento 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--193
+Underfull \hbox (badness 10000) in paragraph at lines 196--200
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--193
+Underfull \hbox (badness 10000) in paragraph at lines 196--200
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--193
+Underfull \hbox (badness 10000) in paragraph at lines 196--200
 
  []
 
@@ -586,23 +569,23 @@ Underfull \hbox (badness 3803) in paragraph at lines 11--15
 
 ] (./template.aux) ) 
 Here is how much of TeX's memory you used:
- 2227 strings out of 493311
- 29733 string characters out of 6143649
+ 2221 strings out of 493311
+ 29611 string characters out of 6143649
  95588 words of memory out of 5000000
- 5641 multiletter control sequences out of 15000+600000
+ 5636 multiletter control sequences out of 15000+600000
  8539 words of font info for 30 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  37i,7n,23p,861b,245s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
-2.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sh
-are/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on template.pdf (7 pages, 304820 bytes).
+2.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
+re/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmti10.pfb>
+Output written on template.pdf (7 pages, 305580 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
- 41 compressed objects within 1 object stream
+ 75 PDF objects out of 1000 (max. 8388607)
+ 38 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 46 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 

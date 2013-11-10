@@ -118,6 +118,7 @@ play( E, XS, YS, XD, YD) :-
   size(XD,YD),
   atualizarEstado(E,XS,YS,XD,YD,N),
   show(N),
+  !,gameOver(E),
   read(XS1), read(YS1), read(XD1), read(YD1), % le desta forma XS.YS.XD.YD.
   play( N, XS1, YS1, XD1, YD1).
 %If sizes are not allowed retry.
