@@ -681,6 +681,82 @@ changeState(E,XS,YS,XD,YD,E1):-
   getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,N),
   movePhalanxUPRIGHT(E,XS,YS,XD,YD,N,E1).
 
+% deletePhalanxLEFT:- estadoInicial(E), deletePhalanxLEFT(E,2,0,2,E1), show(E1).
+deletePhalanxLEFT(E,X,Y,N,E1):-
+  N>0, X>=0,
+  X1 is X-1,
+  N1 is N-1,
+  deletePhalanxLEFT(E,X1,Y,N1,E2),
+  changechar(0,X,Y,E2,E1).
+deletePhalanxLEFT(E,_,_,0,E).
+
+% deletePhalanxRIGHT:- estadoInicial(E), deletePhalanxRIGHT(E,2,0,2,E1), show(E1).
+deletePhalanxRIGHT(E,X,Y,N,E1):-
+  N>0, X>=0,
+  X1 is X+1,
+  N1 is N-1,
+  deletePhalanxRIGHT(E,X1,Y,N1,E2),
+  changechar(0,X,Y,E2,E1).
+deletePhalanxRIGHT(E,_,_,0,E).
+
+% deletePhalanxUP:- estadoInicial(E), deletePhalanxUP(E,2,1,2,E1), show(E1).
+deletePhalanxUP(E,X,Y,N,E1):-
+  N>0, Y>=0,
+  Y1 is Y-1,
+  N1 is N-1,
+  deletePhalanxUP(E,X,Y1,N1,E2),
+  changechar(0,X,Y,E2,E1).
+deletePhalanxUP(E,_,_,0,E).
+
+% deletePhalanxDOWN:- estadoInicial(E), deletePhalanxDOWN(E,2,0,2,E1), show(E1).
+deletePhalanxDOWN(E,X,Y,N,E1):-
+  N>0, Y>=0,
+  Y1 is Y+1,
+  N1 is N-1,
+  deletePhalanxDOWN(E,X,Y1,N1,E2),
+  changechar(0,X,Y,E2,E1).
+deletePhalanxDOWN(E,_,_,0,E).
+
+% deletePhalanxUPLEFT:- estadoInicial(E), deletePhalanxUPLEFT(E,2,1,2,E1), show(E1).
+deletePhalanxUPLEFT(E,X,Y,N,E1):-
+  N>0, X>=0, Y>=0,
+  X1 is X-1,
+  Y1 is Y-1,
+  N1 is N-1,
+  deletePhalanxUPLEFT(E,X1,Y1,N1,E2),
+  changechar(0,X,Y,E2,E1).
+deletePhalanxUPLEFT(E,_,_,0,E).
+
+% deletePhalanxUPRIGHT:- estadoInicial(E), deletePhalanxUPRIGHT(E,2,1,2,E1), show(E1).
+deletePhalanxUPRIGHT(E,X,Y,N,E1):-
+  N>0, X>=0, Y>=0,
+  X1 is X+1,
+  Y1 is Y-1,
+  N1 is N-1,
+  deletePhalanxUPRIGHT(E,X1,Y1,N1,E2),
+  changechar(0,X,Y,E2,E1).
+deletePhalanxUPRIGHT(E,_,_,0,E).
+
+% deletePhalanxDOWNLEFT:- estadoInicial(E), deletePhalanxDOWNLEFT(E,2,0,2,E1), show(E1).
+deletePhalanxDOWNLEFT(E,X,Y,N,E1):-
+  N>0, X>=0, Y>=0,
+  X1 is X-1,
+  Y1 is Y+1,
+  N1 is N-1,
+  deletePhalanxDOWNLEFT(E,X1,Y1,N1,E2),
+  changechar(0,X,Y,E2,E1).
+deletePhalanxDOWNLEFT(E,_,_,0,E).
+
+deletePhalanxDOWNRIGHT:- estadoInicial(E), deletePhalanxDOWNRIGHT(E,2,0,2,E1), show(E1).
+deletePhalanxDOWNRIGHT(E,X,Y,N,E1):-
+  N>0, X>=0, Y>=0,
+  X1 is X+1,
+  Y1 is Y+1,
+  N1 is N-1,
+  deletePhalanxDOWNRIGHT(E,X1,Y1,N1,E2),
+  changechar(0,X,Y,E2,E1).
+deletePhalanxDOWNRIGHT(E,_,_,0,E).
+
 turnchange(turn(C)) :-
   ( C = white -> retract(turn(1)) ; retract(turn(2))),
   ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
