@@ -111,8 +111,9 @@ start :-
   show(E),
   read(XS), read(YS), read(XD), read(YD), %le desta forma XS.YS.XD.YD.
   play(E, XS, YS, XD, YD).
-start :- !, 1=1.
-
+start :- nl,write('The winner is '),turn(C),winner(C,W),write(W),  !, 1=1.
+winner(1,'White').
+winner(2,'Black').
 play( E, XS, YS, XD, YD) :-
   xDIFy(XS,YS,XD,YD),
   size(XS,YS),
@@ -757,21 +758,25 @@ deletePhalanxDOWNRIGHT(E,X,Y,N,E1):-
 deletePhalanxDOWNRIGHT(E,_,_,0,E).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,_,E1):-
+  XN > 0,
   XS < XD,
   YS == YD,
   deletePhalanxRIGHT(E,XN,YS,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,_,E1):-
+  XN >0,
   XS > XD,
   YS == YD,
   deletePhalanxLEFT(E,XN,YS,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,_,YN,E1):-
+  YN > 0,
   XS == XD,
   YS < YD,
   deletePhalanxDOWN(E,XS,YN,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,_,YN,E1):-
+  YN > 0,
   XS == XD,
   YS > YD,
   deletePhalanxUP(E,XS,YN,E1).
