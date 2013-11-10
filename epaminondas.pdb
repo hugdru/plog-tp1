@@ -211,10 +211,10 @@ lineOfAction( VertDifference, HorizontalDifference, E, XS, YS, XD, YD) :-
   headPhalanx('diagonalLine', HorizontalDifference, VerticalDifference, PhalanxSizeMine, XS, YS, XH, YH, XHplus, YHplus),
   charat(CC,XHplus,YHplus,E),
   findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHplus, YHplus, XD, YD, E, XN, YN),
-  %nl, write('PositionOfEnemyHead '), write(YN),
+  nl, write('PositionOfEnemyHead '), write(YN),
   !, evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XN, YN, XD, YD),
   getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,NOTC,XN,YN,PhalanxSizeAdversary),
-  %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
+  nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
 %falta fazer o evaluate para diagonalLine
@@ -441,6 +441,10 @@ findEnemyHead('horizontalLine',HorizontalDifference,C,XH,YH,XD,E,XN) :-
   charat(C1,XH1,YH,E),
   findEnemyHead('horizontalLine',HorizontalDifference,C1,XH1,YH,XD,E,XN).
 
+findEnemyHead('horizontalLine',_,C,_,_,_,_,XN) :- turn(X), C == X, XN is -2.
+findEnemyHead('horizontalLine',_,C,XD,YH,XD,E,XN) :- charat(COLOUR,XD,YH,E), C =\= COLOUR, XN is -1.
+findEnemyHead('horizontalLine',_,_,XH,_,_,_,XN) :- XN is XH.
+
 findEnemyHead('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
   VerticalDifference > 0, YH < YD,
   C == 0,
@@ -454,6 +458,10 @@ findEnemyHead('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
   YH1 is YH - 1,
   charat(C1,XH,YH1,E),
   findEnemyHead('verticalLine',VerticalDifference,C1,XH,YH1,YD,E,YN).
+
+findEnemyHead('verticalLine',_,C,_,_,_,_,YN) :- turn(X), C == X, YN is -2.
+findEnemyHead('verticalLine',_,C,XH,YD,YD,E,YN) :- charat(COLOUR,XH,YD,E), C =\= COLOUR, YN is -1.
+findEnemyHead('verticalLine',_,_,_,YH,_,_,YN) :- YN is YH.
 
 findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHplus, YHplus, XD, YD, E, XN, YN) :-
   HorizontalDifference > 0, VerticalDifference > 0, XHplus < XD, YHplus < YD,
@@ -490,14 +498,6 @@ findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHpl
 findEnemyHead('diagonalLine',_,_,C,_,_,_,_,_,XN,YN) :- turn(X), C == X, XN is -2, YN is -2.
 findEnemyHead('diagonalLine',_,_,C,XD,YD,XD,YD,E,XN,YN) :- charat(COLOUR,XD,YD,E), C =\= COLOUR, XN is -1, YN is -1.
 findEnemyHead('diagonalLine',_,_,C,XH,YH,_,_,_,XN,YN) :- XN is XH, YN is XH.
-
-findEnemyHead('verticalLine',_,C,_,_,_,_,YN) :- turn(X), C == X, YN is -2.
-findEnemyHead('verticalLine',_,C,XH,YD,YD,E,YN) :- charat(COLOUR,XH,YD,E), C =\= COLOUR, YN is -1.
-findEnemyHead('verticalLine',_,_,_,YH,_,_,YN) :- YN is YH.
-
-findEnemyHead('horizontalLine',_,C,_,_,_,_,XN) :- turn(X), C == X, XN is -2.
-findEnemyHead('horizontalLine',_,C,XD,YH,XD,E,XN) :- charat(COLOUR,XD,YH,E), C =\= COLOUR, XN is -1.
-findEnemyHead('horizontalLine',_,_,XH,_,_,_,XN) :- XN is XH.
 
 % %getHead returns the list in a given index
 % %getHead(H):- estadoInicial(E), getHead(0,E,H).
