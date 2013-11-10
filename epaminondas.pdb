@@ -608,6 +608,79 @@ movePhalanxDOWNRIGHT(E,XS,YS,XD,YD,N,E1):-
   changechar(T,XD,YD,E2,E1).
 movePhalanxDOWNRIGHT(E,_,_,_,_,0,E).
 
+% mudarestado(E,XS1,YS1,XD1,YD1,N),getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,X,Y,PhalanxSize):-
+% changeState :- estadoInicial(E), changeState(E,0,0,2,0,E1),show(E1).
+changeState(E,XS,YS,XD,YD,E1):-
+  YS == YD,
+  XS < XD,
+  turn(C),
+  HorizontalDifference is XD-XS,
+  getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,XS,YS,N),
+  movePhalanxRIGHT(E,XS,XD,YS,N,E1).
+
+changeState(E,XS,YS,XD,YD,E1):-
+  YS == YD,
+  XS > XD,
+  turn(C),
+  HorizontalDifference is XD-XS,
+  getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,XS,YS,N),
+  movePhalanxLEFT(E,XS,XD,YS,N,E1).
+
+% changeState :- estadoInicial(E), changeState(E,0,0,0,2,E1),show(E1).
+changeState(E,XS,YS,XD,YD,E1):-
+  XS == XD,
+  YS < YD,
+  turn(C),
+  VerticalDifference is YD-YS,
+  getSizeTilColour('verticalLine',_,VerticalDifference,E,C,XS,YS,N),
+  movePhalanxDOWN(E,XS,YS,YD,N,E1).
+
+% changeState :- estadoInicial(E), changeState(E,0,11,0,10,E1),show(E1).
+changeState(E,XS,YS,XD,YD,E1):-
+  XS == XD,
+  YS > YD,
+  turn(C),
+  VerticalDifference is YD-YS,
+  getSizeTilColour('verticalLine',_,VerticalDifference,E,C,XS,YS,N),
+  movePhalanxUP(E,XS,YS,YD,N,E1).
+
+% changeState:- estadoInicial(E), changeState(E,11,11,10,10,E1), show(E1).
+changeState(E,XS,YS,XD,YD,E1):-
+  XS > XD,
+  YS > YD,
+  turn(C),
+  HorizontalDifference is XD-XS,
+  VerticalDifference is YD-YS,
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,N),
+  movePhalanxUPLEFT(E,XS,YS,XD,YD,N,E1).
+
+changeState(E,XS,YS,XD,YD,E1):-
+  XS < XD,
+  YS < YD,
+  turn(C),
+  HorizontalDifference is XD-XS,
+  VerticalDifference is YD-YS,
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,N),
+  movePhalanxDOWNRIGHT(E,XS,YS,XD,YD,N,E1).
+
+changeState(E,XS,YS,XD,YD,E1):-
+  XS > XD,
+  YS < YD,
+  turn(C),
+  HorizontalDifference is XD-XS,
+  VerticalDifference is YD-YS,
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,N),
+  movePhalanxDOWNLEFT(E,XS,YS,XD,YD,N,E1).
+
+changeState(E,XS,YS,XD,YD,E1):-
+  XS < XD,
+  YS > YD,
+  turn(C),
+  HorizontalDifference is XD-XS,
+  VerticalDifference is YD-YS,
+  getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,N),
+  movePhalanxUPRIGHT(E,XS,YS,XD,YD,N,E1).
+
 turnchange(turn(C)) :-
   ( C = white -> retract(turn(1)) ; retract(turn(2))),
   ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
