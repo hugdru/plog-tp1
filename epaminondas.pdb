@@ -158,34 +158,50 @@ regra('moverPhalanx', E, XS, YS, XD, YD) :-
    HorizontalDifference is XD - XS,
    lineOfAction(VertDifference,HorizontalDifference,E,XS,YS,XD,YD).
 
-lineOfActionH :- changecharH(E), lineOfAction(0,2,E,0,5,10,_), !, 1==1.
-%changecharH(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), show(F).
-changecharH(Z):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), changechar(1,2,5,F,X), changechar(2,6,5,X,H),changechar(2,7,5,H,Z), show(Z).
+%lineOfActionHL :- changecharHL(E), lineOfAction(0,2,E,0,5,10,_), !, 1==1.
+%lineOfActionHL :- changecharHL(E), lineOfAction(0,2,E,0,5,6,_), !, 1==1.
+%changecharHL(F):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), show(F).
+%changecharHL(G):- estadoInicial(E), changechar(1,0,5,E,N), changechar(1,1,5,N,F), changechar(1,2,5,F,X),
+%                changechar(2,7,5,X,H),changechar(1,4,5,H,Z),changechar(2,6,5,Z,P),
+%                changechar(2,5,5,P,U),changechar(2,9,5,U,G),show(G).
+
+%lineOfActionHR :- changecharHR(E), lineOfAction(0,-2,E,7,5,0,_), !, 1==1.
+%changecharHR(G):- estadoInicial(E), changechar(2,0,5,E,N), changechar(0,1,5,N,F), changechar(2,2,5,F,X),
+%                 changechar(1,3,5,X,H),changechar(1,5,5,H,Z),changechar(1,6,5,Z,P),
+%                 changechar(1,7,5,P,U),changechar(1,8,5,U,G),show(G).
+
+%lineOfActionVB :- changecharVB(E), lineOfAction(2,0,E,6,0,_,11), !, 1==1.
+%changecharVB(G):- estadoInicial(E), changechar(1,6,0,E,N), changechar(1,6,1,N,F), changechar(1,6,2,F,X),
+%                 changechar(1,6,3,X,H),changechar(0,6,4,H,Z),changechar(0,6,5,Z,P),
+%                 changechar(1,6,6,P,U),changechar(2,6,7,U,G),show(G).
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _) :-
   turn(C),
   getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,XS,YS,PhalanxSizeMine),
   notturn(C,NOTC),
-  headPhalanx('horizontalLine',HorizontalDifference,PhalanxSizeMine,XS,XH),
-  XHplus1 is XH + 1,
-  findEnemyHead('horizontalLine',HorizontalDifference,NOTC,XHplus1,YS,XD,E,XN),
-  nl, write('PositionOfEnemyHead '), write(XN),
+  headPhalanx('horizontalLine',HorizontalDifference,PhalanxSizeMine,XS,XH,XHplus),
+  charat(CC,XHplus,YS,E),
+  findEnemyHead('horizontalLine',HorizontalDifference,CC,XHplus,YS,XD,E,XN),
+  %nl, write('PositionOfEnemyHead '), write(XN),
   !,evaluate('horizontalLine',XH,XN,XD,PhalanxSizeMine), %if evaluate fails dont backtrack
   getSizeTilColour('horizontalLine',HorizontalDifference,_,E,NOTC,XN,YS,PhalanxSizeAdversary),
-  nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
+  %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
 lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD) :-
   turn(C),
   getSizeTilColour('verticalLine',_,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
   notturn(C,NOTC),
-  headPhalanx('verticalLine',VerticalDifference,PhalanxSizeMine,YS,YH),
-  YHplus1 is YH + 1,
-  findEnemyHead('verticalLine',VerticalDifference,NOTC,XS,YHplus1,YD,E,YN),
+  headPhalanx('verticalLine',VerticalDifference,PhalanxSizeMine,YS,YH,YHplus),
+  charat(CC,XS,YHplus,E),
+  findEnemyHead('verticalLine',VerticalDifference,CC,XS,YHplus,YD,E,YN),
+  %nl, write('PositionOfEnemyHead '), write(YN),
   !,evaluate('verticalLine',YH,YN,YD,PhalanxSizeMine), %if evaluate fails dont backtrack
-  getSizeTilColour('verticalLine',_,VerticalDifference,E,NOTC,XS,YN,PhalanxSizeMine),
+  getSizeTilColour('verticalLine',_,VerticalDifference,E,NOTC,XS,YN,PhalanxSizeAdversary),
+  %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
+%falta acabar lineOfaction para diagonal
 lineOfAction( VertDifference, HorizontalDifference, E, XS, YS, XD, YD) :-
   slope is abs(VertDifference/HorizontalDifference),
   slope == 1,
@@ -193,27 +209,31 @@ lineOfAction( VertDifference, HorizontalDifference, E, XS, YS, XD, YD) :-
   getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
   find.
 
+%falta fazer o evaluate para diagonalLine
 evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
 evaluate( 'horizontalLine', XH, -2, XD, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
 evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
 evaluate( 'verticalLine', YH, -1, YD, PhalanxSize) :- DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
 evaluate( 'verticalLine', YH, -2, YD, PhalanxSize) :- fail.
 evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
-%falta para diagonalLine
 
-headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH) :-
+%falta fazer o headPhalanx para a diagonalLine
+headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH, XHplus) :-
   HorizontalDifference > 0,
-  XH is XS + PhalanxSize - 1.
-headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH) :-
+  XHplus is XS + PhalanxSize,
+  XH is XHplus - 1.
+headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH, XHminus) :-
   HorizontalDifference < 0,
-  XH is XS - PhalanxSize + 1.
-headPhalanx('verticalLine', VertDifference, PhalanxSize, YS, YH) :-
+  XHminus is XS - PhalanxSize,
+  XH is XHminus + 1.
+headPhalanx('verticalLine', VertDifference, PhalanxSize, YS, YH, YHplus) :-
   VertDifference > 0,
-  YH is YS + PhalanxSize - 1.
-headPhalanx('verticalLine', VertDifference, PhalanxSize, YS, YH) :-
+  YHplus is YS + PhalanxSize,
+  YH is YHplus - 1.
+headPhalanx('verticalLine', VertDifference, PhalanxSize, YS, YH, YHminus) :-
   VertDifference < 0,
-  YH is YS - PhalanxSize + 1.
-% falta para diagonal
+  YHminus is YS - PhalanxSize,
+  YH is YHminus + 1.
 
 getSizeTilColour(PhalanxSize) :- estadoInicial(E), getSizeTilColour('verticalLine',_,-2,E,1,11,11,PhalanxSize).
 getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,X,Y,PhalanxSize):-
@@ -354,43 +374,43 @@ charat(C,0,[C|_]).
 
 changechar:- estadoInicial(E), changechar(2,13,11,E,N), show(N). %Example
 
-%findh(XN) :- estadoInicial(E), find('horizontalLine',2,2,11,11,13,E,XN) !, 1=1.
-%findh(XN) :- estadoInicial(E), changechar(2,13,11,E,N), find('horizontalLine',-2,2,11,11,0,N,XN), !, 1=1.
-findv(YN) :- estadoInicial(E), find('verticalLine',11,1,13,0,11,E,YN), !, 1=1.
+%findh(XN) :- estadoInicial(E), findEnemyHead('horizontalLine',1,1,11,11,13,E,XN), !, 1=1.
 
+%falta para diagonal
 findEnemyHead('horizontalLine',HorizontalDifference,C,XH,YH,XD,E,XN) :-
   HorizontalDifference > 0, XH < XD,
-  charat(COLOUR,XH,YH,E),
-  C =\= COLOUR,
+  C == 0,
   XH1 is XH + 1,
-  findEnemyHead('horizontalLine',HorizontalDifference,C,XH1,YH,XD,E,XN).
+  charat(C1,XH1,YH,E),
+  findEnemyHead('horizontalLine',HorizontalDifference,C1,XH1,YH,XD,E,XN).
 
 findEnemyHead('horizontalLine',HorizontalDifference,C,XH,YH,XD,E,XN) :-
   HorizontalDifference < 0, XH > XD,
-  charat(COLOUR,XH,YH,E),
-  C =\= COLOUR,
+  C == 0,
   XH1 is XH - 1,
-  findEnemyHead('horizontalLine',HorizontalDifference,C,XH1,YH,XD,E,XN).
+  charat(C1,XH1,YH,E),
+  findEnemyHead('horizontalLine',HorizontalDifference,C1,XH1,YH,XD,E,XN).
 
 findEnemyHead('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
   VerticalDifference > 0, YH < YD,
-  charat(COLOUR,XH,YH,E),
-  C =\= COLOUR,
+  C == 0,
   YH1 is YH + 1,
-  findEnemyHead('verticalLine',VerticalDifference,C,XH,YH1,YD,E,YN).
+  charat(C1,XH,YH1,E),
+  findEnemyHead('verticalLine',VerticalDifference,C1,XH,YH1,YD,E,YN).
 
 findEnemyHead('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
   VerticalDifference < 0, YH > YD,
-  charat(COLOUR,XH,YH,E),
-  C =\= COLOUR,
+  C == 0,
   YH1 is YH - 1,
-  findEnemyHead('verticalLine',VerticalDifference,C,XH,YH1,YD,E,YN).
+  charat(C1,XH,YH1,E),
+  findEnemyHead('verticalLine',VerticalDifference,C1,XH,YH1,YD,E,YN).
 
 %falta para diagonal
-
-findEnemyHead('verticalLine',_,C,XH,YD,YD,E,YN) :- charat(COLOUR,XH,YD,E), C =\= COLOUR, YN is - 1.
+findEnemyHead('verticalLine',_,C,_,_,_,_,YN) :- turn(X), C == X, YN is -2.
+findEnemyHead('verticalLine',_,C,XH,YD,YD,E,YN) :- charat(COLOUR,XH,YD,E), C =\= COLOUR, YN is -1.
 findEnemyHead('verticalLine',_,_,_,YH,_,_,YN) :- YN is YH.
-findEnemyHead('horizontalLine',_,C,XD,YH,XD,E,XN) :- charat(COLOUR,XD,YH,E), C =\= COLOUR, XN is - 1.
+findEnemyHead('horizontalLine',_,C,_,_,_,_,XN) :- turn(X), C == X, XN is -2.
+findEnemyHead('horizontalLine',_,C,XD,YH,XD,E,XN) :- charat(COLOUR,XD,YH,E), C =\= COLOUR, XN is -1.
 findEnemyHead('horizontalLine',_,_,XH,_,_,_,XN) :- XN is XH.
 
 % %getHead returns the list in a given index
@@ -494,6 +514,6 @@ movePhalanxDOWNRIGHT(E,XS,YS,XD,YD,N,E1):-
   changechar(T,XD,YD,E2,E1).
 movePhalanxDOWNRIGHT(E,_,_,_,_,0,E).
 
-% turnchange(turn(C)) :-
-%   ( C = white -> retract(turn(1)) ; retract(turn(2))),
-%   ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
+turnchange(turn(C)) :-
+  ( C = white -> retract(turn(1)) ; retract(turn(2))),
+  ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
