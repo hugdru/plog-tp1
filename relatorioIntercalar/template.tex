@@ -117,13 +117,13 @@ Não é permitido passar um jogada, em cada jogada é obrigatório mover uma pha
 Para capturar é necessário atacar com um grupo com mais elementos que o adversário na linha de ataque. A peça/phalanx capturada é removida do tabuleiro para sempre. Um jogador ganha quando, na sua vez de jogar, tiver mais peças que o adversário na linha mais afastada de si.\cite{rules}
 
 \section{Arquitetura do Sistema}
-O jogo é iniciado com um predicado chamado start: mostra o tabuleiro inicial; lê as coordenadas através de READ\textbackslash1 e chama o predicado recursivo play(E,XS,YS,XD,YD). Este predicado faz o seguinte: na parte inicial testa os valores XS,YS,XD,YD de modo a ver se são válidos; caso sejam chama atualizarEstado(E,XS,YS,XD,YD,N); caso este objetivo seja completado, é mostrado o novo tabuleiro; são lidos os novos valores de XS,YS,XD,YD e é chamado play com os novos valores.
+O jogo é iniciado com um predicado chamado start: mostra o tabuleiro inicial; lê as coordenadas através de READ\textbackslash1 e chama o predicado recursivo play(E,XS,YS,XD,YD). Este predicado faz o seguinte: na parte inicial testa os valores XS,YS,XD,YD de modo a ver se são válidos; caso sejam chama atualizarEstado(E,XS,YS,XD,YD,N); caso este objetivo seja completado, é mostrado o novo tabuleiro; logo depois é visto se estamos em situação de fim de jogo, se estivermos falha(tem cut atrás); são lidos os novos valores de XS,YS,XD,YD e é chamado play com os novos valores.
 \\\linebreak
 A função de atualizarEstado(E,XS,YS,XD,YD,N) é "corrigir" os valores de XS,YS,XD,YD visto que são mostrados de forma diferente; verificar se a jogada é válida através de canimovethere(E,XS1,YS1,XD1,YD1); se sim, mudarestado(E,XS1,YS1,XD1,YD1,N) e depois mudar a vez.
 \\\linebreak
-Na verificação das regras canimovethere(E,XS,YS,XD,YD): chama regras(E,XS,YS,XD,YD) e caso esta falhe é chamado badMoveFriend(E) cujo objetivo é pedir novamente que se jogue. A cláusula regras(E,XS,YS,XD,YD) contém 3 regras que verificam: se é a minha vez; se existe sobreposicao; se se pode mover uma phalanx(uma peça é um phalanx com um só elemento) ou se se pode capturar uma peça; e se estamos em condição de acabar o jogo. Se estivermos, o jogo acaba e é indicado quem ganhou.
+Na verificação das regras canimovethere(E,XS,YS,XD,YD): chama regras(E,XS,YS,XD,YD) e caso esta falhe é chamado badMoveFriend(E) cujo objetivo é pedir novamente que se jogue. A cláusula regras(E,XS,YS,XD,YD) contém 3 regras que verificam: se é a minha vez; se existe sobreposicao e se se pode mover uma phalanx(uma peça é um phalanx com um só elemento) ou se se pode capturar uma peça.
 \\\linebreak
-Foram construídas várias regras úteis: getSizeTilColour('tipodelinha',); headPhalanx('tipodelinha',); checkColour(,); changechar(,)r;, findEnemyHead('tipodelinha',); movePhalanxUP(,); movePhalanxLEFT(,).Cujos objetivos são bastante óbvios.
+Foram construídas várias regras úteis: getSizeTilColour('tipodelinha',); headPhalanx('tipodelinha',); checkColour(,); changechar(,)r;, findEnemyHead('tipodelinha',); movePhalanxUP(,); movePhalanxLEFT(,).Cuja a finalidade é óbvia.
 
 \section{Lógica do Jogo}
 \subsection{Representação do Estado do Jogo}
@@ -140,7 +140,7 @@ Iremos criar um estado inicial, uma lista de listas da forma:
 \end{center}
 Através da regra de interface play iremos chamar as size e atualizarestado que testa as regras do jogo e atualiza o estado, caso tal respeite as regras do jogo. A regra atualizarestado chama pelas cabeças canimovethere, mudarestado e turnchange. Se a regra canimovethere não corresponder isso implica o falhanço do "if" em prolog e portanto o estado não é alterado nem a vez, sendo pedida outra vez um movimento. Se o objetivo canimovethere for bem sucedido, então podemos proceder à alteração do estado através da regra mudarestado. Restando mudar a vez do jogador, através de por exemplo de turnchange(C) (através de retract e asserta). Sendo este ciclo repetido novamente,até chegarmos a uma situação de fim de jogo.
 \begin{center}
-  \includegraphics[scale=0.60]{representacao.png}
+  \includegraphics[scale=0.55]{representacao.png}
 \end{center}
 O estado vai sendo atualizado consoante as jogadas de cada jogador, o 0 significa que não há nenhuma peça nessa posição. O 1 representa uma peça branca e o 2 uma preta. Quando se imprimi o 1 passa a W e o 2 a B.
 \\\linebreak
@@ -168,16 +168,16 @@ Resultando:
 \includegraphics[scale=0.40]{tabuleiro.png}
 
 \subsection{Validação das Jogadas}
-A regra principal do nosso programa é play(E,XS,YS,XD,YD), no ínicio desta são verificados casos básicos de regras: xDIFy(XS,YS,XD,YD) verifica se as coordenadas são exatamente iguais se forem falha, size(XS,YS) vê se XS e YS estão dentro do tabuleiro e o mesmo para XD e YD. O resto das regras são verificadas em canimovethere(E,XS,YS,XD,YD), cuja cabeça está em atualizarEstado(E,XS,YS,XD,YD,N) que por sua vez está em play(E,XS,YS,XD,YD).
+A regra principal do nosso programa é play(E,XS,YS,XD,YD), no ínicio desta são verificados casos básicos de regras: xDIFy(XS,YS,XD,YD) verifica se as coordenadas são exatamente iguais se forem falha; size(XS,YS) vê se XS e YS estão dentro do tabuleiro e o mesmo para XD e YD. No fim de play é testado se estamos em condição final através do gameOver(N). O resto das regras são verificadas em canimovethere(E,XS,YS,XD,YD), cuja cabeça está em atualizarEstado(E,XS,YS,XD,YD,N) que por sua vez está em play(E,XS,YS,XD,YD).
 \\\linebreak
-Em canimovethere(E,XS,YS,XD,YD) é chamado as regras(E,XS,YS,XD,YD). Lá encontram-se as regras restantes: é verificado se a cor na posição XS,YS tem o mesmo valor que a cor de quem deve jogar; temos um outra regra que verifica se XS,YS e XD,YD têm a mesma côr se tiverem falha; de seguida temos a regra mais complicada que verifica se se pode comer ou mover uma phalanx(engloba todos os tipos de linhas) e finalmente a regra de fim de jogo.
+Em canimovethere(E,XS,YS,XD,YD) é chamado as regras(E,XS,YS,XD,YD). Lá encontram-se as regras restantes: é verificado se a cor na posição XS,YS tem o mesmo valor que a cor de quem deve jogar; temos um outra regra que verifica se XS,YS e XD,YD têm a mesma côr, se tiverem falha e de seguida temos a regra mais complicada que verifica se se pode comer ou mover uma phalanx(engloba todos os tipos de linhas).
 \begin{center}
 \includegraphics[scale=0.70]{regras1.png}
 \includegraphics[scale=0.70]{regras.png}
 \end{center}
 
 \subsection{Lista de Jogadas Válidas}
-Não tivemos tempo para completar esta funcionalidade, mas estava previsto criar um predicado recursivo que percorre-se todos os XS,YS,XD,YD e caso as regras fossem válidas inseríamos numa lista uma lista com os movimentos válidos, por exemplo, \lbrack\lbrack1,2,3,4\rbrack,\lbrack1,4,3,7\rbrack\rbrack. Este ciclo era repetido até extinguir as possibilidades de XS,YS,XD,YD.
+Não tivemos tempo para completar esta funcionalidade, mas estava previsto criar um predicado recursivo que percorre-se todos os XS,YS,XD,YD e caso as regras fossem válidas inseríamos numa lista uma lista com os movimentos válidos, por exemplo, \lbrack\lbrack1,2,3,4\rbrack,\lbrack1,4,3,7\rbrack\rbrack. Este ciclo era repetido até extinguir as possibilidades de XS,YS,XD,YD ou até um valor razoável se houver um movimento válido.
 
 \subsection{Execução de Jogadas}
 

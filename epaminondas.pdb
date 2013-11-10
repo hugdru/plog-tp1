@@ -111,6 +111,7 @@ start :-
   show(E),
   read(XS), read(YS), read(XD), read(YD), %le desta forma XS.YS.XD.YD.
   play(E, XS, YS, XD, YD).
+start :- !, 1=1.
 
 play( E, XS, YS, XD, YD) :-
   xDIFy(XS,YS,XD,YD),
@@ -118,7 +119,7 @@ play( E, XS, YS, XD, YD) :-
   size(XD,YD),
   atualizarEstado(E,XS,YS,XD,YD,N),
   show(N),
-  !,gameOver(E),
+  !,gameOver(N),
   read(XS1), read(YS1), read(XD1), read(YD1), % le desta forma XS.YS.XD.YD.
   play( N, XS1, YS1, XD1, YD1).
 %If sizes are not allowed retry.
@@ -203,10 +204,10 @@ lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, N, XN, YN) :-
   %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
-lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,11,11), !, 1==1.
-changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F), changechar(1,2,2,F,X),
-                 changechar(1,3,3,X,H),changechar(0,5,5,H,Z),changechar(0,6,6,Z,P),
-                 changechar(2,7,7,P,U),changechar(2,8,8,U,G),show(G).
+%lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,11,11), !, 1==1.
+%changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F), changechar(1,2,2,F,X),
+%                 changechar(1,3,3,X,H),changechar(0,5,5,H,Z),changechar(0,6,6,Z,P),
+%                 changechar(2,7,7,P,U),changechar(2,8,8,U,G),show(G).
 
 lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, N, XN, YN) :-
   nl,

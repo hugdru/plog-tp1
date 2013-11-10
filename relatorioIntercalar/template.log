@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.29)  10 NOV 2013 20:24
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.29)  10 NOV 2013 21:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -468,12 +468,12 @@ Overfull \hbox (1.11217pt too wide) in paragraph at lines 133--134
 ,[0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
  []
 
-[3 <./epa3.png>] <representacao.png, id=34, 547.2947pt x 310.91156pt>
+[3 <./epa3.png>] <representacao.png, id=34, 543.53062pt x 351.56343pt>
 File: representacao.png Graphic file (type png)
 
 <use representacao.png>
 Package pdftex.def Info: representacao.png used on input line 143.
-(pdftex.def)             Requested size: 328.37935pt x 186.54836pt.
+(pdftex.def)             Requested size: 298.94275pt x 193.36047pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 145--148
 
@@ -528,11 +528,11 @@ File: regras1.png Graphic file (type png)
 Package pdftex.def Info: regras1.png used on input line 175.
 (pdftex.def)             Requested size: 177.58725pt x 36.88754pt.
 
-<regras.png, id=43, 275.52937pt x 59.47218pt>
+<regras.png, id=43, 304.88907pt x 56.46094pt>
 File: regras.png Graphic file (type png)
  <use regras.png>
 Package pdftex.def Info: regras.png used on input line 176.
-(pdftex.def)             Requested size: 192.86923pt x 41.63023pt.
+(pdftex.def)             Requested size: 213.42088pt x 39.52237pt.
  [5 <./imprimir.png> <./imprimir1.png> <./tabuleiro.png> <./regras1.png> <./reg
 ras.png>]
 Overfull \hbox (2.75801pt too wide) in paragraph at lines 195--195
@@ -582,7 +582,7 @@ re/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmti10.pfb>
-Output written on template.pdf (7 pages, 305580 bytes).
+Output written on template.pdf (7 pages, 304094 bytes).
 PDF statistics:
  75 PDF objects out of 1000 (max. 8388607)
  38 compressed objects within 1 object stream
