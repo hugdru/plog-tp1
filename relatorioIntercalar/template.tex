@@ -35,7 +35,7 @@
 
 \section*{Resumo}
 O jogo de tabuleiro que iremos desenvolver chama-se Epaminondas. As peças presentes no tabuleiro são todas
-iguais e movem-se como o Rei no xadrez, exceto quando se agrupam numa linha, coluna ou diagonal. Atualmente, o tabuleiro é 14x12. Um jogador ganha quando, na sua vez de jogar, tiver mais peças que o adversário na linha mais afastada de si.
+iguais e movem-se como o Rei no xadrez, exceto quando se agrupam numa linha, coluna ou diagonal. Atualmente, o tabuleiro é 14x12. Um jogador ganha quando, na sua vez de jogar, tiver mais peças que o adversário na linha mais afastada de si. O jogo é iniciado através do predicado start. e as jogadas vão sendo lidas da seguinte forma, XS.YS.XD.YD. Existem inúmeros predicados no nosso programa mais o mais importante é o play que funciona com um ciclo infinito saindo só quando estivermos numa condição de fim de jogo, tal é verificado no continueGame(N). No inicio de play temos umas regras básicas que nos avalião XS,YS,XD,YD, logo de seguida temos o atualizarEstado cujo objetivo é verificar se as regras são válidas através de canimovethere, depois apaga-se a Phalanx se existir um inimigo na linha de deslocamento, move-se a nossa phalanx para o novo sítio e finalmente mudamos a cor do jogador que deve jogar. Caso as regras falhem é pedido que o jogador jogue outra vez, como canimovethere falha, atualizarEtado falha, que faz com que play falhe. O prolog irá então procurar por uma regra com a mesma cabeça, essa cabeça irá fazer com que seja repetido todo o processo de leitura, etc.
 Trata-se do 1º. trabalho de grupo, da disciplina de Programação em Lógica, realizado pelo Grupo 13.
 %Descrever muito sumariamente (1-2 parágrafos) o trabalho que está a ser reportado
 
@@ -168,7 +168,7 @@ Resultando:
 \includegraphics[scale=0.40]{tabuleiro.png}
 
 \subsection{Validação das Jogadas}
-A regra principal do nosso programa é play(E,XS,YS,XD,YD), no ínicio desta são verificados casos básicos de regras: xDIFy(XS,YS,XD,YD) verifica se as coordenadas são exatamente iguais se forem falha; size(XS,YS) vê se XS e YS estão dentro do tabuleiro e o mesmo para XD e YD. No fim de play é testado se estamos em condição final através do gameOver(N). O resto das regras são verificadas em canimovethere(E,XS,YS,XD,YD), cuja cabeça está em atualizarEstado(E,XS,YS,XD,YD,N) que por sua vez está em play(E,XS,YS,XD,YD).
+A regra principal do nosso programa é play(E,XS,YS,XD,YD), no ínicio desta são verificados casos básicos de regras: xDIFy(XS,YS,XD,YD) verifica se as coordenadas são exatamente iguais se forem falha; size(XS,YS) vê se XS e YS estão dentro do tabuleiro e o mesmo para XD e YD. No fim de play é testado se estamos em condição final através do continueGame(N). O resto das regras são verificadas em canimovethere(E,XS,YS,XD,YD), cuja cabeça está em atualizarEstado(E,XS,YS,XD,YD,N) que por sua vez está em play(E,XS,YS,XD,YD).
 \\\linebreak
 Em canimovethere(E,XS,YS,XD,YD) é chamado as regras(E,XS,YS,XD,YD). Lá encontram-se as regras restantes: é verificado se a cor na posição XS,YS tem o mesmo valor que a cor de quem deve jogar; temos um outra regra que verifica se XS,YS e XD,YD têm a mesma côr, se tiverem falha e de seguida temos a regra mais complicada que verifica se se pode comer ou mover uma phalanx(engloba todos os tipos de linhas).
 \begin{center}
@@ -180,17 +180,30 @@ Em canimovethere(E,XS,YS,XD,YD) é chamado as regras(E,XS,YS,XD,YD). Lá encontr
 Não tivemos tempo para completar esta funcionalidade, mas estava previsto criar um predicado recursivo que percorre-se todos os XS,YS,XD,YD e caso as regras fossem válidas inseríamos numa lista uma lista com os movimentos válidos, por exemplo, \lbrack\lbrack1,2,3,4\rbrack,\lbrack1,4,3,7\rbrack\rbrack. Este ciclo era repetido até extinguir as possibilidades de XS,YS,XD,YD ou até um valor razoável se houver pelo menos um movimento válido.
 
 \subsection{Execução de Jogadas}
+Depois de todas as regras serem validadas, a execução da jogada é feita em duas partes. Na primeira parte é eliminada a phalanx inimiga caso o movimento efetuado pelo jogador seja para comer essa phalanx, isto é feito com recurso à regra chamada deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1), caso não haja nenhuma phalanx para comer esta regra apenas devolve o mesmo tabuleiro. Na segunda parte é efectuada a movimentação da phalanx do jogador com a regra changeState(E,XS,YS,XD,YD,E1), que move a phalanx o número de casas pretendido.
+
+Tanto na primeira como na segunda regra existem oito casos diferentes, que são as oito movimentações possíveis, e para se saber qual a orientação a usar utilizam-se os valores de X,Y de origem(S) e de destino(Y).
+
+\begin{center}
+\includegraphics[scale=0.70]{jjj1.png}
+\includegraphics[scale=0.70]{jjj2.png}
+\end{center}
 
 \subsection{Avaliação do Tabuleiro}
 
 \subsection{Final do Jogo}
+Para verificar o fim do jogo, existe uma regra chamada continueGame(E) que recebe o tabuleiro e dependendo de qual jogador está a jogar ela vai ver se esse jogador tem mais peças na linha do tabuleiro mais distante de si do que o adversário tem na linha mais próxima de si, caso isso aconteça esta regra é falsa e o nosso ciclo de jogo que é a regra play termina.
+
+\begin{center}
+\includegraphics[scale=0.50]{jjj.png}
+\end{center}
 
 \subsection{Jogada do Computador}
 
 \subsection{Comunicação com Visualizador 3D}
 
 \section{Interface com o Utilizador}
-Para inicar o jogo basta escrever start.. Esta regra trata de ir buscar o tabuleiro inicial, mostrá-lo, ler os valores de XS,YS,XD,YD e depois chama a regra principal do program play(E,XS,YS,XD,YD). Esta regra play(E,XS,YS,XD,YD) fica num "while infinito" até gameOver falhar, que indica que estamos em condição final. Como gameOver tem um cut atrás, o prolog vai cortar os "plays" e logo de seguida tenta procurar por outra cabeça start. Essa outra cabeça no nosso caso é sempre verdadeira o que faz com que seja retornado yes no fim do jogo. Caso play falhe irá ser procurado outra regra play, esta nossa outra regra play chama badMoveFriend. O objetivo de badMoveFriend é pedir novamente por uma jogada.
+Para inicar o jogo basta escrever start.. Esta regra trata de ir buscar o tabuleiro inicial, mostrá-lo, ler os valores de XS,YS,XD,YD e depois chama a regra principal do program play(E,XS,YS,XD,YD). Esta regra play(E,XS,YS,XD,YD) fica num "while infinito" até continueGame falhar, que indica que estamos em condição final. Como continueGame tem um cut atrás, o prolog vai cortar os "plays" e logo de seguida tenta procurar por outra cabeça start. Essa outra cabeça no nosso caso é sempre verdadeira o que faz com que seja retornado yes no fim do jogo. Caso play falhe irá ser procurado outra regra play, esta nossa outra regra play chama badMoveFriend. O objetivo de badMoveFriend é pedir novamente por uma jogada.
 \\\linebreak
 \includegraphics[scale=0.70]{iniciar.png}
 \\\linebreak
