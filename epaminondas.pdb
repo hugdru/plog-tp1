@@ -131,8 +131,9 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   YS1 is 12 - YS, % Porque na verdade o que aparece no tabuleiro tem o índice trocado.
   XD1 is XD - 1,
   YD1 is 12 - YD1,
-  canimovethere(E,XS1,YS1,XD1,YD1,N,XN,YN),
-  changeState(E,XS1,YS1,XD1,YD1,N),
+  canimovethere(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN),
+  deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1),
+  changeState(E1,XS1,YS1,XD1,YD1,N),
   turnchange(C).
 atualizarEstado(E,_,_,_,_,_):-badMoveFriend(E).
 
@@ -171,7 +172,7 @@ regra('moverPhalanx', E, XS, YS, XD, YD, N, XN, YN) :-
 %                 changechar(1,3,5,X,H),changechar(1,5,5,H,Z),changechar(1,6,5,Z,P),
 %                 changechar(1,7,5,P,U),changechar(1,8,5,U,G),show(G).
 
-lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _, N, XN, YN) :-
+lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _,PhalanxSizeAdversary, XN, YN) :-
   turn(C),
   getSizeTilColour('horizontalLine',HorizontalDifference,_,E,C,XS,YS,PhalanxSizeMine),
   notturn(C,NOTC),
@@ -189,7 +190,7 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _, N, XN, YN) :-
 %                 changechar(1,6,3,X,H),changechar(0,6,4,H,Z),changechar(0,6,5,Z,P),
 %                 changechar(1,6,6,P,U),changechar(2,6,7,U,G),show(G).
 
-lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, N, XN, YN) :-
+lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, PhalanxSizeAdversary, XN, YN) :-
   turn(C),
   getSizeTilColour('verticalLine',_,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
   notturn(C,NOTC),
@@ -207,7 +208,7 @@ changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F)
                  changechar(1,3,3,X,H),changechar(0,5,5,H,Z),changechar(0,6,6,Z,P),
                  changechar(2,7,7,P,U),changechar(2,8,8,U,G),show(G).
 
-lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, N, XN, YN) :-
+lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
   nl,
   write('3'),
   nl,
@@ -749,7 +750,7 @@ deletePhalanxDOWNLEFT(E,X,Y,N,E1):-
   changechar(0,X,Y,E2,E1).
 deletePhalanxDOWNLEFT(E,_,_,0,E).
 
-deletePhalanxDOWNRIGHT:- estadoInicial(E), deletePhalanxDOWNRIGHT(E,2,0,2,E1), show(E1).
+% deletePhalanxDOWNRIGHT:- estadoInicial(E), deletePhalanxDOWNRIGHT(E,2,0,2,E1), show(E1).
 deletePhalanxDOWNRIGHT(E,X,Y,N,E1):-
   N>0, X>=0, Y>=0,
   X1 is X+1,
@@ -758,6 +759,46 @@ deletePhalanxDOWNRIGHT(E,X,Y,N,E1):-
   deletePhalanxDOWNRIGHT(E,X1,Y1,N1,E2),
   changechar(0,X,Y,E2,E1).
 deletePhalanxDOWNRIGHT(E,_,_,0,E).
+
+deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,_,E1):-
+  XS < XD,
+  YS == YD,
+  deletePhalanxRIGHT(E,XN,YS,E1).
+
+deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,_,E1):-
+  XS > XD,
+  YS == YD,
+  deletePhalanxLEFT(E,XN,YS,E1).
+
+deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,_,YN,E1):-
+  XS == XD,
+  YS < YD,
+  deletePhalanxDOWN(E,XS,YN,E1).
+
+deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,_,YN,E1):-
+  XS == XD,
+  YS > YD,
+  deletePhalanxUP(E,XS,YN,E1).
+
+deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
+  XS < XD,
+  YS < YD,
+  deletePhalanxDOWNRIGHT(E,XN,YN,E1).
+
+deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
+  XS > XD,
+  YS > YD,
+  deletePhalanxUPLEFT(E,XN,YN,E1).
+
+deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
+  XS < XD,
+  YS > YD,
+  deletePhalanxUPRIGHT(E,XN,YN,E1).
+
+deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
+  XS > XD,
+  YS < YD,
+  deletePhalanxDOWNLEFT(E,XN,YN,E1).
 
 turnchange(turn(C)) :-
   ( C = white -> retract(turn(1)) ; retract(turn(2))),
