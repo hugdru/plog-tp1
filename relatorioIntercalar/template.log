@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.29)  10 NOV 2013 21:24
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.29)  10 NOV 2013 23:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -404,7 +404,7 @@ File: epa1-2.png Graphic file (type png)
  <use epa1-2.png>
 Package pdftex.def Info: epa1-2.png used on input line 111.
 (pdftex.def)             Requested size: 163.81326pt x 64.44122pt.
- [2 <./epaTOP.png> <./epa1-2.png>] <epa3.png, id=28, 257.96375pt x 87.32625pt>
+ [2 <./epaTOP.png>] <epa3.png, id=27, 257.96375pt x 87.32625pt>
 File: epa3.png Graphic file (type png)
  <use epa3.png>
 Package pdftex.def Info: epa3.png used on input line 115.
@@ -468,10 +468,10 @@ Overfull \hbox (1.11217pt too wide) in paragraph at lines 133--134
 ,[0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
  []
 
-[3 <./epa3.png>] <representacao.png, id=34, 543.53062pt x 351.56343pt>
+[3 <./epa1-2.png> <./epa3.png>]
+<representacao.png, id=34, 543.53062pt x 351.56343pt>
 File: representacao.png Graphic file (type png)
-
-<use representacao.png>
+ <use representacao.png>
 Package pdftex.def Info: representacao.png used on input line 143.
 (pdftex.def)             Requested size: 298.94275pt x 193.36047pt.
 
@@ -490,19 +490,20 @@ Overfull \hbox (1.11217pt too wide) in paragraph at lines 151--152
 ,[2,0,0,0,0,0,0,0,0,0,0,0,0,0], 
  []
 
-<imprimir.png, id=36, 537.50812pt x 161.85469pt>
+[4 <./representacao.png> <./intermedio.png>]
+<imprimir.png, id=39, 537.50812pt x 161.85469pt>
 File: imprimir.png Graphic file (type png)
  <use imprimir.png>
 Package pdftex.def Info: imprimir.png used on input line 163.
 (pdftex.def)             Requested size: 322.50735pt x 97.11354pt.
 
-<imprimir1.png, id=37, 146.79843pt x 59.47218pt>
+<imprimir1.png, id=40, 146.79843pt x 59.47218pt>
 File: imprimir1.png Graphic file (type png)
  <use imprimir1.png>
 Package pdftex.def Info: imprimir1.png used on input line 165.
 (pdftex.def)             Requested size: 73.39903pt x 29.73601pt.
 
-<tabuleiro.png, id=38, 743.02594pt x 313.9228pt>
+<tabuleiro.png, id=41, 743.02594pt x 313.9228pt>
 File: tabuleiro.png Graphic file (type png)
  <use tabuleiro.png>
 Package pdftex.def Info: tabuleiro.png used on input line 168.
@@ -517,7 +518,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 162--169
 
  []
 
-[4 <./representacao.png> <./intermedio.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 171--174
 
  []
@@ -533,28 +534,74 @@ File: regras.png Graphic file (type png)
  <use regras.png>
 Package pdftex.def Info: regras.png used on input line 176.
 (pdftex.def)             Requested size: 213.42088pt x 39.52237pt.
- [5 <./imprimir.png> <./imprimir1.png> <./tabuleiro.png> <./regras1.png> <./reg
-ras.png>]
-Overfull \hbox (2.75801pt too wide) in paragraph at lines 195--195
+ [5 <./imprimir.png> <./imprimir1.png> <./tabuleiro.png>]
+<iniciar.png, id=47, 456.20438pt x 57.96657pt>
+File: iniciar.png Graphic file (type png)
+ <use iniciar.png>
+Package pdftex.def Info: iniciar.png used on input line 195.
+(pdftex.def)             Requested size: 319.34087pt x 40.57631pt.
+
+<iniciar1.png, id=48, 238.64156pt x 16.56187pt>
+File: iniciar1.png Graphic file (type png)
+ <use iniciar1.png>
+Package pdftex.def Info: iniciar1.png used on input line 197.
+(pdftex.def)             Requested size: 167.04794pt x 11.59322pt.
+
+<iniciar2.png, id=49, 454.69875pt x 94.10156pt>
+File: iniciar2.png Graphic file (type png)
+ <use iniciar2.png>
+Package pdftex.def Info: iniciar2.png used on input line 199.
+(pdftex.def)             Requested size: 318.28694pt x 65.87062pt.
+
+Overfull \hbox (4.83398pt too wide) in paragraph at lines 193--202
+\OT1/cmr/m/n/10 fica num "while in-fi-nito"at^^Se ga-me-O-ver fa-lhar, que in-d
+ica que es-ta-mos em condi^^Xc~ao
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--202
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--202
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--202
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--202
+
+ []
+
+[6 <./regras1.png> <./regras.png> <./iniciar.png> <./iniciar1.png> <./iniciar2.
+png>] [7]
+Overfull \hbox (2.75801pt too wide) in paragraph at lines 204--204
 []\OT1/cmr/bx/n/14.4 Conclus~oes e Pers-pec-ti-vas de De-sen-vol-vi-mento 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--200
+Underfull \hbox (badness 10000) in paragraph at lines 205--209
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--200
+Underfull \hbox (badness 10000) in paragraph at lines 205--209
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--200
+Underfull \hbox (badness 10000) in paragraph at lines 205--209
 
  []
 
-[6] (./template.bbl
+[8
+
+] (./template.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 11--15
 []\OT1/cmr/m/n/10 Kerry Hands-comb.  Abs-tract ga-mes is-sue 3 au-tumn 2000.
  []
@@ -565,27 +612,27 @@ Underfull \hbox (badness 3803) in paragraph at lines 11--15
 .
  []
 
-) [7
+) [9
 
 ] (./template.aux) ) 
 Here is how much of TeX's memory you used:
- 2221 strings out of 493311
- 29611 string characters out of 6143649
- 95588 words of memory out of 5000000
- 5636 multiletter control sequences out of 15000+600000
+ 2239 strings out of 493311
+ 29891 string characters out of 6143649
+ 94588 words of memory out of 5000000
+ 5651 multiletter control sequences out of 15000+600000
  8539 words of font info for 30 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 37i,7n,23p,861b,245s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,7n,23p,767b,245s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
 2.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
 re/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmti10.pfb>
-Output written on template.pdf (7 pages, 304094 bytes).
+Output written on template.pdf (9 pages, 323755 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 84 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
 

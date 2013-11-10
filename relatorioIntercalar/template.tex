@@ -35,8 +35,8 @@
 
 \section*{Resumo}
 O jogo de tabuleiro que iremos desenvolver chama-se Epaminondas. As peças presentes no tabuleiro são todas
-iguais e movem-se como o Rei no xadrez, exceto quando se agrupam numa linha, coluna ou diagonal. Trata-se
-do 1º. trabalho de grupo, da disciplina de Programação em Lógica, realizado pelo Grupo 13.
+iguais e movem-se como o Rei no xadrez, exceto quando se agrupam numa linha, coluna ou diagonal. Atualmente, o tabuleiro é 14x12. Um jogador ganha quando, na sua vez de jogar, tiver mais peças que o adversário na linha mais afastada de si.
+Trata-se do 1º. trabalho de grupo, da disciplina de Programação em Lógica, realizado pelo Grupo 13.
 %Descrever muito sumariamente (1-2 parágrafos) o trabalho que está a ser reportado
 
 %************************************************************************************************
@@ -46,10 +46,10 @@ do 1º. trabalho de grupo, da disciplina de Programação em Lógica, realizado 
 %************************************************************************************************
 
 \section{Introdução}
-O fim deste trabalho é criar um jogo de tabuleiro com base na matéria exposta nas aulas teóricas e téorico-práticas.
+O fim deste trabalho é criar um jogo de tabuleiro chamado Epaminondas com base na matéria exposta nas aulas teóricas e téorico-práticas.
 Este trabalho é interessante porque obriga-nos a pensar de um ponto de vista puramente lógico, isto é, cria-se uma base de dados
 lógica através de cláusulas, sem controlo de fluxo (explícito), e depois procuramos por possíveis soluções. Este paradigma de programação
-chama-se programação declarativa.
+chama-se programação declarativa. Nos pontos 2, 3 e 4.1 é apresentado o esqueleto do nosso programa e nas restantes vamos um pouco mais além do óbvio.
 
 %Descrever os objectivos e motivação do trabalho.
 %Todas as figuras devem ser referidas no texto. %\ref{fig:codigoFigura}
@@ -177,7 +177,7 @@ Em canimovethere(E,XS,YS,XD,YD) é chamado as regras(E,XS,YS,XD,YD). Lá encontr
 \end{center}
 
 \subsection{Lista de Jogadas Válidas}
-Não tivemos tempo para completar esta funcionalidade, mas estava previsto criar um predicado recursivo que percorre-se todos os XS,YS,XD,YD e caso as regras fossem válidas inseríamos numa lista uma lista com os movimentos válidos, por exemplo, \lbrack\lbrack1,2,3,4\rbrack,\lbrack1,4,3,7\rbrack\rbrack. Este ciclo era repetido até extinguir as possibilidades de XS,YS,XD,YD ou até um valor razoável se houver um movimento válido.
+Não tivemos tempo para completar esta funcionalidade, mas estava previsto criar um predicado recursivo que percorre-se todos os XS,YS,XD,YD e caso as regras fossem válidas inseríamos numa lista uma lista com os movimentos válidos, por exemplo, \lbrack\lbrack1,2,3,4\rbrack,\lbrack1,4,3,7\rbrack\rbrack. Este ciclo era repetido até extinguir as possibilidades de XS,YS,XD,YD ou até um valor razoável se houver pelo menos um movimento válido.
 
 \subsection{Execução de Jogadas}
 
@@ -190,16 +190,21 @@ Não tivemos tempo para completar esta funcionalidade, mas estava previsto criar
 \subsection{Comunicação com Visualizador 3D}
 
 \section{Interface com o Utilizador}
-Para inicar o jogo basta escrever start.
-\begin{center}
-\includegraphics[scale=0.70]{iniciar.png}
-\end{center}
-E para introduzir das coordendas basta fazer XS.YS.XD.YD., por exemplo: 1.1.2.3.
-
-\section{Conclusões e Perspectivas de Desenvolvimento}
-O Epaminondas é um jogo cheio de estratégia e regras, tivemos de fazer várias regras de remoção,testes,etc dependendo da natureza da linha de movimentação das phalanx e portanto esta parte foi, na nossa opinião, a mais trabalhosa. Infelizmente, só conseguimos acabar a parte jogador vs jogador, isto foi devido a termos outros projetos em mão. A movimentação das peças que pode ser feita em oito direções e usando só uma peça ou um conjunto de peças, no caso dos phalanxs, sempre tendo em atenção os limites do tabuleiro e as outras peças, quer sejam do próprio jogador o que impossibilita a jogada ou do jogador adversário cujas peças têm de ser removidas do tabuleiro, no caso de ter menos peças no phalanx, ou então serão as peças do próprio a serem removidas, irá ser a parte mais desafiante a implementar.
+Para inicar o jogo basta escrever start.. Esta regra trata de ir buscar o tabuleiro inicial, mostrá-lo, ler os valores de XS,YS,XD,YD e depois chama a regra principal do program play(E,XS,YS,XD,YD). Esta regra play(E,XS,YS,XD,YD) fica num "while infinito" até gameOver falhar, que indica que estamos em condição final. Como gameOver tem um cut atrás, o prolog vai cortar os "plays" e logo de seguida tenta procurar por outra cabeça start. Essa outra cabeça no nosso caso é sempre verdadeira o que faz com que seja retornado yes no fim do jogo. Caso play falhe irá ser procurado outra regra play, esta nossa outra regra play chama badMoveFriend. O objetivo de badMoveFriend é pedir novamente por uma jogada.
 \\\linebreak
-Gostaríamos de ter acaba o trabalho em tempo útil mas não nos foi possível. Mas na globalidade foi uma boa experiência aprender a pensar em PROLOG.
+\includegraphics[scale=0.70]{iniciar.png}
+\\\linebreak
+\includegraphics[scale=0.70]{iniciar1.png}
+\\\linebreak
+\includegraphics[scale=0.70]{iniciar2.png}
+\\\linebreak
+O jogador só tem que fazer start. E ir escrevendo as coordenadas da seguinte forma XS.YS.XD.YD..
+
+\clearpage
+\section{Conclusões e Perspectivas de Desenvolvimento}
+O Epaminondas é um jogo cheio de estratégia e regras. Como tal, tivemos de fazer várias regras de remoção, testes, etc dependendo da natureza da linha de movimentação das phalanx e portanto esta parte foi, na nossa opinião, a mais trabalhosa. Infelizmente, só conseguimos acabar a parte jogador vs jogador, isto deve-se ao facto de termos outros projetos em mão. Embora não tenhamos feito a parte relacionada com o computador temos um ideia bastante razóavel de como o faríamos, e ,caso possível, iremos implementá-la num futuro próximo.
+\\\linebreak
+Gostaríamos de ter acaba o trabalho em tempo útil mas não nos foi possível. Contudo, foi uma boa experiência criar um jogo pensando em PROLOG.
 \\\linebreak
 
 \clearpage
