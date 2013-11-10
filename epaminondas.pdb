@@ -148,7 +148,7 @@ regras([H|T], XS, YS, XD, YD) :-
   turn(C),
   checkcolour(E,XS,YS,C),
   regra('sobreposicao',E,XS,YS,XD,YD),
-  regra('capturar',E,XS,YS,XD,YD).
+  regra('moverPhalanx',E,XS,YS,XD,YD).
 
 regra('sobreposicao', E, XS, YS, XD, YD) :-
   charat(C1,XS,YS,E),
