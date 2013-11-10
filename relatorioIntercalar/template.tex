@@ -102,43 +102,72 @@ Este jogo, inicialmente chamado \textit{Crossings} e jogado num tabuleiro 8x8, f
 Depois da publicação deste livro, Bob Abbott, reconfigurou o tabuleiro de 8x8 para 14x12, de modo a tornar o jogo nas diagonais mais importante, e renomeou
 o nome para Epaminondas como homenagem ao general TheBan que inventou a phalanx, uma formação de guerra usada em 371 a.c para derrotar o exército espartano.\cite{creator,rules}
 \\\linebreak
-Neste jogo, são posicionadas 28 peças iguais em cada lado maior do tabuleiro, com cores diferentes. São as brancas a iniciar o jogo, e depois joga-se alternadamente. Os movimentos de cada peça são iguais ao do Rei do xadrez, pode andar uma casa em qualquer direção. Podem ser criados inúmeros grupos de peças, phalanxes, estas só se podem deslocar um número igual ou menor ao número de peças do grupo, na direcção da linha formada pelo grupo. Uma peça pode fazer parte de várias phalanxes. Uma phalanx pode ser dividida, mas só pode andar um número de casas igual ou menor ao numero de elementos da phalanx que se irá mover. Não é permitido passar um jogada, em cada jogada é obrigatório mover uma phalanx ou uma peça. Todas as peças têm de estar contidas no tabuleiro. Não podem haver peças sobrepostas ou na mesma posição, exceto quando a cabeça de uma phalanx captura outra peça ou phalanx. Para capturar é necessário atacar com um grupo com mais elementos que o adversário na linha de ataque. A peça/phalanx capturada é removida do tabuleiro para sempre. Um jogador ganha quando, na sua vez de jogar, tiver mais peças que o adversário na linha mais afastada de si.\cite{rules}
+Neste jogo, são posicionadas 28 peças iguais em cada lado maior do tabuleiro, com cores diferentes. São as brancas a iniciar o jogo, e depois joga-se alternadamente.\cite{rules}
+\begin{center}
+  \includegraphics[scale=0.60]{epaTOP.png}
+\end{center}
+Os movimentos de cada peça são iguais ao do Rei do xadrez, pode andar uma casa em qualquer direção. Podem ser criados inúmeros grupos de peças, phalanxes, estas só se podem deslocar um número igual ou menor ao número de peças do grupo, na direcção da linha formada pelo grupo. Uma peça pode fazer parte de várias phalanxes. Uma phalanx pode ser dividida, mas só pode andar um número de casas igual ou menor ao numero de elementos da phalanx que se irá mover.\cite{rules}
+\begin{center}
+  \includegraphics[scale=0.60]{epa1-2.png}
+\end{center}
+Não é permitido passar um jogada, em cada jogada é obrigatório mover uma phalanx ou uma peça. Todas as peças têm de estar contidas no tabuleiro. Não podem haver peças sobrepostas ou na mesma posição, exceto quando a cabeça de uma phalanx captura outra peça ou phalanx.
+\begin{center}
+  \includegraphics[scale=0.60]{epa3.png}
+\end{center}
+Para capturar é necessário atacar com um grupo com mais elementos que o adversário na linha de ataque. A peça/phalanx capturada é removida do tabuleiro para sempre. Um jogador ganha quando, na sua vez de jogar, tiver mais peças que o adversário na linha mais afastada de si.\cite{rules}
 
-%Descrever sucintamente o jogo, a sua história e, principalmente, as suas regras. Devem ser criadas/utilizadas imagens apropriadas para explicar o funcionamento do jogo.
-%\clearpage
-\section{Representação do Estado do Jogo}
-%Descrever a forma de representação do estado do tabuleiro (tipicamente uma lista de listas), com exemplificação em Prolog de posições iniciais do jogo, posições intermédias e finais, acompanhadas de imagens ilustrativas.
+\section{Arquitetura do Sistema}
+O jogo é iniciado com um predicado chamado start: mostra o tabuleiro inicial; lê as coordenadas através de READ\textbackslash1 e chama o predicado recursivo play(E,XS,YS,XD,YD). Este predicado faz o seguinte: na parte inicial testa os valores XS,YS,XD,YD de modo a ver se são válidos; caso sejam chama atualizarEstado(E,XS,YS,XD,YD,N); caso este objetivo seja completado, é mostrado o novo tabuleiro; são lidos os novos valores de XS,YS,XD,YD e é chamado play com os novos valores play(N,XS,YS,XD,YD).
+\\\linebreak
+A função de atualizarEstado é "corrigir" os valores de XS,YS,XD,YD visto que são mostrados de forma diferente; verificar se a jogada é válida através de canimovethere(E,XS1,YS1,XD1,YD1); se sim, mudarestado(E,XS1,YS1,XD1,YD1,N) e depois mudar a vez.
+\\\linebreak
+Na verificação das regras canimovethere(E,XS,YS,XD,YD): chama regras(E,XS,YS,XD,YD) e caso esta falhe é chamado badMoveFriend(E) cujo objetivo é pedir novamente que se jogue. A cláusula regras(E,XS,YS,XD,YD) contém 3 regras que verificão: se é a minha vez; se existe sobreposicao; se se pode mover uma phalanx(uma peça é um phalanx com um só elemento) ou se se pode capturar uma peça; e se estamos em condição de acabar o jogo. Se estivermos, o jogo acaba e é indicado quem ganhou.
+\\\linebreak
+Foram construídas várias regras úteis: getSizeTilColour('tipodelinha',); headPhalanx('tipodelinha',); checkColour(,); changechar(,)r;, findEnemyHead('tipodelinha',); movePhalanxUP(,); movePhalanxLEFT(,).Cujos objetivos são bastante óbvios.
+
+\section{Lógica do Jogo}
+\subsection{Representação do Estado do Jogo}
+\begin{center}
 Iremos criar um estado inicial, uma lista de listas da forma:
-( [ [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ] ).
+
+[[2,2,2,2,2,2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2,2,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
+\end{center}
+
+Através da regra de interface play(E,XS,YS,XD,YD) iremos chamar as size e atualizarestado, que testam os limites do jogo e atualizam o estado, caso tal respeite as regras do jogo. A regra atualizarestado chama pelas cabeças canimovethere, mudarestado e turnchange. Se a regra canimovethere não corresponder isso implica o falhanço do "if" em prolog e portanto o estado não é alterado nem a vez, sendo pedida outra vez um movimento. Se o objetivo canimovethere for bem sucedido, então podemos proceder à alteração do estado através da regra mudarestado. Restando mudar a vez do jogador, através de por exemplo de turnchange(C) (através de retract e asserta).
+\begin{center}
+  \includegraphics[scale=0.60]{representacao.png}
+\end{center}
+O estado vai sendo atualizado consoante as jogadas de cada jogador, o 0 significa que não há nenhuma peça nessa posição. O 1 representa uma peça branca e o 2 uma preta. Quando se imprimi o 1 passa a W e o 2 a B.
 \\\linebreak
-Através da regra de interface play(XS,YS,XD,YD) iremos chamar as size e atualizarestado, que testam os limites do jogo e atualizam o estado, caso tal respeite as regras do jogo. A regra atualizarestado tenta unificar canimovethere, mudarestado e turnchange. Se a regra canimovethere não corresponder isso implica o falhanço do "if" em prolog e portanto nada acontece. Se canimovethere retornar true então podemos proceder à alteração do estado através da regra mudarestado. Restando mudar a vez do jogador, através de por exemplo:
-\\\linebreak
-turnchange(C) :-
-  ( C = white -\textgreater retract(turn(white)) ; asserta(turn(black))),
-  ( C = black -\textgreater retract(turn(black)) ; asserta(turn(white))).
-\\\linebreak
-O estado vai sendo atualizado consoante as jogadas de cada jogador, o 0 significa que não há nenhuma peça nessa posição. O 1 representa uma peça branca e o 2 uma preta.
-\\\linebreak Um estado com posições intermédias, ([ [1,1,1,1,0,0,0,0,2,2,2,2], [0,0,0,0,0,0,0,0,0,0,0,0], [1,0,1,0,0,0,0,0,2,2,0,0],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-          [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2],
-        [1,1,0,0,0,0,0,0,0,0,2,2], [1,1,0,0,0,0,0,0,0,0,2,2] ]).
-\\\linebreak
+Um estado com posições intermédias,
+\begin{center}
+  \includegraphics[scale=0.45]{intermedio.png}
+
+[[0,2,2,2,2,2,2,2,2,2,2,2,2,2],[0,2,2,2,2,2,2,2,2,2,2,2,2,2],[2,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+  [2,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
+\end{center}
 Um estado com posições finais, qualquer configuração em que existam mais peças do adversário na minha linha mais recuada, na vez dele jogar. E vice-versa.
 
-\section{Visualização do Tabuleiro}
+\subsection{Visualização do Tabuleiro}
 De modo a imprimir o estado atual do tabuleiro, tem-se de construir um predicado recursivo que escreva o conteúdo de cada linha na consola e depois dê um break line. Tal pode ser feito através das seguintes cláusulas:
+\includegraphics[scale=0.60]{imprimir.png}
 \\\linebreak
-\includegraphics[scale=0.77]{imprimir.png}
-\\\linebreak
+\includegraphics[scale=0.50]{imprimir1.png}
 Resultando:
-\includegraphics[scale=0.55]{tabuleiro.png}
+\\\linebreak
+\includegraphics[scale=0.40]{tabuleiro.png}
 
-%Descrever a forma de visualização do tabuleiro em modo de texto e os predicados Prolog construídos para o efeito. O código (predicado) desenvolvido deve receber como parâmetro a representação do tabuleiro (estado do jogo) e permitir visualizá-lo no ecrã, em modo de texto. Deve ser incluída pelo menos uma imagem correspondente ao output produzido pelo predicado de visualização
 
 \section{Movimentos}
 Cada peça pode ser movida sozinha ou em conjunto. No caso de ser só uma peça é possivel movê-la para qualquer direção, horizontal, vertical ou diagonal, em uma unidade desde que essa célula esteja vazia. No caso de se mover um conjunto de peças, estas não podem estar separadas por nenhuma célula vazia nem por peças do adversário, todas elas serão movidas até um máximo correspondente ao número de peças que se pretende mover e têm que respeitar a orientação na qual o grupo se encontra, por exemplo, se o grupo de peças se encontrar na horizontal as peças só podem ser movidas ou para a esquerda ou para a direita.
@@ -152,15 +181,12 @@ size(X,Y):- X\textgreater=1, X=\textless14, Y\textgreater=1, Y=\textless12.
 play( XS, YS, XD, YD) :-  size(X,Y), atualizarEstado(XS,YS,XD,YD).
 \\\linebreak
 atualizarEstado( XS, YS, XD, YD) :- \textit{canimovethere(XS,YS,XD,YD)}, mudarestado(XS,YS,XD,YD),turnchange(C).
-%Elencar os movimentos (tipos de jogadas) possíveis e definir os cabeçalhos dos predicados que serão utilizados (ainda não precisam de estar implementados).
 
 \section{Conclusões e Perspectivas de Desenvolvimento}
-O Epaminondas é um jogo cheio de estratégia e regras, que irão ser a parte mais difícil de implementar. A movimentação das peças que pode ser feita em oito direções e usando só uma peça ou um conjunto de peças, no caso dos phalanxs, sempre tendo em atenção os limites do tabuleiro e as outras peças, quer sejam do próprio jogador o que impossibilita a jogada ou do jogador adversário cujas peças têm de ser removidas do tabuleiro, no caso de ter menos peças no phalanx, ou então serão as peças do próprio a serem removidas, irá ser a parte mais desafiante a implementar.
+O Epaminondas é um jogo cheio de estratégia e regras, tivemos de fazer várias regras de remoção,testes,etc dependendo da natureza da linha de movimentação das phalanx e portanto esta parte foi, na nossa opinião, a mais trabalhosa. Infelizmente, só conseguimos acabar a parte jogador vs jogador, isto foi devido a termos outros projetos em mão. A movimentação das peças que pode ser feita em oito direções e usando só uma peça ou um conjunto de peças, no caso dos phalanxs, sempre tendo em atenção os limites do tabuleiro e as outras peças, quer sejam do próprio jogador o que impossibilita a jogada ou do jogador adversário cujas peças têm de ser removidas do tabuleiro, no caso de ter menos peças no phalanx, ou então serão as peças do próprio a serem removidas, irá ser a parte mais desafiante a implementar.
 \\\linebreak
-O trabalho vai ser desenvolvido pelos dois elementos do grupo, com divisão de tarefas para que a quantidade de trabalho seja equivalente. Para nos ajudar a organizar e manter o nosso código usamos um sistema de controlo de versões, o git.
+Gostaríamos de ter acaba o trabalho em tempo útil mas não nos foi possível. Mas na globalidade foi uma boa experiência aprender a pensar em PROLOG.
 \\\linebreak
-Estimamos que ainda falte cerca de 70\% do trabalho, pois temos muitas das ideias já formuladas mas falta a sua implementação.
-%Que conclui da análise do jogo e da pesquisa bibliográfica realizada? Como vai ser desenvolvido o trabalho? Que parte (\%) do trabalho estima que falta fazer?
 
 \clearpage
 \addcontentsline{toc}{section}{Bibliografia}
