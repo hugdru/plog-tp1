@@ -212,10 +212,6 @@ changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F)
 
 lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
   Slope is abs(VerticalDifference/HorizontalDifference),
-<<<<<<< HEAD
-  nl,write(Slope),nl,
-=======
->>>>>>> baacfdb641c34011eca76053e6162f1466201938
   Slope == 1.0,
   turn(C),
   getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
