@@ -118,8 +118,8 @@ play( E, XS, YS, XD, YD) :-
   size(XD,YD),
   atualizarEstado(E,XS,YS,XD,YD,N),
   show(N),
-  read(XS), read(YS), read(XD), read(YD), % le desta forma XS.YS.XD.YD.
-  play( N, XS, YS, XD, YD).
+  read(XS1), read(YS1), read(XD1), read(YD1), % le desta forma XS.YS.XD.YD.
+  play( N, XS1, YS1, XD1, YD1).
 %If sizes are not allowed retry.
 play(E,_,_,_,_):-badMoveFriend(E).
 
@@ -235,23 +235,25 @@ evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -1, -1, XD, YD) :-
   DISTANCEhs is sqrt(vert2hs + hor2hs),
   DISTANCEdh =< DISTANCEhs.
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -2, -2, XD, YD) :- fail.
-evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XN, YN, XD, YD) :-
+evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
   XN =\= -1, YN =\= -1, XN =\= -2, YN =\= -2,
   vert2hs is (YHplus - YS)**2,
   hor2hs is (XHplus - XS)**2,
   DISTANCEhs is sqrt(vert2hs + hor2hs),
-  vert2nh is (YN - YH)**2,
-  hor2nh is (XN - XH)**2,
+  vert2nh is (YD - YH)**2,
+  hor2nh is (XD - XH)**2,
   DISTANCEnh is sqrt(vert2nh + hor2nh),
   DISTANCEnh =< DISTANCEhs.
 
 evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
 evaluate( 'horizontalLine', XH, -2, XD, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
-evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XH, XD, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
+%evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
 
 evaluate( 'verticalLine', YH, -1, YD, PhalanxSize) :- DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
 evaluate( 'verticalLine', YH, -2, YD, PhalanxSize) :- fail.
-evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLines', YH, YD, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
+%evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
 
 headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH, XHplus) :-
   HorizontalDifference > 0,
@@ -505,7 +507,7 @@ findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHpl
 
 findEnemyHead('diagonalLine',_,_,C,_,_,_,_,_,XN,YN) :- turn(X), C == X, XN is -2, YN is -2.
 findEnemyHead('diagonalLine',_,_,C,XD,YD,XD,YD,E,XN,YN) :- charat(COLOUR,XD,YD,E), C =\= COLOUR, XN is -1, YN is -1.
-findEnemyHead('diagonalLine',_,_,C,XH,YH,_,_,_,XN,YN) :- XN is XH, YN is XH.
+findEnemyHead('diagonalLine',_,_,C,XH,YH,_,_,_,XN,YN) :- XN is XH, YN is YH.
 
 % %getHead returns the list in a given index
 % %getHead(H):- estadoInicial(E), getHead(0,E,H).

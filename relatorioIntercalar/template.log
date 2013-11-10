@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.29)  10 NOV 2013 18:18
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.29)  10 NOV 2013 19:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -423,9 +423,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 120--127
  []
 
 
-Overfull \hbox (6.37114pt too wide) in paragraph at lines 120--127
-\OT1/cmr/m/n/10 mo-vethere(E,XS1,YS1,XD1,YD1); se sim, mu-da-res-tado(E,XS1,YS1
-,XD1,YD1,N)
+Overfull \hbox (39.47078pt too wide) in paragraph at lines 120--127
+\OT1/cmr/m/n/10 A fun^^Xc~ao de atu-a-li-za-rEs-tado(E,XS,YS,XD,YD,N) ^^Se "cor
+-ri-gir"os va-lo-res de XS,YS,XD,YD
+ []
+
+
+Overfull \hbox (36.37119pt too wide) in paragraph at lines 120--127
+\OT1/cmr/m/n/10 de ca-ni-mo-vethere(E,XS1,YS1,XD1,YD1); se sim, mu-da-res-tado(
+E,XS1,YS1,XD1,YD1,N)
  []
 
 
@@ -466,20 +472,20 @@ Overfull \hbox (1.11217pt too wide) in paragraph at lines 133--134
 File: representacao.png Graphic file (type png)
 
 <use representacao.png>
-Package pdftex.def Info: representacao.png used on input line 144.
+Package pdftex.def Info: representacao.png used on input line 143.
 (pdftex.def)             Requested size: 328.37935pt x 186.54836pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 146--149
+Underfull \hbox (badness 10000) in paragraph at lines 145--148
 
  []
 
 <intermedio.png, id=35, 736.25063pt x 319.94531pt>
 File: intermedio.png Graphic file (type png)
  <use intermedio.png>
-Package pdftex.def Info: intermedio.png used on input line 150.
+Package pdftex.def Info: intermedio.png used on input line 149.
 (pdftex.def)             Requested size: 331.30972pt x 143.97404pt.
 
-Overfull \hbox (1.11217pt too wide) in paragraph at lines 152--153
+Overfull \hbox (1.11217pt too wide) in paragraph at lines 151--152
  []\OT1/cmr/m/n/10 [[0,2,2,2,2,2,2,2,2,2,2,2,2,2],[0,2,2,2,2,2,2,2,2,2,2,2,2,2]
 ,[2,0,0,0,0,0,0,0,0,0,0,0,0,0], 
  []
@@ -487,81 +493,81 @@ Overfull \hbox (1.11217pt too wide) in paragraph at lines 152--153
 <imprimir.png, id=36, 537.50812pt x 161.85469pt>
 File: imprimir.png Graphic file (type png)
  <use imprimir.png>
-Package pdftex.def Info: imprimir.png used on input line 164.
+Package pdftex.def Info: imprimir.png used on input line 163.
 (pdftex.def)             Requested size: 322.50735pt x 97.11354pt.
 
 <imprimir1.png, id=37, 146.79843pt x 59.47218pt>
 File: imprimir1.png Graphic file (type png)
  <use imprimir1.png>
-Package pdftex.def Info: imprimir1.png used on input line 166.
+Package pdftex.def Info: imprimir1.png used on input line 165.
 (pdftex.def)             Requested size: 73.39903pt x 29.73601pt.
 
 <tabuleiro.png, id=38, 743.02594pt x 313.9228pt>
 File: tabuleiro.png Graphic file (type png)
  <use tabuleiro.png>
-Package pdftex.def Info: tabuleiro.png used on input line 169.
+Package pdftex.def Info: tabuleiro.png used on input line 168.
 (pdftex.def)             Requested size: 297.20511pt x 125.5669pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--170
+Underfull \hbox (badness 10000) in paragraph at lines 162--169
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--170
+Underfull \hbox (badness 10000) in paragraph at lines 162--169
 
  []
 
 [4 <./representacao.png> <./intermedio.png>]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 179.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 182.
 
 
 (/usr/share/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 179.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 182.
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--184
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 173--184
+Underfull \hbox (badness 10000) in paragraph at lines 176--187
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--184
+Underfull \hbox (badness 10000) in paragraph at lines 176--187
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--184
+Underfull \hbox (badness 10000) in paragraph at lines 176--187
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--184
+Underfull \hbox (badness 10000) in paragraph at lines 176--187
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--187
 
  []
 
 [5 <./imprimir.png> <./imprimir1.png> <./tabuleiro.png>]
-Overfull \hbox (2.75801pt too wide) in paragraph at lines 185--185
+Overfull \hbox (2.75801pt too wide) in paragraph at lines 188--188
 []\OT1/cmr/bx/n/14.4 Conclus~oes e Pers-pec-ti-vas de De-sen-vol-vi-mento 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--190
+Underfull \hbox (badness 10000) in paragraph at lines 189--193
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--190
+Underfull \hbox (badness 10000) in paragraph at lines 189--193
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--190
+Underfull \hbox (badness 10000) in paragraph at lines 189--193
 
  []
 
@@ -593,7 +599,7 @@ are/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on template.pdf (7 pages, 304292 bytes).
+Output written on template.pdf (7 pages, 304820 bytes).
 PDF statistics:
  77 PDF objects out of 1000 (max. 8388607)
  41 compressed objects within 1 object stream
