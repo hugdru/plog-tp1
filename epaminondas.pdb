@@ -343,7 +343,7 @@ changechar(C,X,[H|T],[H|T1]):- X>0, X1 is X-1, changechar(C,X1,T,T1).
 changechar(C,0,[_|T],[C|T]).
 
 %charat char at a given position on board
-%charat(C):- estadoInicial(E), charat(C,11,11,E).
+charat(C):- changecharH(E), charat(C,11,11,E).
 charat(C,X,Y,[_|T]):- Y>0, Y1 is Y-1, charat(C,X,Y1,T).
 charat(C,X,0,[H|_]):- charat(C,X,H).
 charat(C,X,[_|T]):- X>0, X1 is X-1, charat(C,X1,T).
