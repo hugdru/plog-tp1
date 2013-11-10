@@ -119,7 +119,7 @@ play( E, XS, YS, XD, YD) :-
   size(XD,YD),
   atualizarEstado(E,XS,YS,XD,YD,N),
   show(N),
-  !,gameOver(N),
+  !,continueGame(N),
   read(XS1), read(YS1), read(XD1), read(YD1), % le desta forma XS.YS.XD.YD.
   play( N, XS1, YS1, XD1, YD1).
 %If sizes are not allowed retry.
@@ -205,10 +205,10 @@ lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, PhalanxSizeAdversary, XN,
   %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
-lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,7,7,PhalanxSizeAdversary,XN,YN), !, 1==1.
+lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,8,8,PhalanxSizeAdversary,XN,YN), !, 1==1.
 changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F), changechar(1,2,2,F,X),
                  changechar(1,3,3,X,H),changechar(0,5,5,H,Z),changechar(0,6,6,Z,P),
-                 changechar(2,7,7,P,U),changechar(2,8,8,U,G),show(G).
+                 changechar(2,9,9,P,U),changechar(2,10,10,U,G),show(G).
 
 lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
   Slope is abs(VerticalDifference/HorizontalDifference),
@@ -424,7 +424,7 @@ changechar(C,X,[H|T],[H|T1]):- X>0, X1 is X-1, changechar(C,X1,T,T1).
 changechar(C,0,[_|T],[C|T]).
 
 %charat char at a given position on board
-charat(C):- changecharH(E), charat(C,11,11,E).
+% charat(C):- changecharH(E), charat(C,11,11,E).
 charat(C,X,Y,[_|T]):- Y>0, Y1 is Y-1, charat(C,X,Y1,T).
 charat(C,X,0,[H|_]):- charat(C,X,H).
 charat(C,X,[_|T]):- X>0, X1 is X-1, charat(C,X1,T).
@@ -596,7 +596,7 @@ movePhalanxDOWNLEFT(E,_,_,_,_,0,E).
 
 % movePhalanxDOWNRIGHT :- estadoInicial(E), movePhalanxDOWNRIGHT(E,3,0,4,1,2,E1),show(E1).
 movePhalanxDOWNRIGHT(E,XS,YS,XD,YD,N,E1):-
-  N>0, turn(T),
+  N>0, turn0(T),
   XS1 is XS+1,
   YS1 is YS+1,
   XD1 is XD+1,
@@ -798,6 +798,38 @@ deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
 
 deletePhalanx(E,_,_,_,_,_,XN,_,E):- XN < 0.
 deletePhalanx(E,_,_,_,_,_,_,YN,E):- YN < 0.
+
+% continueGame:-changecharDB(E),continueGame(E).
+continueGame(E):-
+  turn(C),
+  C == 1,
+  continueGameWhite(E).
+continueGame(E):-
+  turn(C),
+  C == 2,
+  continueGameBlack(E).
+
+continueGameWhite(E):-
+  countPiecesInLine(E,1,0,0,N),
+  countPiecesInLine(E,2,0,11,N1),
+  N=<N1.
+
+continueGameBlack(E):-
+  countPiecesInLine(E,1,0,0,N),
+  countPiecesInLine(E,2,0,11,N1),
+  N1=<N.
+
+% countPiecesInLine(N):- changecharDB(E), countPiecesInLine(E,2,0,0,N).
+countPiecesInLine(E,C,X,Y,N):-
+  X < 14,
+  charat(C1,X,Y,E),
+  X1 is X+1,
+  countPiecesInLine(E,C,X1,Y,N1),
+  countN(C,C1,N,N1).
+countPiecesInLine(_,_,14,_,0).
+
+countN(C,C1,N,N1):- C==C1, N is N1+1.
+countN(C,C1,N,N1):- C=\=C1, N is N1.
 
 turnchange(turn(C)) :-
   ( C = white -> retract(turn(1)) ; retract(turn(2))),
