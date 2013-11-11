@@ -133,7 +133,7 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   XS1 is XS - 1,
   YS1 is 12 - YS, % Porque na verdade o que aparece no tabuleiro tem o índice trocado.
   XD1 is XD - 1,
-  YD1 is 12 - YD1,
+  YD1 is 12 - YD,
   canimovethere(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN),
   deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1),
   changeState(E1,XS1,YS1,XD1,YD1,N),
