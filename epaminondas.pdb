@@ -151,8 +151,8 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   XD1 is XD - 1,
   YD1 is 12 - YD,
   canimovethere(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN),
-  deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1),
-  changeState(E1,XS1,YS1,XD1,YD1,N),
+  %deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1), COM deletePhalanx descomentado dá erro! O erro é aqui! Já testei o canimovethere e FUNCIONA! O teste que fiz foi remover o changeState e o deletePhalanx e testar sem alterar o estado do tabuleiro e funciona bem
+  changeState(E,XS1,YS1,XD1,YD1,N), % alterei E1 para ver se changeState está a funcionar bem. deletePhalanx nao esta por isso tive de alterar esse arguemento!
   turnchange,
   nl,
   write('Fim de atualizar estado').
@@ -250,7 +250,7 @@ evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -1, -1, XD, YD) :-
   Hor2hs is (XHplus - XS)**2,
   DISTANCEdh is sqrt(Vert2dh + Hor2dh),
   DISTANCEhs is sqrt(Vert2hs + Hor2hs),
-  DISTANCEdh =< DISTANCEhs.
+  DISTANCEdh < DISTANCEhs.
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -2, -2, XD, YD) :- fail.
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
   XD =\= -1, YD =\= -1, XD =\= -2, YD =\= -2,
@@ -260,16 +260,16 @@ evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
   Vert2nh is (YD - YH)**2,
   Hor2nh is (XD - XH)**2,
   DISTANCEnh is sqrt(Vert2nh + Hor2nh),
-  DISTANCEnh =< DISTANCEhs.
+  DISTANCEnh < DISTANCEhs.
 
-evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- DISTANCE is abs(XH - XD), DISTANCE < PhalanxSize.
 evaluate( 'horizontalLine', XH, -2, XD, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
-evaluate( 'horizontalLine', XH, XD, XD, PhalanxSize) :- XD =\= -1, XD =\= -2, DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XH, XD, XD, PhalanxSize) :- XD =\= -1, XD =\= -2, DISTANCE is abs(XH - XD), DISTANCE < PhalanxSize.
 %evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
 
-evaluate( 'verticalLine', YH, -1, YD, PhalanxSize) :- DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLine', YH, -1, YD, PhalanxSize) :- DISTANCE is abs(YH - YD), DISTANCE < PhalanxSize.
 evaluate( 'verticalLine', YH, -2, YD, PhalanxSize) :- fail.
-evaluate( 'verticalLines', YH, YD, YD, PhalanxSize) :- YD =\= -1, YD =\= -2, DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLines', YH, YD, YD, PhalanxSize) :- YD =\= -1, YD =\= -2, DISTANCE is abs(YH - YD), DISTANCE < PhalanxSize.
 %evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
 
 headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH, XHplus) :-
