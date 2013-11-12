@@ -155,8 +155,7 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   %deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1),
   %changeState(E,XS1,YS1,XD1,YD1,N),
   N = E, % só para testar as regras inicias
-  turn(C),
-  turnchange(C),
+  turnchange,
   nl,
   write('Fim de atualizar estado').
 atualizarEstado(E,_,_,_,_,_):-badMoveFriend(E).
@@ -203,10 +202,10 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _,PhalanxSizeAdversary, XN,
   headPhalanx('horizontalLine',HorizontalDifference,PhalanxSizeMine,XS,XH,XHplus),
   charat(CC,XHplus,YS,E),
   findEnemyHead('horizontalLine',HorizontalDifference,CC,XHplus,YS,XD,E,XN),
-  nl, write('PositionOfEnemyHead '), write(XN),
+  %nl, write('PositionOfEnemyHead '), write(XN),
   !,evaluate('horizontalLine',XH,XN,XD,PhalanxSizeMine), %if evaluate fails dont backtrack
   getSizeTilColour('horizontalLine',HorizontalDifference,_,E,NOTC,XN,YS,PhalanxSizeAdversary),
-  nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
+  %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
 %lineOfActionVB :- changecharVB(E), lineOfAction(2,0,E,6,0,_,11), !, 1==1.
@@ -221,10 +220,10 @@ lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, PhalanxSizeAdversary, XN,
   headPhalanx('verticalLine',VerticalDifference,PhalanxSizeMine,YS,YH,YHplus),
   charat(CC,XS,YHplus,E),
   findEnemyHead('verticalLine',VerticalDifference,CC,XS,YHplus,YD,E,YN),
-  nl, write('PositionOfEnemyHead '), write(YN),
+  %nl, write('PositionOfEnemyHead '), write(YN),
   !,evaluate('verticalLine',YH,YN,YD,PhalanxSizeMine), %if evaluate fails dont backtrack
   getSizeTilColour('verticalLine',_,VerticalDifference,E,NOTC,XS,YN,PhalanxSizeAdversary),
-  nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
+  %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine,
   nl, write('Fim de lineOfAction').
 
@@ -863,6 +862,7 @@ countPiecesInLine(_,_,14,_,0).
 countN(C,C1,N,N1):- C==C1, N is N1+1.
 countN(C,C1,N,N1):- C=\=C1, N is N1.
 
-turnchange(C) :-
-  ( C = white -> retract(turn(1)) ; retract(turn(2))),
-  ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
+turnchange :-
+  turn(C),
+  ( C == 1 -> retract(turn(1)) ; retract(turn(2))),
+  ( C == 2 -> asserta(turn(1)) ; asserta(turn(2))).
