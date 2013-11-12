@@ -245,12 +245,12 @@ evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
 
 evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
 evaluate( 'horizontalLine', XH, -2, XD, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
-evaluate( 'horizontalLine', XH, XD, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XH, XD, XD, PhalanxSize) :- XD =\= -1, XD =\= -2, DISTANCE is abs(XH - XD), DISTANCE =< PhalanxSize.
 %evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
 
 evaluate( 'verticalLine', YH, -1, YD, PhalanxSize) :- DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
 evaluate( 'verticalLine', YH, -2, YD, PhalanxSize) :- fail.
-evaluate( 'verticalLines', YH, YD, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLines', YH, YD, YD, PhalanxSize) :- YD =\= -1, YD =\= -2, DISTANCE is abs(YH - YD), DISTANCE =< PhalanxSize.
 %evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
 
 headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH, XHplus) :-
