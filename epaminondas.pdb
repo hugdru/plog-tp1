@@ -132,7 +132,7 @@ play( E, XS, YS, XD, YD) :-
   atualizarEstado(E,XS,YS,XD,YD,N),
   write('atualizarEstado'),
   show(N),
-  !,continueGame(N),
+  %!,continueGame(N),
   turn(C),
   nl,
   printCorName(C),
@@ -153,8 +153,12 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   canimovethere(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN),
   %% deletePhalanx esta bugado, estou a passar os valores certos só que não está a fazer o que é suposto
   %deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1),
-  changeState(E,XS1,YS1,XD1,YD1,N),
-  turnchange(C).
+  %changeState(E,XS1,YS1,XD1,YD1,N),
+  N = E, % só para testar as regras inicias
+  turn(C),
+  turnchange(C),
+  nl,
+  write('Fim de atualizar estado').
 atualizarEstado(E,_,_,_,_,_):-badMoveFriend(E).
 
 %Rules for phalanx
@@ -221,7 +225,8 @@ lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, PhalanxSizeAdversary, XN,
   !,evaluate('verticalLine',YH,YN,YD,PhalanxSizeMine), %if evaluate fails dont backtrack
   getSizeTilColour('verticalLine',_,VerticalDifference,E,NOTC,XS,YN,PhalanxSizeAdversary),
   nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
-  !,PhalanxSizeAdversary < PhalanxSizeMine.
+  !,PhalanxSizeAdversary < PhalanxSizeMine,
+  nl, write('Fim de lineOfAction').
 
 lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,8,8,PhalanxSizeAdversary,XN,YN), !, 1==1.
 changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F), changechar(1,2,2,F,X),
@@ -858,6 +863,6 @@ countPiecesInLine(_,_,14,_,0).
 countN(C,C1,N,N1):- C==C1, N is N1+1.
 countN(C,C1,N,N1):- C=\=C1, N is N1.
 
-turnchange(turn(C)) :-
+turnchange(C) :-
   ( C = white -> retract(turn(1)) ; retract(turn(2))),
   ( C = black -> asserta(turn(1)) ; asserta(turn(2))).
