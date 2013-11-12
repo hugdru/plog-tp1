@@ -175,7 +175,7 @@ regras(E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
   %regra('sobreposicao',E,XS,YS,XD,YD),
   regra('moverPhalanx',E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN).
 
-regra('sobreposicao', E, XS, YS, XD, YD) :-
+%regra('sobreposicao', E, XS, YS, XD, YD) :-
 
 regra('moverPhalanx', E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
    VerticalDifference is YD - YS,
@@ -201,7 +201,7 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _,PhalanxSizeAdversary, XN,
   charat(CC,XHplus,YS,E),
   findEnemyHead('horizontalLine',HorizontalDifference,CC,XHplus,YS,XD,E,XN),
   %nl, write('PositionOfEnemyHead '), write(XN),
-  !,evaluate('horizontalLine',XH,XN,XD,PhalanxSizeMine), %if evaluate fails dont backtrack
+  !,evaluate('horizontalLine',XS,XN,XD,PhalanxSizeMine), %if evaluate fails dont backtrack
   getSizeTilColour('horizontalLine',HorizontalDifference,_,E,NOTC,XN,YS,PhalanxSizeAdversary),
   %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
@@ -220,7 +220,7 @@ lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, PhalanxSizeAdversary, XN,
   findEnemyHead('verticalLine',VerticalDifference,CC,XS,YHplus,YD,E,YN),
   %nl, write('PositionOfEnemyHead '), write(YN),
   %nl, write('PhalanxSizeMine'), write(PhalanxSizeMine),
-  !,evaluate('verticalLine',YH,YN,YD,PhalanxSizeMine), %if evaluate fails dont backtrack
+  !,evaluate('verticalLine',YS,YN,YD,PhalanxSizeMine), %if evaluate fails dont backtrack
   getSizeTilColour('verticalLine',_,VerticalDifference,E,NOTC,XS,YN,PhalanxSizeAdversary),
   %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
@@ -232,6 +232,7 @@ changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F)
                  changechar(2,9,9,P,U),changechar(2,10,10,U,G),show(G).
 
 lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
+  HorizontalDifference =\= 0,
   Slope is abs(VerticalDifference/HorizontalDifference),
   Slope == 1.0,
   turn(C),
@@ -245,16 +246,14 @@ lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, Phala
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -1, -1, XD, YD) :-
-  XHplus =\= XD, YHplus =\= YD,
-  Vert2dh is (YD - YH)**2,
-  Hor2dh is (XD - XH)**2,
+  Vert2ds is (YD - YS)**2,
+  Hor2ds is (XD - XS)**2,
   Vert2hs is (YHplus - YS)**2,
   Hor2hs is (XHplus - XS)**2,
-  DISTANCEdh is sqrt(Vert2dh + Hor2dh),
+  DISTANCEds is sqrt(Vert2ds + Hor2ds),
   DISTANCEhs is sqrt(Vert2hs + Hor2hs),
-  DISTANCEdh < DISTANCEhs.
+  DISTANCEds =< DISTANCEhs.
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -2, -2, XD, YD) :- fail.
-evaluate( 'diagonalLine', _, _, _, _, XHplus, YHplus, -1, -1, XD, YD) :- XHplus == XD, YHplus == YD.
 evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
   XD =\= -1, YD =\= -1, XD =\= -2, YD =\= -2,
   Vert2hs is (YHplus-YS)**2,
@@ -265,17 +264,13 @@ evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
   DISTANCEnh is sqrt(Vert2nh + Hor2nh),
   DISTANCEnh < DISTANCEhs.
 
-evaluate( 'horizontalLine', XH, -1, XD, PhalanxSize) :- PhalanxSize =\= 1, DISTANCE is abs(XH - XD), DISTANCE < PhalanxSize.
-evaluate( 'horizontalLine', XH, -2, XD, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
-evaluate( 'horizontalLine', XH, -1, XD, 1) :- DISTANCE is abs(XH - XD), DISTANCE == 1.
-evaluate( 'horizontalLine', XH, XD, XD, PhalanxSize) :- XD =\= -1, XD =\= -2, DISTANCE is abs(XH - XD), DISTANCE < PhalanxSize.
-%evaluate( 'horizontalLine', XH, XN, XD, PhalanxSize) :- XN =\= -1, XN =\= -2, DISTANCE is abs(XH - XN), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XS, -1, XD, PhalanxSize) :- DISTANCE is abs(XS - XD), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XS, -2, XD, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
+evaluate( 'horizontalLine', XS, XD, XD, PhalanxSize) :- XD =\= -1, XD =\= -2, DISTANCE is abs(XS - XD), DISTANCE =< PhalanxSize.
 
-evaluate( 'verticalLine', YH, -1, YD, PhalanxSize) :- PhalanxSize =\= 1, write('dsadsa'), DISTANCE is abs(YH - YD), DISTANCE < PhalanxSize.
-evaluate( 'verticalLine', YH, -2, YD, PhalanxSize) :- fail.
-evaluate( 'verticalLine', YH, -1, YD, 1) :- DISTANCE is abs(YH - YD), DISTANCE == 1.
-evaluate( 'verticalLines', YH, YD, YD, PhalanxSize) :- YD =\= -1, YD =\= -2, DISTANCE is abs(YH - YD), DISTANCE < PhalanxSize.
-%evaluate( 'verticalLine', YH, YN, YD, PhalanxSize) :- YN =\= -1, YN =\= -2, DISTANCE is abs(YH - YN), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLine', YS, -1, YD, PhalanxSize) :- DISTANCE is abs(YS - YD), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLine', YS, -2, YD, PhalanxSize) :- fail.
+evaluate( 'verticalLines', YS, YD, YD, PhalanxSize) :- YD =\= -1, YD =\= -2, DISTANCE is abs(YS - YD), DISTANCE =< PhalanxSize.
 
 headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH, XHplus) :-
   HorizontalDifference > 0,
