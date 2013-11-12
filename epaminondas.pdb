@@ -132,7 +132,7 @@ play( E, XS, YS, XD, YD) :-
   atualizarEstado(E,XS,YS,XD,YD,N),
   write('atualizarEstado'),
   show(N),
-  %!,continueGame(N),
+  !,continueGame(N),
   turn(C),
   nl,
   printCorName(C),
@@ -151,10 +151,8 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   XD1 is XD - 1,
   YD1 is 12 - YD,
   canimovethere(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN),
-  %% deletePhalanx esta bugado, estou a passar os valores certos só que não está a fazer o que é suposto
-  %deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1),
-  %changeState(E,XS1,YS1,XD1,YD1,N),
-  N = E, % só para testar as regras inicias
+  deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1),
+  changeState(E1,XS1,YS1,XD1,YD1,N),
   turnchange,
   nl,
   write('Fim de atualizar estado').
