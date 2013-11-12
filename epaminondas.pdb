@@ -172,13 +172,10 @@ canimovethere(E,_,_,_,_,_,_,_):-badMoveFriend(E).
 regras(E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
   turn(C),
   checkcolour(E,XS,YS,C),
-  regra('sobreposicao',E,XS,YS,XD,YD),
+  %regra('sobreposicao',E,XS,YS,XD,YD),
   regra('moverPhalanx',E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN).
 
 regra('sobreposicao', E, XS, YS, XD, YD) :-
-  charat(C1,XS,YS,E),
-  charat(C2,XD,YD,E),
-  C1 =\= C2.
 
 regra('moverPhalanx', E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
    VerticalDifference is YD - YS,
