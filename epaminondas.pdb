@@ -122,7 +122,7 @@ start :-
   write(', coordenadas: '),
   read(XS), read(YS), read(XD), read(YD), %le desta forma XS.YS.XD.YD.
   play(E, XS, YS, XD, YD).
-start :- nl,write('The winner is '),turn(C),winner(C,W),write(W),  !, 1=1.
+start :- nl,write('The winner is '),turn(C),winner(C,W),write(W).
 winner(1,'White').
 winner(2,'Black').
 play( E, XS, YS, XD, YD) :-
@@ -132,7 +132,7 @@ play( E, XS, YS, XD, YD) :-
   atualizarEstado(E,XS,YS,XD,YD,N),
   %write('atualizarEstado'),
   show(N),
-  %!,continueGame(N), % continueGame está bugado, se o desativar corre normalmente( quando causa problemas dá fail e o estado volta outra vez ao anterior)
+  %continueGame(N), % continueGame está bugado, se o desativar corre normalmente( quando causa problemas dá fail e o estado volta outra vez ao anterior)
   turn(C),
   nl,
   printCorName(C),
@@ -766,7 +766,6 @@ deletePhalanxRIGHT(E,_,_,0,E).
 
 % deletePhalanxUP:- estadoInicial(E), deletePhalanxUP(E,2,1,2,E1), show(E1).
 deletePhalanxUP(E,X,Y,N,E1):-
-  write('dasda'),
   N>0, Y>=0,
   Y1 is Y-1,
   N1 is N-1,
@@ -894,6 +893,25 @@ continueGameBlack(E):-
   countPiecesInLine(E,1,0,0,N),
   countPiecesInLine(E,2,0,11,N1),
   N1=<N.
+gameOver(E):-
+  turn(C),
+  C == 1,
+  gameOverWhite(E).
+gameOver(E):-
+  turn(C),
+  C == 2,
+  gameOverBlack(E).
+
+gameOverWhite(E):-
+  countPiecesInLine(E,1,0,0,N),
+  countPiecesInLine(E,2,0,11,N1),
+  N>N1.
+
+gameOverBlack(E):-
+  countPiecesInLine(E,1,0,0,N),
+  countPiecesInLine(E,2,0,11,N1),
+  N1>N.
+
 
 % countPiecesInLine(N):- changecharDB(E), countPiecesInLine(E,2,0,0,N).
 countPiecesInLine(E,C,X,Y,N):-
