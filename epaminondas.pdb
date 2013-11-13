@@ -151,8 +151,8 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   XD1 is XD - 1,
   YD1 is 12 - YD,
   canimovethere(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN),
-  %deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1), %COM deletePhalanx descomentado dá erro! O erro é aqui! Já testei o canimovethere e FUNCIONA! O teste que fiz foi remover o changeState e o deletePhalanx e testar sem alterar o estado do tabuleiro e funciona bem
-  changeState(E,XS1,YS1,XD1,YD1,N),
+  deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1), %COM deletePhalanx descomentado dá erro! O erro é aqui! Já testei o canimovethere e FUNCIONA! O teste que fiz foi remover o changeState e o deletePhalanx e testar sem alterar o estado do tabuleiro e funciona bem
+  changeState(E1,XS1,YS1,XD1,YD1,N),
   turnchange.
   %nl,
   %write('Fim de atualizar estado').
@@ -766,6 +766,7 @@ deletePhalanxRIGHT(E,_,_,0,E).
 
 % deletePhalanxUP:- estadoInicial(E), deletePhalanxUP(E,2,1,2,E1), show(E1).
 deletePhalanxUP(E,X,Y,N,E1):-
+  write('dasda'),
   N>0, Y>=0,
   Y1 is Y-1,
   N1 is N-1,
@@ -823,51 +824,56 @@ deletePhalanxDOWNRIGHT(E,X,Y,N,E1):-
 deletePhalanxDOWNRIGHT(E,_,_,0,E).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,_,E1):-
-  XN > 0,
   XS < XD,
   YS == YD,
-  deletePhalanxRIGHT(E,XN,YS,E1).
+  XN > 0,
+  deletePhalanxRIGHT(E,XN,YS,PhalanxSizeAdversary,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,_,E1):-
-  XN >0,
   XS > XD,
   YS == YD,
-  deletePhalanxLEFT(E,XN,YS,E1).
+  XN >0,
+  deletePhalanxLEFT(E,XN,YS,PhalanxSizeAdversary,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,_,YN,E1):-
-  YN > 0,
   XS == XD,
   YS < YD,
-  deletePhalanxDOWN(E,XS,YN,E1).
+  YN > 0,
+  deletePhalanxDOWN(E,XS,YN,PhalanxSizeAdversary,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,_,YN,E1):-
-  YN > 0,
   XS == XD,
   YS > YD,
-  deletePhalanxUP(E,XS,YN,E1).
+  YN > 0,
+  deletePhalanxUP(E,XS,YN,PhalanxSizeAdversary,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
   XS < XD,
   YS < YD,
-  deletePhalanxDOWNRIGHT(E,XN,YN,E1).
+  deletePhalanxDOWNRIGHT(E,XN,YN,PhalanxSizeAdversary,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
   XS > XD,
   YS > YD,
-  deletePhalanxUPLEFT(E,XN,YN,E1).
+  XN > 0,
+  YN > 0,
+  deletePhalanxUPLEFT(E,XN,YN,PhalanxSizeAdversary,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
   XS < XD,
   YS > YD,
-  deletePhalanxUPRIGHT(E,XN,YN,E1).
+  XN > 0,
+  YN > 0,
+  deletePhalanxUPRIGHT(E,XN,YN,PhalanxSizeAdversary,E1).
 
 deletePhalanx(E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN,E1):-
   XS > XD,
   YS < YD,
-  deletePhalanxDOWNLEFT(E,XN,YN,E1).
+  XN > 0,
+  YN > 0,
+  deletePhalanxDOWNLEFT(E,XN,YN,PhalanxSizeAdversary,E1).
 
-deletePhalanx(E,_,_,_,_,_,XN,_,E):- XN < 0.
-deletePhalanx(E,_,_,_,_,_,_,YN,E):- YN < 0.
+deletePhalanx(E,_,_,_,_,_,_,_,E).
 
 % continueGame:-changecharDB(E),continueGame(E).
 continueGame(E):-
