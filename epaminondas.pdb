@@ -130,9 +130,9 @@ play( E, XS, YS, XD, YD) :-
   size(XS,YS),
   size(XD,YD),
   atualizarEstado(E,XS,YS,XD,YD,N),
-  write('atualizarEstado'),
+  %write('atualizarEstado'),
   show(N),
-  !,continueGame(N),
+  %!,continueGame(N), % continueGame está bugado, se o desativar corre normalmente( quando causa problemas dá fail e o estado volta outra vez ao anterior)
   turn(C),
   nl,
   printCorName(C),
@@ -152,14 +152,17 @@ atualizarEstado( E, XS, YS, XD, YD, N) :-
   YD1 is 12 - YD,
   canimovethere(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN),
   %deletePhalanx(E,XS1,YS1,XD1,YD1,PhalanxSizeAdversary,XN,YN,E1), COM deletePhalanx descomentado dá erro! O erro é aqui! Já testei o canimovethere e FUNCIONA! O teste que fiz foi remover o changeState e o deletePhalanx e testar sem alterar o estado do tabuleiro e funciona bem
-  changeState(E,XS1,YS1,XD1,YD1,N), % alterei E1 para ver se changeState está a funcionar bem. deletePhalanx nao esta por isso tive de alterar esse arguemento!
-  turnchange.
+  changeState(E,XS1,YS1,XD1,YD1,N). % alterei E1 para ver se changeState está a funcionar bem. deletePhalanx nao esta por isso tive de alterar esse arguemento!
+  %turnchange.
   %nl,
   %write('Fim de atualizar estado').
 atualizarEstado(E,_,_,_,_,_):-badMoveFriend(E).
 
 %Rules for phalanx
 canimovethere( E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
+  nl,
+  %write('Entrou Nas Regras'),
+  nl,
   regras( E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN),
   nl,
   write('REGRAS SATISFEITAS'),
@@ -172,10 +175,10 @@ canimovethere(E,_,_,_,_,_,_,_):-badMoveFriend(E).
 regras(E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
   turn(C),
   checkcolour(E,XS,YS,C),
-  %regra('sobreposicao',E,XS,YS,XD,YD),
+  regra('sobreposicao',E,XS,YS,XD,YD),
   regra('moverPhalanx',E,XS,YS,XD,YD,PhalanxSizeAdversary,XN,YN).
 
-%regra('sobreposicao', E, XS, YS, XD, YD) :-
+regra('sobreposicao', E, XS, YS, XD, YD).
 
 regra('moverPhalanx', E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
    VerticalDifference is YD - YS,
@@ -192,6 +195,34 @@ regra('moverPhalanx', E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
 %changecharHR(G):- estadoInicial(E), changechar(2,0,5,E,N), changechar(0,1,5,N,F), changechar(2,2,5,F,X),
 %                 changechar(1,3,5,X,H),changechar(1,5,5,H,Z),changechar(1,6,5,Z,P),
 %                 changechar(1,7,5,P,U),changechar(1,8,5,U,G),show(G).
+whereisNewHead('verticalLine', VerticalDifference, YD, YS, YH, SCANTIL) :-
+  VerticalDifference > 0,
+  SCANTIL is YH + abs(YD - YS).
+whereisNewHead('verticalLine', VerticalDifference, YD, YS, YH, SCANTIL) :-
+  VerticalDifference < 0,
+  SCANTIL is YH - abs(YD - YS).
+whereisNewHead('horizontalLine', HorizontalDifference, XD, XS, XH, SCANTIL) :-
+  HorizontalDifference > 0,
+  SCANTIL is XH + abs(XD - XS).
+whereisNewHead('horizontalLine', HorizontalDifference, XD, XS, XH, SCANTIL) :-
+  HorizontalDifference < 0,
+  SCANTIL is XH - abs(XD - XS).
+whereisNewHead('diagonalLine', HorizontalDifference, VerticalDifference, XS, YS, XH, YH, XD, YD, SCANTILX, SCANTILY) :-
+  VerticalDifference > 0, HorizontalDifference > 0,
+  SCANTILX is XH + abs(XD - XS),
+  SCANTILY is YH + abs(YD - YS).
+whereisNewHead('diagonalLine', HorizontalDifference, VerticalDifference, XS, YS, XH, YH, XD, YD, SCANTILX, SCANTILY) :-
+  VerticalDifference > 0, HorizontalDifference < 0,
+  SCANTILX is XH - abs(XD - XS),
+  SCANTILY is YH + abs(YD - YS).
+whereisNewHead('diagonalLine', HorizontalDifference, VerticalDifference, XS, YS, XH, YH, XD, YD, SCANTILX, SCANTILY) :-
+  VerticalDifference < 0, HorizontalDifference < 0,
+  SCANTILX is XH - abs(XD - XS),
+  SCANTILY is YH - abs(YD - YS).
+whereisNewHead('diagonalLine', HorizontalDifference, VerticalDifference, XS, YS, XH, YH, XD, YD, SCANTILX, SCANTILY) :-
+  VerticalDifference < 0, HorizontalDifference > 0,
+  SCANTILX is XH + abs(XD - XS),
+  SCANTILY is YH - abs(YD - YS).
 
 lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _,PhalanxSizeAdversary, XN, YN) :-
   turn(C),
@@ -199,9 +230,11 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _,PhalanxSizeAdversary, XN,
   notturn(C,NOTC),
   headPhalanx('horizontalLine',HorizontalDifference,PhalanxSizeMine,XS,XH,XHplus),
   charat(CC,XHplus,YS,E),
-  findEnemyHead('horizontalLine',HorizontalDifference,CC,XHplus,YS,XD,E,XN),
+  whereisNewHead('horizontalLine', HorizontalDifference, XD, XS, XH, NEWHEADPOS),
+  NEWHEADPOS >= 0, NEWHEADPOS =< 13,
+  findEnemyHead('horizontalLine',HorizontalDifference,CC,XHplus,YS,NEWHEADPOS,E,XN),
   %nl, write('PositionOfEnemyHead '), write(XN),
-  !,evaluate('horizontalLine',XS,XN,XD,PhalanxSizeMine), %if evaluate fails dont backtrack
+  !,evaluate('horizontalLine',XS,XN,XD,NEWHEADPOS,PhalanxSizeMine), %if evaluate fails dont backtrack
   getSizeTilColour('horizontalLine',HorizontalDifference,_,E,NOTC,XN,YS,PhalanxSizeAdversary),
   %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
@@ -212,24 +245,31 @@ lineOfAction(0, HorizontalDifference, E, XS, YS, XD, _,PhalanxSizeAdversary, XN,
 %                 changechar(1,6,6,P,U),changechar(2,6,7,U,G),show(G).
 
 lineOfAction( VerticalDifference, 0, E, XS, YS, _, YD, PhalanxSizeAdversary, XN, YN) :-
+  %nl, write('entrou na linha vertical'),
   turn(C),
   getSizeTilColour('verticalLine',_,VerticalDifference,E,C,XS,YS,PhalanxSizeMine),
   notturn(C,NOTC),
   headPhalanx('verticalLine',VerticalDifference,PhalanxSizeMine,YS,YH,YHplus),
   charat(CC,XS,YHplus,E),
-  findEnemyHead('verticalLine',VerticalDifference,CC,XS,YHplus,YD,E,YN),
+  whereisNewHead('verticalLine',VerticalDifference,YD,YS,YH,NEWHEADPOS),
+  NEWHEADPOS >= 0, NEWHEADPOS =< 11,
+  %nl,write('findEnemyHead'),
+  findEnemyHead('verticalLine',VerticalDifference,CC,XS,YHplus,NEWHEADPOS,E,YN),
   %nl, write('PositionOfEnemyHead '), write(YN),
-  %nl, write('PhalanxSizeMine'), write(PhalanxSizeMine),
-  !,evaluate('verticalLine',YS,YN,YD,PhalanxSizeMine), %if evaluate fails dont backtrack
+  %nl, write('YNEWHEADPOS '), write(NEWHEADPOS),
+  %nl, write('YHplus '), write(YHplus),
+  %nl, write('PhalanxSizeMine '), write(PhalanxSizeMine),
+  !,evaluate('verticalLine',YS,YN,YD,NEWHEADPOS,PhalanxSizeMine), %if evaluate fails dont backtrack
+  %nl, write('GetSizeTilColour NOTC'),
   getSizeTilColour('verticalLine',_,VerticalDifference,E,NOTC,XS,YN,PhalanxSizeAdversary),
   %nl,write('PhalanxSizeMine '),write(PhalanxSizeMine),nl,write('PhalanxSizeAdversary '),write(PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
   %nl, write('Fim de lineOfAction').
 
-lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,8,8,PhalanxSizeAdversary,XN,YN), !, 1==1.
-changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F), changechar(1,2,2,F,X),
-                 changechar(1,3,3,X,H),changechar(0,5,5,H,Z),changechar(0,6,6,Z,P),
-                 changechar(2,9,9,P,U),changechar(2,10,10,U,G),show(G).
+%lineOfActionDB :- changecharDB(E), lineOfAction(2,2,E,0,0,8,8,PhalanxSizeAdversary,XN,YN), !, 1==1.
+%changecharDB(G):- estadoInicial(E), changechar(1,0,0,E,N), changechar(1,1,1,N,F), changechar(1,2,2,F,X),
+%                 changechar(1,3,3,X,H),changechar(0,5,5,H,Z),changechar(0,6,6,Z,P),
+%                 changechar(2,9,9,P,U),changechar(2,10,10,U,G),show(G).
 
 lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, PhalanxSizeAdversary, XN, YN) :-
   HorizontalDifference =\= 0,
@@ -240,12 +280,14 @@ lineOfAction( VerticalDifference, HorizontalDifference, E, XS, YS, XD, YD, Phala
   notturn(C,NOTC),
   headPhalanx('diagonalLine', HorizontalDifference, VerticalDifference, PhalanxSizeMine, XS, YS, XH, YH, XHplus, YHplus),
   charat(CC,XHplus,YHplus,E),
-  findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHplus, YHplus, XD, YD, E, XN, YN),
-  !, evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XN, YN, XD, YD),
+  whereisNewHead('diagonalLine', HorizontalDifference, VerticalDifference, XS, YS, XH, YH, XD, YD, XNEWHEADPOS, YNEWHEADPOS),
+  XNEWHEADPOS >= 0, XNEWHEADPOS =< 13, YNEWHEADPOS >= 0, YNEWHEADPOS =< 11,
+  findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHplus, YHplus, XNEWHEADPOS, YNEWHEADPOS, E, XN, YN),
+  !, evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XN, YN, XD, YD, XNEWHEADPOS, YNEWHEADPOS),
   getSizeTilColour('diagonalLine',HorizontalDifference,VerticalDifference,E,NOTC,XN,YN,PhalanxSizeAdversary),
   !,PhalanxSizeAdversary < PhalanxSizeMine.
 
-evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -1, -1, XD, YD) :-
+evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -1, -1, XD, YD, XNEWHEADPOS, YNEWHEADPOS) :-
   Vert2ds is (YD - YS)**2,
   Hor2ds is (XD - XS)**2,
   Vert2hs is (YHplus - YS)**2,
@@ -253,9 +295,8 @@ evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -1, -1, XD, YD) :-
   DISTANCEds is sqrt(Vert2ds + Hor2ds),
   DISTANCEhs is sqrt(Vert2hs + Hor2hs),
   DISTANCEds =< DISTANCEhs.
-evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -2, -2, XD, YD) :- fail.
-evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
-  XD =\= -1, YD =\= -1, XD =\= -2, YD =\= -2,
+evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, -2, -2, XD, YD, XNEWHEADPOS, YNEWHEADPOS) :- fail.
+evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XNEWHEADPOS, YNEWHEADPOS, XD, YD, XNEWHEADPOS, YNEWHEADPOS) :-
   Vert2hs is (YHplus-YS)**2,
   Hor2hs is (XHplus - XS)**2,
   DISTANCEhs is sqrt(Vert2hs + Hor2hs),
@@ -264,13 +305,13 @@ evaluate( 'diagonalLine', XS, YS, XH, YH, XHplus, YHplus, XD, YD, XD, YD) :-
   DISTANCEnh is sqrt(Vert2nh + Hor2nh),
   DISTANCEnh < DISTANCEhs.
 
-evaluate( 'horizontalLine', XS, -1, XD, PhalanxSize) :- DISTANCE is abs(XS - XD), DISTANCE =< PhalanxSize.
-evaluate( 'horizontalLine', XS, -2, XD, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
-evaluate( 'horizontalLine', XS, XD, XD, PhalanxSize) :- XD =\= -1, XD =\= -2, DISTANCE is abs(XS - XD), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XS, -1, XD, NEWHEADPOS, PhalanxSize) :- DISTANCE is abs(XS - XD), DISTANCE =< PhalanxSize.
+evaluate( 'horizontalLine', XS, -2, XD, NEWHEADPOS, PhalanxSize) :- fail. % if there is setup like this wwwww_wbbb, wwwww cant eat bbb.
+evaluate( 'horizontalLine', XS, NEWHEADPOS, XD, NEWHEADPOS, PhalanxSize) :- DISTANCE is abs(XS - XD), DISTANCE =< PhalanxSize.
 
-evaluate( 'verticalLine', YS, -1, YD, PhalanxSize) :- DISTANCE is abs(YS - YD), DISTANCE =< PhalanxSize.
-evaluate( 'verticalLine', YS, -2, YD, PhalanxSize) :- fail.
-evaluate( 'verticalLines', YS, YD, YD, PhalanxSize) :- YD =\= -1, YD =\= -2, DISTANCE is abs(YS - YD), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLine', YS, -1, YD, _, PhalanxSize) :- DISTANCE is abs(YS - YD), DISTANCE =< PhalanxSize.
+evaluate( 'verticalLine', YS, -2, YD, _, PhalanxSize) :- fail.
+evaluate( 'verticalLine', YS, NEWHEADPOS, YD, NEWHEADPOS, PhalanxSize) :- NEWHEADPOS =\= -1, NEWHEADPOS =\= -2, DISTANCE is abs(YS - YD), DISTANCE =< PhalanxSize.
 
 headPhalanx('horizontalLine', HorizontalDifference, PhalanxSize, XS, XH, XHplus) :-
   HorizontalDifference > 0,
@@ -493,7 +534,7 @@ findEnemyHead('verticalLine',VerticalDifference,C,XH,YH,YD,E,YN) :-
 
 findEnemyHead('verticalLine',_,C,_,_,_,_,YN) :- turn(X), C == X, YN is -2.
 findEnemyHead('verticalLine',_,C,_,_,_,_,YN) :- C == 0, YN is -1.
-findEnemyHead('verticalLine',_,_,_,YD,YD,_,YN) :- YN is YD.
+findEnemyHead('verticalLine',_,_,_,YH,_,_,YN) :- nl, write('Entrou'), YN is YH.
 
 findEnemyHead('diagonalLine', HorizontalDifference, VerticalDifference, CC, XHplus, YHplus, XD, YD, E, XN, YN) :-
   HorizontalDifference > 0, VerticalDifference > 0, XHplus < XD, YHplus < YD,
